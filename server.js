@@ -1,10 +1,12 @@
 // server.js
 
 // modules =================================================
-var express        = require('express');
-var app            = express();
-var bodyParser     = require('body-parser');
-var methodOverride = require('method-override');
+var express        	= require('express');
+var app            	= express();
+var bodyParser     	= require('body-parser');
+var methodOverride 	= require('method-override');
+var passport	   	= require('passport');
+var session 		= require('express-session');
 
 // configuration ===========================================
 
@@ -33,6 +35,18 @@ app.use(methodOverride('X-HTTP-Method-Override'));
 
 // set the static files location /public/img will be /img for users
 app.use(express.static(__dirname + '/public')); 
+
+app.use(session({secret: 'neting'}));
+app.use(passport.initialize());
+app.use(passport.session());
+
+passport.serializeUser(function(user,done){
+	done(null, user);
+});
+
+passport.deserializeUser(function(user,done){
+	done(null, user);
+});
 
 // routes ==================================================
 require('./app/routes')(app); // configure our routes
