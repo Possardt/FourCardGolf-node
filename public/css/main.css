@@ -1,0 +1,33 @@
+.loginBox{
+    margin: 20vh auto;
+    flex-direction: column;
+}
+
+.loginBox h1{
+    font-size:3em;
+    margin-bottom:0;
+}
+
+.md-raised.loginButton-fb {
+    background-color: #3B5998;
+}
+
+.md-raised.loginButton-gh {
+    background-color:#999;
+    margin-bottom:1.5em;
+}
+
+.toolbar-title {
+    margin-left: 1vw;
+}
+
+.lobby-content,
+.stats-content{
+    width: 80vw;
+    margin: 0 auto;
+}
+
+
+.md-display-4 {
+    font-size: 69px;
+}

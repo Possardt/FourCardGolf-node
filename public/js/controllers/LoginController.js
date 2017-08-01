@@ -1,4 +1,4 @@
-angular.module('LoginController', []).controller('LoginController', function($scope) {
+angular.module('FourCardGolf').controller('LoginController', function($scope) {
 
 
 });

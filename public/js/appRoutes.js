@@ -1,14 +1,15 @@
 // public/js/appRoutes.js
-angular.module('appRoutes', []).config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
+angular.module('FourCardGolf').config(['$routeProvider', function($routeProvider) {
 
     $routeProvider
 
         // home page
         .when('/', {
-            templateUrl: 'views/login.html',
-            controller: 'LoginController'
+            templateUrl		: 'views/login.html',
+            LoginController	: 'LoginController'
+        }).when('/lobby',{
+        	templateUrl		: 'views/lobby.html',
+        	controller 		: 'LobbyController'
         });
-
-    $locationProvider.html5Mode(true);
 
 }]);
