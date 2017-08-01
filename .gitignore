@@ -1,3 +1,7 @@
 #bower and node_modules
 /public/libs/*
 /node_modules
+
+#Intellij stuff
+*.idea
+*.idea/*
