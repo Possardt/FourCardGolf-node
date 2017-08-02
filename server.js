@@ -7,8 +7,12 @@ var bodyParser     	= require('body-parser');
 var methodOverride 	= require('method-override');
 var passport	   	= require('passport');
 var session 		= require('express-session');
+var GitHubStrategy 	= require('passport-github2').Strategy;
 
 // configuration ===========================================
+
+var GITHUB_CLIENT_ID = '931887f1b75b3841c82c';
+var GITHUB_CLIENT_SECRET = '48649684bb962dc03ff7276c20456450f4987027';
 
 // config files
 // var db = require('./config/db');
@@ -36,9 +40,22 @@ app.use(methodOverride('X-HTTP-Method-Override'));
 // set the static files location /public/img will be /img for users
 app.use(express.static(__dirname + '/public')); 
 
+
+
 app.use(session({secret: 'neting'}));
 app.use(passport.initialize());
 app.use(passport.session());
+
+passport.use(new GitHubStrategy({
+		clientID : GITHUB_CLIENT_ID,
+		clientSecret: GITHUB_CLIENT_SECRET,
+		callbackURL : "http://127.0.0.1:8080/auth/github/callback"
+	}, function(accessToken, refreshToken, profile, done){
+		User.findOrCreate({githubId : profile.id}, function( err,user) {
+			return done(err, user);
+		});
+	}
+));
 
 passport.serializeUser(function(user,done){
 	done(null, user);
@@ -56,7 +73,7 @@ require('./app/routes')(app); // configure our routes
 app.listen(port);               
 
 // shoutout to the user                     
-console.log('Magic happens on port ' + port);
+console.log('Started on port ' + port);
 
 // expose app           
 exports = module.exports = app; 
