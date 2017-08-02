@@ -23,14 +23,19 @@ var passport        = require('passport');
             res.sendfile('./public/views/index.html'); // load our public/index.html file
         });
 
-        app.get('/auth/github',
-		  	passport.authenticate('github', { scope: [ 'user:email' ] }));
+        app.get('/auth/github#/',
+            function(req, res){
+		  	   passport.authenticate('github', { scope: [ 'user:email' ] })},
+            function(req,res){
+                console.log('in here');
+            });
 
-		app.get('/auth/github/callback', 
-  			passport.authenticate('github', { failureRedirect: '/' }),
+		app.get('/auth/github/callback',
+            function(req,res){ 
+      			passport.authenticate('github', { failureRedirect: '/' })},
   			function(req, res) {
     			// Successful authentication, redirect home.
     			res.redirect('/lobby');
-  			});
+		});
 
     };

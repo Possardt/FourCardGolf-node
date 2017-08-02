@@ -42,7 +42,11 @@ app.use(express.static(__dirname + '/public'));
 
 
 
-app.use(session({secret: 'neting'}));
+app.use(session({
+	secret: 'neting',
+	resave: true,
+	saveUninitialized: true
+}));
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -65,6 +69,7 @@ passport.deserializeUser(function(user,done){
 	done(null, user);
 });
 
+
 // routes ==================================================
 require('./app/routes')(app); // configure our routes
 
@@ -77,3 +82,4 @@ console.log('Started on port ' + port);
 
 // expose app           
 exports = module.exports = app; 
+
