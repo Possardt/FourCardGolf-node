@@ -19,11 +19,21 @@ var passport        = require('passport');
 
         // frontend routes =========================================================
         // route to handle all angular requests
-        app.get('*', function(req, res) {
+        app.get('/', function(req, res) {
             res.sendfile('./public/views/index.html'); // load our public/index.html file
         });
 
-        app.get('/auth/github#/',
+        app.get('/lobby', function(req, res) {
+            res.sendfile('./public/views/index.html'); // load our public/index.html file
+        });
+
+        app.get('/game/*', function(req, res) {
+            res.sendfile('./public/views/index.html'); // load our public/index.html file
+        });
+
+        app.get('/test', function(){console.log('testing')}, function(req, res){console.log('test');});
+
+        app.get('/auth/github',
             function(req, res){
 		  	   passport.authenticate('github', { scope: [ 'user:email' ] })},
             function(req,res){
