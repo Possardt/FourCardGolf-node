@@ -34,18 +34,16 @@ var passport        = require('passport');
         app.get('/test', function(){console.log('testing')}, function(req, res){console.log('test');});
 
         app.get('/auth/github',
-            function(req, res){
-		  	   passport.authenticate('github', { scope: [ 'user:email' ] })},
+		  	   passport.authenticate('github', { scope: [ 'user:email' ] }),
             function(req,res){
                 console.log('in here');
             });
 
 		app.get('/auth/github/callback',
-            function(req,res){ 
-      			passport.authenticate('github', { failureRedirect: '/' })},
+            	passport.authenticate('github', { failureRedirect: '/' }),
   			function(req, res) {
     			// Successful authentication, redirect home.
-    			res.redirect('/lobby');
-		});
-
+    			res.redirect('/#/lobby');
+            }
+        );
     };
