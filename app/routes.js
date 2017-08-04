@@ -23,11 +23,11 @@ var passport        = require('passport');
             res.sendfile('./public/views/index.html'); // load our public/index.html file
         });
 
-        app.get('/lobby', function(req, res) {
+        app.get('/lobby', ensureAuthenticated, function(req, res) {
             res.sendfile('./public/views/index.html'); // load our public/index.html file
         });
 
-        app.get('/game/*', function(req, res) {
+        app.get('/game/*', ensureAuthenticated, function(req, res) {
             res.sendfile('./public/views/index.html'); // load our public/index.html file
         });
 
@@ -46,4 +46,9 @@ var passport        = require('passport');
     			res.redirect('/#/lobby');
             }
         );
+
+        function ensureAuthenticated(req, res, next){
+            if(req.isAuthenticated()){return next();}
+            res.redirect('/');
+        };
     };
