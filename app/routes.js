@@ -31,6 +31,11 @@
             res.sendfile('./public/views/index.html'); // load our public/index.html file
         });
 
+        app.post("/logout", function(req, res) {
+            req.logOut();
+            res.send(200);
+        });
+
         app.get('/loggedin',function(req, res) {
             res.send(req.isAuthenticated() ? '1' : '0');
         });

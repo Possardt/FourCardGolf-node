@@ -32,8 +32,10 @@ var checkLoggedIn = function($q, $timeout, $http, $location, $rootScope){
     $http.get('/loggedin').then(function(user){
         console.log(user);
         if(user.data !== '0'){
+            $rootScope.loggedIn = true;
             deferred.resolve();
         }else{
+            $location.path('/');
             deferred.reject();
         }
     },function(){}).catch(error => {console.log(error);});
