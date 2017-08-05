@@ -71,7 +71,7 @@ passport.deserializeUser(function(user,done){
 
 
 // routes ==================================================
-require('./app/routes')(app); // configure our routes
+require('./app/routes')(app, passport); // configure our routes
 
 // start app ===============================================
 // startup our app at http://localhost:8080

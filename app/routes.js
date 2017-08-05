@@ -3,9 +3,9 @@
 // grab the nerd model we just created
 // var Nerd = require('./models/nerd');
 
-var passport        = require('passport');
+// var passport        = require('passport');
 
-    module.exports = function(app) {
+    module.exports = function(app, passport) {
 
         // server routes ===========================================================
         // handle things like api calls
@@ -23,15 +23,17 @@ var passport        = require('passport');
             res.sendfile('./public/views/index.html'); // load our public/index.html file
         });
 
-        app.get('/lobby', ensureAuthenticated, function(req, res) {
+        app.get('/lobby', function(req, res) {
             res.sendfile('./public/views/index.html'); // load our public/index.html file
         });
 
-        app.get('/game/*', ensureAuthenticated, function(req, res) {
+        app.get('/game/*', function(req, res) {
             res.sendfile('./public/views/index.html'); // load our public/index.html file
         });
 
-        app.get('/test', function(){console.log('testing')}, function(req, res){console.log('test');});
+        app.get('/loggedin',function(req, res) {
+            res.send(req.isAuthenticated() ? '1' : '0');
+        });
 
         app.get('/auth/github',
 		  	   passport.authenticate('github', { scope: [ 'user:email' ] }),
@@ -46,9 +48,4 @@ var passport        = require('passport');
     			res.redirect('/#/lobby');
             }
         );
-
-        function ensureAuthenticated(req, res, next){
-            if(req.isAuthenticated()){return next();}
-            res.redirect('/');
-        };
     };
