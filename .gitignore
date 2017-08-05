@@ -5,3 +5,6 @@
 #Intellij stuff
 *.idea
 *.idea/*
+
+#Secrets file
+secrets.js

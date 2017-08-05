@@ -8,17 +8,19 @@ var methodOverride 	= require('method-override');
 var passport	   	= require('passport');
 var session 		= require('express-session');
 var GitHubStrategy 	= require('passport-github2').Strategy;
+const secrets		= require('./secrets');
 
 // configuration ===========================================
 
-var GITHUB_CLIENT_ID = '931887f1b75b3841c82c';
-var GITHUB_CLIENT_SECRET = '48649684bb962dc03ff7276c20456450f4987027';
+var GITHUB_CLIENT_ID = secrets.GITHUB_CLIENT_ID;
+var GITHUB_CLIENT_SECRET = secrets.GITHUB_CLIENT_SECRET;
+
 
 // config files
 // var db = require('./config/db');
 
 // set our port
-var port = process.env.PORT || 8080; 
+var port = process.env.PORT || 3000; 
 
 // connect to our mongoDB database 
 // (uncomment after you enter in your own credentials in config/db.js)
