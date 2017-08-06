@@ -8,13 +8,22 @@ var methodOverride 	= require('method-override');
 var passport	   	= require('passport');
 var session 		= require('express-session');
 var GitHubStrategy 	= require('passport-github2').Strategy;
+var MongoClient 	= require('mongodb').MongoClient;
+var assert			= require('assert');
 const secrets		= require('./secrets');
 
 // configuration ===========================================
 
-var GITHUB_CLIENT_ID = secrets.GITHUB_CLIENT_ID;
-var GITHUB_CLIENT_SECRET = secrets.GITHUB_CLIENT_SECRET;
+let GITHUB_CLIENT_ID = secrets.GITHUB_CLIENT_ID;
+let GITHUB_CLIENT_SECRET = secrets.GITHUB_CLIENT_SECRET;
+let MongoURI = secrets.mongoURI;
 
+MongoClient.connect(MongoURI, function(err, db) {
+  assert.equal(null, err);
+  console.log("Connected correctly to server");
+
+  db.close();
+});
 
 // config files
 // var db = require('./config/db');
