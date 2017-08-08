@@ -2,8 +2,9 @@
     <md-tab label="lobby">
         <md-content class="lobby-content" flex layout-padding ng-controller="LobbyController as lobbyCtrl">
             <h1 class="md-display-4">Welcome guy!</h1>
-            <div class="card-row">
-                <md-card class="card-container" md-theme="default">
+            <div layout="row">
+                <div layout="column" flex="65" class="left">
+                    <md-card>
                     <md-card-title>
                         <span class="md-headline">Start a New Game</span>
                     </md-card-title>
@@ -12,12 +13,15 @@
                         <md-button class="md-button" md-theme="default" ng-click="">Play Against Person</md-button>
                     </md-card-actions>
                 </md-card>
-            </div>
-            <md-card class="card-containter">
+                </div>
+                <div layout="column" flex="35" class="left">
+                    <md-card>
                     <md-card-title>
                         <span class="md-headline">Join a Game</span>
                     </md-card-title>
                 </md-card>
+                </div>
+            </div>
         </md-content>
     </md-tab>
     <md-tab label="stats">
