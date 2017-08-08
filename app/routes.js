@@ -1,56 +1,37 @@
- // app/routes.js
+module.exports = function(app, passport, mongoDb) {
 
-// grab the nerd model we just created
-// var Nerd = require('./models/nerd');
+    //Angular routes
+    app.get('/', function(req, res) {
+        res.sendfile('./public/views/index.html');
+    });
 
-// var passport        = require('passport');
+    app.get('/lobby', function(req, res) {
+        res.sendfile('./public/views/index.html');
+    });
 
-    module.exports = function(app, passport) {
+    app.get('/game/*', function(req, res) {
+        res.sendfile('./public/views/index.html');
+    });
+    //End Angular routes
 
-        // server routes ===========================================================
-        // handle things like api calls
-        // authentication routes
+    app.post("/logout", function(req, res) {
+        req.logOut();
+        res.send(200);
+    });
 
-        // sample api route
-        
+    //endpoint to verify user is authenticated
+    app.get('/loggedin',function(req, res) {
+        res.send(req.isAuthenticated() ? '1' : '0');
+    });
 
-        // route to handle creating goes here (app.post)
-        // route to handle delete goes here (app.delete)
+    app.get('/auth/github',
+	  	passport.authenticate('github', { scope: [ 'user:email' ] }),
+            function(req,res){});
 
-        // frontend routes =========================================================
-        // route to handle all angular requests
-        app.get('/', function(req, res) {
-            res.sendfile('./public/views/index.html'); // load our public/index.html file
-        });
-
-        app.get('/lobby', function(req, res) {
-            res.sendfile('./public/views/index.html'); // load our public/index.html file
-        });
-
-        app.get('/game/*', function(req, res) {
-            res.sendfile('./public/views/index.html'); // load our public/index.html file
-        });
-
-        app.post("/logout", function(req, res) {
-            req.logOut();
-            res.send(200);
-        });
-
-        app.get('/loggedin',function(req, res) {
-            res.send(req.isAuthenticated() ? '1' : '0');
-        });
-
-        app.get('/auth/github',
-		  	   passport.authenticate('github', { scope: [ 'user:email' ] }),
-            function(req,res){
-                console.log('in here');
-            });
-
-		app.get('/auth/github/callback',
-            	passport.authenticate('github', { failureRedirect: '/' }),
-  			function(req, res) {
-    			// Successful authentication, redirect home.
+	app.get('/auth/github/callback',
+        passport.authenticate('github', { failureRedirect: '/' }),
+			function(req, res) {
     			res.redirect('/#/lobby');
             }
-        );
-    };
+    );
+};
