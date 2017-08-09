@@ -30,15 +30,16 @@ app.config(['$routeProvider', function($routeProvider) {
 var checkLoggedIn = function($q, $timeout, $http, $location, $rootScope){
     var deferred = $q.defer();
     $http.get('/loggedin').then(function(user){
-        console.log(user);
         if(user.data !== '0'){
             $rootScope.loggedIn = true;
+            $rootScope.name = user.data.name;
+            $rootScope.email = user.data.email;
             deferred.resolve();
         }else{
             $location.path('/');
             deferred.reject();
         }
-    },function(){}).catch(error => {console.log(error);});
+    }).catch(error => {console.log(error);});
     return deferred.promise;
 
 };

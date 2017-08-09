@@ -21,8 +21,7 @@ let mongoDb;
 
 MongoClient.connect(MongoURI, function(err, db) {
   assert.equal(null, err);
-  console.log("Connected correctly to server");
-  console.log(db.collection('user'));
+  console.log("Connected to the Mongo DB successfully.");
   mongoDb = db;
 });
 
