@@ -11,6 +11,9 @@ const GitHubStrategy 	= require('passport-github2').Strategy;
 const MongoClient 		= require('mongodb').MongoClient;
 const assert			= require('assert');
 const secrets			= require('./secrets');
+const server 			= require('http').createServer(app);
+const io 				= require('socket.io')(server);
+
 
 // configuration ===========================================
 
@@ -69,7 +72,7 @@ passport.deserializeUser(function(user,done){
 
 
 // routes ==================================================
-require('./app/routes')(app, passport, mongoDb); // configure our routes
+require('./app/routes')(app, passport, mongoDb, io); // configure our routes
 
 // start app ===============================================
 app.listen(port);               

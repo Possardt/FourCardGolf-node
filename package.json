@@ -6,6 +6,7 @@
     "body-parser": "~1.4.2",
     "express": "~4.5.1",
     "express-session": "^1.15.4",
+    "http": "0.0.0",
     "method-override": "~2.0.2",
     "mongodb": "^2.2.30",
     "mongoose": "~3.8.0",

@@ -1,13 +1,12 @@
-
 {
-    "name": "four-card-golf-node",
-    "version": "1.0.0",
-    "dependencies": {
-	
-        "font-awesome": "latest",
-        "animate.css": "latest",
-        "angular": "latest",
-        "angular-route": "latest",
-	"angular-material" : "latest"   
-    }
+  "name": "four-card-golf-node",
+  "version": "1.0.0",
+  "dependencies": {
+    "font-awesome": "latest",
+    "animate.css": "latest",
+    "angular": "latest",
+    "angular-route": "latest",
+    "angular-material": "latest",
+    "socket.io-client": "^2.0.3"
+  }
 }

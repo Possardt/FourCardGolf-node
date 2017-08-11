@@ -1,4 +1,4 @@
-module.exports = function(app, passport, mongoDb) {
+module.exports = function(app, passport, mongoDb, io) {
 
     app.get('/', function(req, res) {
         res.sendfile('./public/views/index.html');
@@ -25,4 +25,15 @@ module.exports = function(app, passport, mongoDb) {
                 res.redirect('/#/lobby');
             }
     );
+
+    //endpoint for socket.io
+    app.get('/game/:gameId',function(req,res){
+        console.log('game endpoint for socket.io requested');
+        let gameNumber = 1001;
+        nsp = io.of('/' + gameNumber);
+        nsp.on('connection', function(socket){
+            nsp.emit('welcome!', {message : 'suh'});
+            nsp.on('I are the client', console.log);
+        });
+    });
 };
