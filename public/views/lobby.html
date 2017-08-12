@@ -5,14 +5,41 @@
             <div layout="row">
                 <div layout="column" flex="65" class="left">
                     <md-card>
-                    <md-card-title>
-                        <span class="md-headline">Start a New Game</span>
-                    </md-card-title>
-                    <md-card-actions layout="row" layout-align="end center">
-                        <md-button class="md-button" md-theme="default" ng-click="lobbyCtrl.startGame()">Play Against Computer</md-button>
-                        <md-button class="md-button" md-theme="default" ng-click="">Play Against Person</md-button>
-                    </md-card-actions>
-                </md-card>
+                        <md-card-title>
+                            <span class="md-headline">Play vs People</span>
+                        </md-card-title>
+                        <md-card-actions layout="row" layout-align="end center">
+                            <md-input-container flex="30">
+                                <label>Number of Players</label>
+                                <md-select name="type" ng-model="LobbyCtrl.humanPlayers">
+                                    <md-option value="1">1</md-option>
+                                    <md-option value="2">2</md-option>
+                                    <md-option value="3">3</md-option>
+                                    <md-option value="4">4</md-option>
+                                    <md-option value="5">5</md-option>
+                                    <md-option value="6">6</md-option>
+                                </md-select>
+                            </md-input-container>
+                            <md-button class="start-game-button md-raised md-primary" ng-click="lobbyCtrl.startGame()">Start Game!</md-button>
+                        </md-card-actions>
+                    </md-card>
+                    <md-card>
+                        <md-card-title>
+                            <span class="md-headline">Play vs Computer(s)</span>
+                        </md-card-title>
+                        <md-card-actions layout="row" layout-align="end center">
+                            <md-input-container flex="30">
+                                <label>Number of Robots</label>
+                                <md-select name="type" ng-model="LobbyCtrl.computerPlayers">
+                                    <md-option value="1">1</md-option>
+                                    <md-option value="2">2</md-option>
+                                    <md-option value="3">3</md-option>
+                                    <md-option value="4">4</md-option>
+                                </md-select>
+                            </md-input-container>
+                            <md-button class="start-game-button md-raised md-primary" ng-click="lobbyCtrl.startGame()">Start Game!</md-button>
+                        </md-card-actions>
+                    </md-card>
                 </div>
                 <div layout="column" flex="35" class="left">
                     <md-card>

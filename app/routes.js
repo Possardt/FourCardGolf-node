@@ -26,6 +26,10 @@ module.exports = function(app, passport, mongoDb, io) {
             }
     );
 
+    app.get('/game/getGameNumber', function(req,res){
+        
+    });
+
     //endpoint for socket.io
     app.get('/game/:gameId',function(req,res){
         console.log('game endpoint for socket.io requested');

@@ -1,4 +1,4 @@
-var app = angular.module('FourCardGolf', ['ngRoute', 'ngMaterial']);
+var app = angular.module('FourCardGolf', ['ngRoute', 'ngMaterial', 'ngMessages']);
 
 app.config(['$routeProvider', function($routeProvider) {
 

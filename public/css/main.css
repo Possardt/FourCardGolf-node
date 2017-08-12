@@ -31,3 +31,8 @@
 .md-display-4 {
     font-size: 69px;
 }
+
+
+md-card md-card-actions:not(.layout-column) .md-button:not(.md-icon-button):first-of-type.start-game-button {
+    margin-left: 1em;
+}
