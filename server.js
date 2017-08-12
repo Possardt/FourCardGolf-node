@@ -28,6 +28,8 @@ MongoClient.connect(MongoURI, function(err, db) {
   mongoDb = db;
 });
 
+server.listen(8080, "127.0.0.1");
+
 var port = process.env.PORT || 3000; 
 
 app.use(bodyParser.json()); 
@@ -43,6 +45,11 @@ app.use(session({
 }));
 app.use(passport.initialize());
 app.use(passport.session());
+
+
+io.on('connection', function(client){
+	console.log('someone connected');
+});
 
 passport.use(new GitHubStrategy({
 		clientID : GITHUB_CLIENT_ID,
