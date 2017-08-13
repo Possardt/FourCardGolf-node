@@ -47,9 +47,9 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 
-io.on('connection', function(client){
-	console.log('someone connected');
-});
+// io.on('connection', function(client){
+// 	console.log('someone connected');
+// });
 
 passport.use(new GitHubStrategy({
 		clientID : GITHUB_CLIENT_ID,

@@ -1,3 +1,5 @@
+const gameManager = require('./game/gameManager');
+
 module.exports = function(app, passport, mongoDb, io) {
 
     app.get('/', function(req, res) {
@@ -26,20 +28,17 @@ module.exports = function(app, passport, mongoDb, io) {
             }
     );
 
-    app.get('/game/getGameNumber', function(req,res){
-        
+    app.get('/game/getGameNumber?:numberOfPlayers', function(req,res){
+        res.send({gameNumber : gameManager.getGameNumber(req.query.numberOfPlayers)});
     });
 
     //endpoint for socket.io
-    app.get('/game/:gameId',function(req,res){
-        console.log('game endpoint for socket.io requested');
-        let gameNumber = 1001;
-        let nsp = io.of('/gameSession/' + gameNumber);
+    app.get('/game?:gameId',function(req,res){
+        let nsp = io.of('/gameSession/' + req.query.gameId);
         nsp.on('connection', function(socket){
             nsp.emit('welcome', {message : 'suh dude.'});
             nsp.on('I are the client', console.log);
         });
-        console.log(nsp);
         res.send(200);
     });
 };
