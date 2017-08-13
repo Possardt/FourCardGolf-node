@@ -35,9 +35,11 @@ module.exports = function(app, passport, mongoDb, io) {
     //endpoint for socket.io
     app.get('/game?:gameId',function(req,res){
         let nsp = io.of('/gameSession/' + req.query.gameId);
-        nsp.on('connection', function(socket){
+        nsp.on('connect', function(socket){
             nsp.emit('welcome', {message : 'suh dude.'});
-            nsp.on('I are the client', console.log);
+            socket.on('client', function(data){
+                console.log(data);
+            });
         });
         res.send(200);
     });

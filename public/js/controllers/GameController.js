@@ -3,9 +3,10 @@ angular.module('FourCardGolf').controller('GameController', function($scope, Gam
 
 	function init(){
 		var socket = io('http://localhost:8080/gameSession/' + GameDetails.getGameId());
-		console.log(socket);
-		socket.on('connection', function(data){
+		socket.on('connect', function(data){
 			console.log(data);
+			socket.on('welcome',(data) => {console.log(data);});
+			socket.emit('client', {message : 'I are the client'});
 		});
 	}
 
