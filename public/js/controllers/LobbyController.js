@@ -1,5 +1,8 @@
-angular.module('FourCardGolf').controller('LobbyController', function($http, $scope, $location, GameDetails) {
+angular.module('FourCardGolf').controller('LobbyController', function($http, $scope, $location, GameDetails, UserDetails) {
 	let self = this;
+
+	self.name = UserDetails.getUserName();
+
 	self.startGame = function(){
 		let gameNumberConfig = {
 				method	: 'GET',
@@ -9,9 +12,8 @@ angular.module('FourCardGolf').controller('LobbyController', function($http, $sc
 		};
 		$http.get('/game/getGameNumber', gameNumberConfig)
 				.then(resp => { 
-					GameDetails.setGameId(resp.data.gameNumber + '');
+					GameDetails.setGameId(resp.data.gameNumber);
 					GameDetails.setNumberOfPlayers($scope.humanPlayers);
-					console.log(GameDetails.getGameId());
 					let gameConfig = {
 						method	: 'GET',
 						params 	: {

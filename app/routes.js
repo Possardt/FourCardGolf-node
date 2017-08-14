@@ -14,7 +14,11 @@ module.exports = function(app, passport, mongoDb, io) {
     //endpoint to verify user is authenticated
     app.get('/loggedin',function(req, res) {
         let dataToReturn = !req.isAuthenticated() ? '0' : 
-                {name : req.user._json.name, email : req.user._json.email};
+                    {
+                        name    : req.user._json.name, 
+                        email   : req.user._json.email,
+                        token   : req.user._json.id
+                    };
         res.send(dataToReturn);
     });
 
@@ -37,7 +41,7 @@ module.exports = function(app, passport, mongoDb, io) {
         let nsp = io.of('/gameSession/' + req.query.gameId);
         nsp.on('connect', function(socket){
             nsp.emit('welcome', {message : 'suh dude.'});
-            socket.on('client', function(data){
+            socket.on('player', function(data){
                 console.log(data);
             });
         });

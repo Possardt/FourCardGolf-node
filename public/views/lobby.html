@@ -1,7 +1,7 @@
 <md-tabs md-dynamic-height md-border-bottom>
     <md-tab label="lobby">
         <md-content class="lobby-content" flex layout-padding ng-controller="LobbyController as lobbyCtrl">
-            <h1 class="md-display-4">Welcome {{::name}}!</h1>
+            <h1 class="md-display-4">Welcome {{::lobbyCtrl.name}}!</h1>
             <div layout="row">
                 <div layout="column" flex="65" class="left">
                     <md-card>
