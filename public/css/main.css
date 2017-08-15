@@ -22,7 +22,8 @@
 }
 
 .lobby-content,
-.stats-content{
+.stats-content,
+.game-content{
     width: 80vw;
     margin: 0 auto;
 }

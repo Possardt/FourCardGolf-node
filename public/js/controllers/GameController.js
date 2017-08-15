@@ -11,6 +11,10 @@ angular.module('FourCardGolf').controller('GameController', function($scope, Gam
 	}
 
 	init();
+
+	self.sendTurn = function(){
+		socket.emit('player', {turn : {move : 'knock', hand : [1,2,3]}});
+	}
 	// socket.emit('player', {playerId : })
 
 });
