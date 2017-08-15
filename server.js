@@ -11,6 +11,7 @@ const GitHubStrategy 	= require('passport-github2').Strategy;
 const MongoClient 		= require('mongodb').MongoClient;
 const assert			= require('assert');
 const secrets			= require('./secrets');
+const gameManager 		= require('./app/game/gameManager')
 const server 			= require('http').createServer(app);
 const io 				= require('socket.io')(server);
 
@@ -29,8 +30,6 @@ MongoClient.connect(MongoURI, function(err, db) {
 });
 
 server.listen(8080, "127.0.0.1");
-
-var port = process.env.PORT || 3000; 
 
 app.use(bodyParser.json()); 
 app.use(bodyParser.json({ type: 'application/vnd.api+json' })); 
@@ -73,11 +72,12 @@ passport.deserializeUser(function(user,done){
 	done(null, user);
 });
 
+gameManager.initializeGameNamespace(io);
 
 // routes ==================================================
 require('./app/routes')(app, passport, mongoDb, io); // configure our routes
 
 // start app ===============================================
-app.listen(port);               
-console.log('Started on port ' + port);
+app.listen(3000);               
+console.log('Started on port 3000');
 exports = module.exports = app;
