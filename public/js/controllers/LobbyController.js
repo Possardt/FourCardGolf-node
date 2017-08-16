@@ -40,6 +40,11 @@ angular.module('FourCardGolf').controller('LobbyController', function($http, $sc
 		}
 	}
 
+	self.joinGame = function(gameId){
+		GameDetails.setGameId(gameId);
+		$location.path('/game/' + gameId);
+	}
+
 	function init(){
 		socket = io('http://localhost:8080/activeGames');
 		socket.on('connect', function(data){
