@@ -41,13 +41,16 @@ module.exports = function(app, passport, mongoDb, io) {
         let nsp = io.of('/gameSession/' + req.query.gameId);
         let game = req.query.gameId;
         nsp.on('connection', function(socket){
-            gameManager.addPlayer(game);
-            console.log(gameManager.getGame(game));
+            socket.on('hello',function(data){
+                console.log(data);
+            });
             socket.on('player', function(data){
                 console.log(data);
             });
+        });
 
-
+        nsp.on('hello', function(data){
+            console.log('not sure how it ends up here' + data);
         });
 
         nsp.on('disconnect', function(){

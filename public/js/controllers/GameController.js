@@ -3,11 +3,12 @@ angular.module('FourCardGolf').controller('GameController', function($scope, Gam
 	let socket;
 	function init(){
 		socket = io('http://localhost:3000/gameSession/' + GameDetails.getGameId());
-		socket.on('connection', function(data){
-			// console.log(data);
-			socket.on('welcome',(data) => {console.log(data);});
-			// socket.emit('player', {message : 'I are the client'});
+		console.log('outside of connection');
+		socket.on('connect', function(data){
+			console.log('in here');
+			socket.emit('hello', {message : 'please work'});
 		});
+		socket.emit('hello', {message : 'connect meeee'});
 	}
 
 	init();

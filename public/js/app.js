@@ -21,8 +21,8 @@ app.config(['$routeProvider', function($routeProvider) {
             templateUrl     : 'views/game.html',
             resolve         : {
                 logincheck  : checkLoggedIn
-            },
-            controller      : 'GameController'
+            }
+            // controller      : 'GameController'
         });
 
 }]);
