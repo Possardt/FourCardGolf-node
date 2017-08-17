@@ -2,7 +2,7 @@ angular.module('FourCardGolf').controller('GameController', function($scope, Gam
 	var self = this;
 	let socket;
 	function init(){
-		socket = io('http://localhost:8080/gameSession/' + GameDetails.getGameId());
+		socket = io('http://localhost:3000/gameSession/' + GameDetails.getGameId());
 		socket.on('connect', function(data){
 			console.log(data);
 			socket.on('welcome',(data) => {console.log(data);});

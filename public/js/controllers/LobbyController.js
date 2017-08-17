@@ -46,7 +46,7 @@ angular.module('FourCardGolf').controller('LobbyController', function($http, $sc
 	}
 
 	function init(){
-		socket = io('http://localhost:8080/activeGames');
+		socket = io('http://localhost:3000/activeGames');
 		socket.on('connect', function(data){
 			socket.on('welcome',(data) => {console.log(data);});
 			socket.on('activeGamesUpdate', (data) => {

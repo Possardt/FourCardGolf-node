@@ -17,7 +17,6 @@ const io 				= require('socket.io')(server);
 
 
 // configuration ===========================================
-
 const GITHUB_CLIENT_ID = secrets.GITHUB_CLIENT_ID;
 const GITHUB_CLIENT_SECRET = secrets.GITHUB_CLIENT_SECRET;
 const MongoURI = secrets.mongoURI;
@@ -28,8 +27,6 @@ MongoClient.connect(MongoURI, function(err, db) {
   console.log("Connected to the Mongo DB successfully.");
   mongoDb = db;
 });
-
-server.listen(8080, "127.0.0.1");
 
 app.use(bodyParser.json()); 
 app.use(bodyParser.json({ type: 'application/vnd.api+json' })); 
@@ -78,6 +75,6 @@ gameManager.initializeGameNamespace(io);
 require('./app/routes')(app, passport, mongoDb, io); // configure our routes
 
 // start app ===============================================
-app.listen(3000);               
+server.listen(3000);              
 console.log('Started on port 3000');
 exports = module.exports = app;
