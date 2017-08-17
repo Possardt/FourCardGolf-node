@@ -29,6 +29,7 @@ angular.module('FourCardGolf').controller('LobbyController', function($http, $sc
 						}
 						$http.get('/game', gameConfig)
 						.then(() =>{
+							socket.disconnect();
 							$location.path('/game/' + GameDetails.getGameId());
 						}).catch(err => {
 							console.log(err)
@@ -42,6 +43,7 @@ angular.module('FourCardGolf').controller('LobbyController', function($http, $sc
 
 	self.joinGame = function(gameId){
 		GameDetails.setGameId(gameId);
+		socket.disconnect();
 		$location.path('/game/' + gameId);
 	}
 

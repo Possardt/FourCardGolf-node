@@ -3,10 +3,10 @@ angular.module('FourCardGolf').controller('GameController', function($scope, Gam
 	let socket;
 	function init(){
 		socket = io('http://localhost:3000/gameSession/' + GameDetails.getGameId());
-		socket.on('connect', function(data){
-			console.log(data);
+		socket.on('connection', function(data){
+			// console.log(data);
 			socket.on('welcome',(data) => {console.log(data);});
-			socket.emit('player', {message : 'I are the client'});
+			// socket.emit('player', {message : 'I are the client'});
 		});
 	}
 
@@ -15,6 +15,5 @@ angular.module('FourCardGolf').controller('GameController', function($scope, Gam
 	self.sendTurn = function(){
 		socket.emit('player', {turn : {move : 'knock', hand : [1,2,3]}});
 	}
-	// socket.emit('player', {playerId : })
 
 });
