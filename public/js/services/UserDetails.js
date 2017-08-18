@@ -7,7 +7,7 @@ angular.module('FourCardGolf').service('UserDetails', function(){
 		setUserName 	: function(name){userName = name},
 		getUserToken 	: function(){return userToken},
 		setUserToken 	: function(token){userToken = token},
-		getuserEmail 	: function(){return userEmail},
+		getUserEmail 	: function(){return userEmail},
 		setUserEmail 	: function(email){userEmail = email}
 	}
 });
