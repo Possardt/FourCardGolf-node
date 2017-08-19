@@ -1,7 +1,7 @@
 angular.module('FourCardGolf').controller('LobbyController', function($http, $scope, $location, GameDetails, UserDetails) {
 	let self = this;
 	let socket;
-	$scope.gameStack = [];
+	$scope.pendingGameStack = [];
 	
 	self.name = UserDetails.getUserName();
 
@@ -54,7 +54,11 @@ angular.module('FourCardGolf').controller('LobbyController', function($http, $sc
 			socket.on('activeGamesUpdate', (data) => {
 				console.log('active games update');
 				console.log(data);
-				angular.extend($scope.gameStack, data.gameStack);
+				let copy = [];
+				angular.forEach(data.pendingGameStack, function(value,key){
+					this.push(value);
+				}, copy);
+				angular.extend($scope.pendingGameStack, copy);
 				$scope.$apply();
 			});
 		});

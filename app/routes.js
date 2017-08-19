@@ -40,22 +40,29 @@ module.exports = function(app, passport, mongoDb, io) {
     app.get('/game?:gameId',function(req,res){
         let nsp = io.of('/gameSession/' + req.query.gameId);
         let gameId = req.query.gameId;
-        let gameOnStack = gameManager.getGame(gameId);
+        let gameOnStack = gameManager.getPendingGame(gameId);
         nsp.on('connection', function(socket){
             
             socket.on('hello',function(data){
-                gameManager.addPlayer(gameId);
-                console.log(data);
+                if(!gameOnStack){
+                    console.log('we have  problem here, buddy.');
+                }
+                else{
+                    gameManager.addPlayer(gameId);
+                    console.log(data);
+                }
+                
             });
 
             socket.on('player', (data) => {
                 console.log(data);
             });
-        });
 
-        nsp.on('disconnect', function(){
-            console.log('someone disconnected');
-            gameManager.removePlayer(gameId)
+            socket.on('disconnect', function(){
+                console.log('someone really disconnected');
+                gameManager.removePlayer(gameId);
+            });
+
         });
         res.send(200);
     });

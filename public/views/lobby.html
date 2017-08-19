@@ -46,8 +46,8 @@
                             <span class="md-headline">Join a Game</span>                
                         </md-card-title>
                         <md-list>
-                            <md-subheader ng-show="!!gameStack.length" class="md-no-sticky">Games waiting for players:</md-subheader>
-                            <md-list-item layout="row" ng-repeat="game in gameStack" class="primary-button-padding" ng-click="">
+                            <md-subheader ng-show="!!pendingGameStack.length" class="md-no-sticky">Games waiting for players:</md-subheader>
+                            <md-list-item layout="row" ng-repeat="game in pendingGameStack" class="primary-button-padding">
                                 <h2 class="left" flex="50">{{game.gameNumber}}</h2>
                                 <span class="left" flex="30">Players: {{game.connectedPlayers}}/{{game.numberOfPlayers}}</span>
                                 <md-button class="md-primary left" flex="20" ng-click="lobbyCtrl.joinGame(game.gameNumber)">Join Game</md-button>

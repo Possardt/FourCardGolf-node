@@ -1,13 +1,18 @@
-let _ 			= require('lodash');
-let gameStack 	= [];
+let _ 					= require('lodash');
+let pendingGameStack 	= {}; //games waiting for players
+let activeGameStack 	= {}; //games that have started
 let gamesNamespace;
 
 function getGameNumber(numberOfPlayers){
 	let gameNumber = Math.floor(Math.random() * 10000);
-	let result = _.find(gameStack, {gameNumber : gameNumber});
+	let result = pendingGameStack[gameNumber];
 	if(!result){
-		gameStack.push({gameNumber : gameNumber, numberOfPlayers : numberOfPlayers, connectedPlayers : 0});
-		gamesNamespace.emit('activeGamesUpdate', {gameStack : gameStack});
+		pendingGameStack[gameNumber] = {
+									gameNumber : gameNumber,
+									numberOfPlayers : numberOfPlayers,
+									connectedPlayers : 0
+								};
+		gamesNamespace.emit('activeGamesUpdate', {pendingGameStack : pendingGameStack});
 		return gameNumber;
 	}
 	else{
@@ -19,31 +24,38 @@ function initializeGameNamespace(io){
 	gamesNamespace = io.of('/activeGames');
 	gamesNamespace.on('connect', function(socket){
 		gamesNamespace.emit('welcome', {message : 'welcome to the lobby, foo'});
-		gamesNamespace.emit('activeGamesUpdate', {gameStack : gameStack});
+		gamesNamespace.emit('activeGamesUpdate', {pendingGameStack : pendingGameStack});
 	});
 }
 
-function getGame(game){
-	return _.find(gameStack, {gameNumber : Number(game)});
+function getPendingGame(game){
+	return pendingGameStack[game];
 }
 
 function addPlayer(gameNumber){
-	let game = getGame(Number(gameNumber));
+	let game = getPendingGame(Number(gameNumber));
 	game.connectedPlayers++;
-	gamesNamespace.emit('activeGamesUpdate', {gameStack : gameStack});
+	gamesNamespace.emit('pendingGamesUpdate', {pendingGameStack : pendingGameStack});
 }
 
 function removePlayer(gameNumber){
-	let game = getGame(Number(gameNumber));
+	let game = getPendingGame(Number(gameNumber));
 	game.connectedPlayers--;
-	gamesNamespace.emit('activeGamesUpdate', {gameStack : gameStack});	
+	gamesNamespace.emit('pendingGamesUpdate', {pendingGameStack : pendingGameStack});	
+}
+
+function allPlayersConnected(gameNumber){
+	let gameCopy;
+	angular.copy(pendingGameStack[gameNumber], gameCopy);
+	delete pendingGameStack.gameNumber;
 }		
 
 module.exports = {
 	getGameNumber		 	: getGameNumber,
-	gameStack 				: gameStack,
+	pendingGameStack		: pendingGameStack,
 	initializeGameNamespace : initializeGameNamespace,
-	getGame 				: getGame,
+	getPendingGame 			: getPendingGame,
 	addPlayer 				: addPlayer,
-	removePlayer 			: removePlayer
+	removePlayer 			: removePlayer,
+	activeGameStack 		: activeGameStack
 };
