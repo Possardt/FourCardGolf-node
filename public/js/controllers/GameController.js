@@ -1,4 +1,4 @@
-angular.module('FourCardGolf').controller('GameController', function($scope, GameDetails, UserDetails) {
+angular.module('FourCardGolf').controller('GameController', function($scope, GameDetails, UserDetails, $mdToast) {
 	var self = this;
 	let socket;
 	const user = {
@@ -10,6 +10,12 @@ angular.module('FourCardGolf').controller('GameController', function($scope, Gam
 		socket = io('http://localhost:3000/gameSession/' + GameDetails.getGameId());
 		socket.on('connect', function(data){
 			socket.emit('hello', {player : user});
+      socket.on('playerConnected', (data) => {
+        $mdToast.showSimple(data.playerName + ' has joined the game.');
+      });
+      socket.on('playerLeft', (data) => {
+        $mdToast.showSimple(data.playerName + ' has left the game.');
+      });
 		});
 	}
 

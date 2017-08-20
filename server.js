@@ -6,14 +6,14 @@ const app            	= express();
 const bodyParser     	= require('body-parser');
 const methodOverride 	= require('method-override');
 const passport		   	= require('passport');
-const session 			= require('express-session');
+const session   			= require('express-session');
 const GitHubStrategy 	= require('passport-github2').Strategy;
 const MongoClient 		= require('mongodb').MongoClient;
-const assert			= require('assert');
-const secrets			= require('./secrets');
+const assert		    	= require('assert');
+const secrets			    = require('./secrets');
 const gameManager 		= require('./app/game/gameManager')
-const server 			= require('http').createServer(app);
-const io 				= require('socket.io')(server);
+const server 		    	= require('http').createServer(app);
+const io 				      = require('socket.io')(server);
 
 
 // configuration ===========================================
@@ -28,11 +28,11 @@ MongoClient.connect(MongoURI, function(err, db) {
   mongoDb = db;
 });
 
-app.use(bodyParser.json()); 
-app.use(bodyParser.json({ type: 'application/vnd.api+json' })); 
-app.use(bodyParser.urlencoded({ extended: true })); 
-app.use(methodOverride('X-HTTP-Method-Override')); 
-app.use(express.static(__dirname + '/public')); 
+app.use(bodyParser.json());
+app.use(bodyParser.json({ type: 'application/vnd.api+json' }));
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(methodOverride('X-HTTP-Method-Override'));
+app.use(express.static(__dirname + '/public'));
 
 app.use(session({
 	secret: 'neting',
@@ -75,6 +75,6 @@ gameManager.initializeGameNamespace(io);
 require('./app/routes')(app, passport, mongoDb, io); // configure our routes
 
 // start app ===============================================
-server.listen(3000);              
+server.listen(3000);
 console.log('Started on port 3000');
 exports = module.exports = app;

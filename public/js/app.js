@@ -41,7 +41,7 @@ var checkLoggedIn = function($q, $timeout, $http, $location, $rootScope, UserDet
             }
         })
         .catch(error => {console.log(error);});
-    
+
     return deferred.promise;
 };
 
@@ -54,3 +54,4 @@ app.config(function($mdThemingProvider){
         .primaryPalette('green')
         .accentPalette('light-green');
 });
+

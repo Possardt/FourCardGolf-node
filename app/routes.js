@@ -13,9 +13,9 @@ module.exports = function(app, passport, mongoDb, io) {
 
     //endpoint to verify user is authenticated
     app.get('/loggedin',function(req, res) {
-        let dataToReturn = !req.isAuthenticated() ? '0' : 
+        let dataToReturn = !req.isAuthenticated() ? '0' :
                     {
-                        name    : req.user._json.name, 
+                        name    : req.user._json.name,
                         email   : req.user._json.email,
                         token   : req.user._json.id
                     };
@@ -40,26 +40,27 @@ module.exports = function(app, passport, mongoDb, io) {
     app.get('/game?:gameId',function(req,res){
         let nsp = io.of('/gameSession/' + req.query.gameId);
         let gameId = req.query.gameId;
-        let gameOnStack = gameManager.getPendingGame(gameId);
         nsp.on('connection', function(socket){
-            
+            gameManager.allPlayersConnected(gameId);
+            let gameOnStack = gameManager.getPendingGame(gameId);
+            let playerName;
             socket.on('hello',function(data){
-                if(!gameOnStack){
-                    console.log('we have  problem here, buddy.');
-                }
-                else{
-                    gameManager.addPlayer(gameId);
-                    console.log(data);
-                }
-                
+              if(!gameOnStack){
+                console.log('game not found on stack ' + gameId);
+              }
+              else{
+                playerName = data.player.name;
+                socket.emit('playerConnected', {playerName : data.player.name});
+                gameManager.addPlayer(gameId);
+              }
             });
 
             socket.on('player', (data) => {
-                console.log(data);
+              //TODO think this is where I wanted to put the player move stuff.
             });
 
             socket.on('disconnect', function(){
-                console.log('someone really disconnected');
+              socket.emit('playerLeft', {playerName : playerName});
                 gameManager.removePlayer(gameId);
             });
 

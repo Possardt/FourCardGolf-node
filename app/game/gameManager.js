@@ -1,4 +1,4 @@
-let _ 					= require('lodash');
+const _               = require('lodash');
 let pendingGameStack 	= {}; //games waiting for players
 let activeGameStack 	= {}; //games that have started
 let gamesNamespace;
@@ -23,7 +23,6 @@ function getGameNumber(numberOfPlayers){
 function initializeGameNamespace(io){
 	gamesNamespace = io.of('/activeGames');
 	gamesNamespace.on('connect', function(socket){
-		gamesNamespace.emit('welcome', {message : 'welcome to the lobby, foo'});
 		gamesNamespace.emit('activeGamesUpdate', {pendingGameStack : pendingGameStack});
 	});
 }
@@ -33,29 +32,30 @@ function getPendingGame(game){
 }
 
 function addPlayer(gameNumber){
-	let game = getPendingGame(Number(gameNumber));
+	let game = getPendingGame(gameNumber);
 	game.connectedPlayers++;
 	gamesNamespace.emit('pendingGamesUpdate', {pendingGameStack : pendingGameStack});
 }
 
 function removePlayer(gameNumber){
-	let game = getPendingGame(Number(gameNumber));
+	let game = getPendingGame(gameNumber);
 	game.connectedPlayers--;
-	gamesNamespace.emit('pendingGamesUpdate', {pendingGameStack : pendingGameStack});	
+	gamesNamespace.emit('pendingGamesUpdate', {pendingGameStack : pendingGameStack});
 }
 
 function allPlayersConnected(gameNumber){
-	let gameCopy;
-	angular.copy(pendingGameStack[gameNumber], gameCopy);
+	let gameCopy = _.cloneDeep(pendingGameStack[gameNumber]);
 	delete pendingGameStack.gameNumber;
-}		
+  activeGameStack[gameNumber] = gameCopy;
+}
 
 module.exports = {
-	getGameNumber		 	: getGameNumber,
-	pendingGameStack		: pendingGameStack,
+	getGameNumber		       	: getGameNumber,
+	pendingGameStack	    	: pendingGameStack,
 	initializeGameNamespace : initializeGameNamespace,
-	getPendingGame 			: getPendingGame,
-	addPlayer 				: addPlayer,
-	removePlayer 			: removePlayer,
-	activeGameStack 		: activeGameStack
+	getPendingGame 		    	: getPendingGame,
+	addPlayer 			      	: addPlayer,
+	removePlayer 			      : removePlayer,
+	activeGameStack 		    : activeGameStack,
+  allPlayersConnected     : allPlayersConnected
 };
