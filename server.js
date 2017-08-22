@@ -1,13 +1,13 @@
 // server.js
 
 // modules =================================================
-const express        	= require('express');
-const app            	= express();
-const bodyParser     	= require('body-parser');
-const methodOverride 	= require('method-override');
-const passport		   	= require('passport');
-const session   			= require('express-session');
-const GitHubStrategy 	= require('passport-github2').Strategy;
+const express         = require('express');
+const app             = express();
+const bodyParser 	    = require('body-parser');
+const methodOverride  = require('method-override');
+const passport       	= require('passport');
+const session         = require('express-session');
+const GitHubStrategy	= require('passport-github2').Strategy;
 const MongoClient 		= require('mongodb').MongoClient;
 const assert		    	= require('assert');
 const secrets			    = require('./secrets');

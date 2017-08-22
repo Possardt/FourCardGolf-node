@@ -8,10 +8,11 @@ function getGameNumber(numberOfPlayers){
 	let result = pendingGameStack[gameNumber];
 	if(!result){
 		pendingGameStack[gameNumber] = {
-									gameNumber : gameNumber,
-									numberOfPlayers : numberOfPlayers,
-									connectedPlayers : 0
-								};
+                      gameNumber       : gameNumber,
+                      numberOfPlayers  : numberOfPlayers,
+                      connectedPlayers : 0,
+                      players          : []
+								   };
 		gamesNamespace.emit('activeGamesUpdate', {pendingGameStack : pendingGameStack});
 		return gameNumber;
 	}
@@ -31,9 +32,10 @@ function getPendingGame(game){
 	return pendingGameStack[game];
 }
 
-function addPlayer(gameNumber){
+function addPlayer(gameNumber, token){
 	let game = getPendingGame(gameNumber);
 	game.connectedPlayers++;
+  game.players.push(token);
 	gamesNamespace.emit('pendingGamesUpdate', {pendingGameStack : pendingGameStack});
 }
 
@@ -47,6 +49,16 @@ function allPlayersConnected(gameNumber){
 	let gameCopy = _.cloneDeep(pendingGameStack[gameNumber]);
 	delete pendingGameStack.gameNumber;
   activeGameStack[gameNumber] = gameCopy;
+  gamesNamespace.emit('pendingGamesUpdate', {pendingGameStack : pendingGameStack});
+}
+
+//Functionality for started games ============
+function startGame(){
+  //TODO need players at this point
+}
+
+function handleTurn(){
+
 }
 
 module.exports = {

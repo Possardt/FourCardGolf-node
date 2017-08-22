@@ -41,7 +41,6 @@ module.exports = function(app, passport, mongoDb, io) {
         let nsp = io.of('/gameSession/' + req.query.gameId);
         let gameId = req.query.gameId;
         nsp.on('connection', function(socket){
-            gameManager.allPlayersConnected(gameId);
             let gameOnStack = gameManager.getPendingGame(gameId);
             let playerName;
             socket.on('hello',function(data){
@@ -51,12 +50,13 @@ module.exports = function(app, passport, mongoDb, io) {
               else{
                 playerName = data.player.name;
                 socket.emit('playerConnected', {playerName : data.player.name});
-                gameManager.addPlayer(gameId);
+                gameManager.addPlayer(gameId, data.player.token);
               }
-            });
 
-            socket.on('player', (data) => {
-              //TODO think this is where I wanted to put the player move stuff.
+              if(gameOnStack.connectedPlayers === Number(gameOnStack.numberOfPlayers)){
+                gameManager.allPlayersConnected(gameId);
+                socket.emit('gameMessage', {message : 'game is starting'});
+              }
             });
 
             socket.on('disconnect', function(){
