@@ -2,7 +2,7 @@ angular.module('FourCardGolf').controller('LobbyController', function($http, $sc
 	let self = this;
 	let socket;
 	$scope.pendingGameStack = [];
-	
+
 	self.name = UserDetails.getUserName();
 
 	self.humanPlayersSelectChange = function(){
@@ -18,7 +18,7 @@ angular.module('FourCardGolf').controller('LobbyController', function($http, $sc
 					}
 			};
 			$http.get('/game/getGameNumber', gameNumberConfig)
-					.then(resp => { 
+					.then(resp => {
 						GameDetails.setGameId(resp.data.gameNumber);
 						GameDetails.setNumberOfPlayers($scope.humanPlayers);
 						let gameConfig = {
@@ -51,9 +51,7 @@ angular.module('FourCardGolf').controller('LobbyController', function($http, $sc
 		socket = io('http://localhost:3000/activeGames');
 		socket.on('connect', function(data){
 			socket.on('welcome',(data) => {console.log(data);});
-			socket.on('activeGamesUpdate', (data) => {
-				console.log('active games update');
-				console.log(data);
+			socket.on('pendingGamesUpdate', (data) => {
 				let copy = [];
 				angular.forEach(data.pendingGameStack, function(value,key){
 					this.push(value);

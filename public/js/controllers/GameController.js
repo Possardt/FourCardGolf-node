@@ -22,6 +22,8 @@ angular.module('FourCardGolf').controller('GameController', function($scope, Gam
       socket.on('gameMessage', (data) => {
         $mdToast.showSimple(data.message);
       });
+
+      socket.on('testTho', data => {console.log(data);});
 		});
 	}
 

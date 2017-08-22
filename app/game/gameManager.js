@@ -11,9 +11,10 @@ function getGameNumber(numberOfPlayers){
                       gameNumber       : gameNumber,
                       numberOfPlayers  : numberOfPlayers,
                       connectedPlayers : 0,
-                      players          : []
+                      players          : [],
+                      socketIds        : []
 								   };
-		gamesNamespace.emit('activeGamesUpdate', {pendingGameStack : pendingGameStack});
+		gamesNamespace.emit('pendingGamesUpdate', {pendingGameStack : pendingGameStack});
 		return gameNumber;
 	}
 	else{
@@ -24,7 +25,7 @@ function getGameNumber(numberOfPlayers){
 function initializeGameNamespace(io){
 	gamesNamespace = io.of('/activeGames');
 	gamesNamespace.on('connect', function(socket){
-		gamesNamespace.emit('activeGamesUpdate', {pendingGameStack : pendingGameStack});
+		gamesNamespace.emit('pendingGamesUpdate', {pendingGameStack : pendingGameStack});
 	});
 }
 
@@ -32,10 +33,12 @@ function getPendingGame(game){
 	return pendingGameStack[game];
 }
 
-function addPlayer(gameNumber, token){
+function addPlayer(gameNumber, token, socketId){
+  console.log(socket);
 	let game = getPendingGame(gameNumber);
 	game.connectedPlayers++;
   game.players.push(token);
+  game.socketIds.push(socketId);
 	gamesNamespace.emit('pendingGamesUpdate', {pendingGameStack : pendingGameStack});
 }
 
@@ -47,7 +50,7 @@ function removePlayer(gameNumber){
 
 function allPlayersConnected(gameNumber){
 	let gameCopy = _.cloneDeep(pendingGameStack[gameNumber]);
-	delete pendingGameStack.gameNumber;
+	delete pendingGameStack[gameNumber];
   activeGameStack[gameNumber] = gameCopy;
   gamesNamespace.emit('pendingGamesUpdate', {pendingGameStack : pendingGameStack});
 }
