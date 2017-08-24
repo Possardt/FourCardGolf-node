@@ -41,11 +41,11 @@ module.exports = function(app, passport, mongoDb, io) {
     let nsp = io.of('/gameSession/' + req.query.gameId);
     let gameId = req.query.gameId;
     nsp.on('connection', function(socket){
-      let gameOnStack = gameManager.getPendingGame(gameId);
+      let game = gameManager.getPendingGame(gameId);
       let playerName;
       socket.on('hello',function(data){
-        if(!gameOnStack){
-          console.log('game not found on stack ' + gameId);
+        if(!game){
+          console.log('game not found on stack, gameId : ' + gameId);
         }
         else{
           playerName = data.player.name;
@@ -53,8 +53,9 @@ module.exports = function(app, passport, mongoDb, io) {
           gameManager.addPlayer(gameId, data.player.token, socket.conn.id);
         }
 
-        if(gameOnStack.connectedPlayers === Number(gameOnStack.numberOfPlayers)){
+        if(game.connectedPlayers === Number(game.numberOfPlayers)){
           gameManager.allPlayersConnected(gameId);
+          game = gameManager.getActiveGame(gameId);
           socket.emit('gameMessage', {message : 'game is starting'});
         }
       });
@@ -63,6 +64,16 @@ module.exports = function(app, passport, mongoDb, io) {
         socket.emit('playerLeft', {playerName : playerName});
         gameManager.removePlayer(gameId);
       });
+
+      socket.on('playerTurn', (data) => {
+        if(socket.conn.id === game.socketIds[0]){
+          console.log('handling player turn');
+          console.log(game.socketIds[0]);
+          socket.to(game.socketIds[0]).emit('turnReceived', {message : 'got your turn b'});
+        }
+      });
+
+
 
     });
     res.send(200);

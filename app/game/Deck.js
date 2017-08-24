@@ -21,7 +21,7 @@ const cardToValue = {
 function getDeck(){
 	suits.forEach((suit) => {
 		cards.forEach((card) => {
-			deck.push({suit : suit, card : card, value : cardToValue(card)});
+			deck.push({suit : suit, card : card, value : cardToValue[card]});
 		});
 	});
   deck = shuffle(deck);

@@ -12,7 +12,8 @@ function getGameNumber(numberOfPlayers){
                       numberOfPlayers  : numberOfPlayers,
                       connectedPlayers : 0,
                       players          : [],
-                      socketIds        : []
+                      socketIds        : [],
+                      tokenToSocket    : {}
 								   };
 		gamesNamespace.emit('pendingGamesUpdate', {pendingGameStack : pendingGameStack});
 		return gameNumber;
@@ -33,12 +34,16 @@ function getPendingGame(game){
 	return pendingGameStack[game];
 }
 
+function getActiveGame(game){
+  return activeGameStack[game];
+}
+
 function addPlayer(gameNumber, token, socketId){
-  console.log(socket);
 	let game = getPendingGame(gameNumber);
 	game.connectedPlayers++;
   game.players.push(token);
   game.socketIds.push(socketId);
+  game.tokenToSocket[token] = socketId;
 	gamesNamespace.emit('pendingGamesUpdate', {pendingGameStack : pendingGameStack});
 }
 
@@ -52,6 +57,7 @@ function allPlayersConnected(gameNumber){
 	let gameCopy = _.cloneDeep(pendingGameStack[gameNumber]);
 	delete pendingGameStack[gameNumber];
   activeGameStack[gameNumber] = gameCopy;
+  activeGameStack['currentTurn'] = 0;
   gamesNamespace.emit('pendingGamesUpdate', {pendingGameStack : pendingGameStack});
 }
 
@@ -72,5 +78,6 @@ module.exports = {
 	addPlayer 			      	: addPlayer,
 	removePlayer 			      : removePlayer,
 	activeGameStack 		    : activeGameStack,
-  allPlayersConnected     : allPlayersConnected
+  allPlayersConnected     : allPlayersConnected,
+  getActiveGame           : getActiveGame
 };

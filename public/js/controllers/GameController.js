@@ -23,14 +23,28 @@ angular.module('FourCardGolf').controller('GameController', function($scope, Gam
         $mdToast.showSimple(data.message);
       });
 
-      socket.on('testTho', data => {console.log(data);});
+      socket.on('turnReceived', (data) => {
+        console.log(data);
+      });
 		});
+
+    console.log('player token: ' + user.token);
 	}
 
 	init();
 
+  function makeTurn(move, hand, token){
+    return {
+      turn : {
+        move : move,
+        hand : hand
+      },
+      playerToken : token
+    };
+  }
+
 	self.sendTurn = function(){
-		socket.emit('player', {turn : {move : 'knock', hand : [1,2,3]}});
+		socket.emit('playerTurn', {playerToken : user.token});
 	}
 
 });
