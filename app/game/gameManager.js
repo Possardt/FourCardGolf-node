@@ -14,7 +14,8 @@ function getGameNumber(numberOfPlayers){
                       connectedPlayers : 0,
                       players          : [],
                       socketIds        : [],
-                      socketToToken    : {}
+                      socketToToken    : {},
+                      tokenToHands     : {}
 								   };
 		gamesNamespace.emit('pendingGamesUpdate', {pendingGameStack : pendingGameStack});
 		return gameNumber;
@@ -61,13 +62,40 @@ function allPlayersConnected(gameNumber){
 	delete pendingGameStack[gameNumber];
   activeGameStack[gameNumber] = gameCopy;
   activeGameStack[gameNumber].currentTurn = 0;
-  activeGameStack[gameNumber].deck =
+  dealPlayerHands(gameNumber);
   gamesNamespace.emit('pendingGamesUpdate', {pendingGameStack : pendingGameStack});
 }
 
 //Functionality for started games ============
-function getPlayerHands(){
+function dealPlayerHands(game){
+  console.log(game);
+  let activeGame = getActiveGame(game);
+  if(!activeGame){
+    console.log('no active game found for game: ' + game);
+    return;
+  }
+  activeGame.deck = deck.getDeck();
 
+  for(var i = 0; i < 4; i++){
+    activeGame.players.forEach((player) => {
+      if(!activeGame.tokenToHands[player]) {
+        activeGame.tokenToHands[player] = [];
+        activeGame.tokenToHands[player].push(drawCard(activeGame.deck));
+      }
+      else {
+        console.log('Hand found for player: ' + player);
+        activeGame.tokenToHands[player].push(drawCard(activeGame.deck));
+      }
+    });
+  }
+  console.log(activeGame);
+  console.log(activeGame.deck.length);
+}
+
+function drawCard(deck){
+  let card = deck.shift();
+  console.log('card: ' + card);
+  return card;
 }
 
 function handleTurn(game, data){
@@ -84,5 +112,6 @@ module.exports = {
 	removePlayer 			      : removePlayer,
   allPlayersConnected     : allPlayersConnected,
   getActiveGame           : getActiveGame,
-  handleTurn              : handleTurn
+  handleTurn              : handleTurn,
+  dealPlayerHands         : dealPlayerHands
 };

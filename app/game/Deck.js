@@ -1,6 +1,5 @@
 let suits	= ['Clubs','Spades','Hearts','Diamonds'],
-	cards	= ['A','2','3','4','5','6','7','8','9','10','J','K','Q'],
-	deck	= [];
+	  cards	= ['A','2','3','4','5','6','7','8','9','10','J','K','Q'];
 
 const cardToValue = {
   'A'  : 1,
@@ -15,10 +14,12 @@ const cardToValue = {
   '10' : 0,
   'J'  : 0,
   'Q'  : 10,
-  'k'  : 10
+  'K'  : 10
 }
 
 function getDeck(){
+  let deck = [];
+
 	suits.forEach((suit) => {
 		cards.forEach((card) => {
 			deck.push({suit : suit, card : card, value : cardToValue[card]});
@@ -28,6 +29,8 @@ function getDeck(){
   deck = shuffle(deck);
   deck = shuffle(deck);
   deck = shuffle(deck);
+
+  return deck;
 }
 
 //Fisher yates shuffle
@@ -47,6 +50,5 @@ function shuffle(deck) {
 }
 
 module.exports = {
-	getDeck : getDeck,
-	shuffle : shuffle
+	getDeck : getDeck
 };

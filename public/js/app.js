@@ -1,4 +1,4 @@
-var app = angular.module('FourCardGolf', ['ngRoute', 'ngMaterial', 'ngMessages']);
+let app = angular.module('FourCardGolf', ['ngRoute', 'ngMaterial', 'ngMessages']);
 
 app.config(['$routeProvider', function($routeProvider) {
 
@@ -24,8 +24,8 @@ app.config(['$routeProvider', function($routeProvider) {
 
 }]);
 
-var checkLoggedIn = function($q, $timeout, $http, $location, $rootScope, UserDetails){
-    var deferred = $q.defer();
+let checkLoggedIn = function($q, $timeout, $http, $location, $rootScope, UserDetails){
+    let deferred = $q.defer();
     $http.get('/loggedin')
         .then(function(user){
             if(user.data !== '0'){
