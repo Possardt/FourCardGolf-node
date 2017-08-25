@@ -68,7 +68,6 @@ function allPlayersConnected(gameNumber){
 
 //Functionality for started games ============
 function dealPlayerHands(game){
-  console.log(game);
   let activeGame = getActiveGame(game);
   if(!activeGame){
     console.log('no active game found for game: ' + game);
@@ -79,22 +78,17 @@ function dealPlayerHands(game){
   for(var i = 0; i < 4; i++){
     activeGame.players.forEach((player) => {
       if(!activeGame.tokenToHands[player]) {
-        activeGame.tokenToHands[player] = [];
-        activeGame.tokenToHands[player].push(drawCard(activeGame.deck));
+        activeGame.tokenToHands[player] = [drawCard(activeGame.deck)];
       }
       else {
-        console.log('Hand found for player: ' + player);
         activeGame.tokenToHands[player].push(drawCard(activeGame.deck));
       }
     });
   }
-  console.log(activeGame);
-  console.log(activeGame.deck.length);
 }
 
 function drawCard(deck){
   let card = deck.shift();
-  console.log('card: ' + card);
   return card;
 }
 
