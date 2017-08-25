@@ -14,11 +14,11 @@ module.exports = function(app, passport, mongoDb, io) {
   //endpoint to verify user is authenticated
   app.get('/loggedin',function(req, res) {
     let dataToReturn = !req.isAuthenticated() ? '0' :
-    {
-      name    : req.user._json.name,
-      email   : req.user._json.email,
-      token   : req.user._json.id
-    };
+      {
+        name    : req.user._json.name,
+        email   : req.user._json.email,
+        token   : req.user._json.id
+      };
     res.send(dataToReturn);
   });
 
@@ -66,11 +66,16 @@ module.exports = function(app, passport, mongoDb, io) {
       });
 
       socket.on('playerTurn', (data) => {
-        if(socket.conn.id === game.socketIds[0]){
-          console.log('handling player turn');
-          console.log(game.socketIds[0]);
-          socket.to(game.socketIds[0]).emit('turnReceived', {message : 'got your turn b'});
+        //Always get the latest version of the game
+        game = gameManager.getActiveGame(gameId);
+        let currentTurn = game.socketIds[game.currentTurn];
+
+        if(socket.conn.id === currentTurn){
+          gameManager.handleTurn(game, data);
         }
+
+        currentTurn = game.socketIds[game.currentTurn];
+        socket.emit('startTurn',{token : game.socketToToken[currentTurn]});
       });
 
 

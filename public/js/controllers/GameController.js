@@ -26,6 +26,10 @@ angular.module('FourCardGolf').controller('GameController', function($scope, Gam
       socket.on('turnReceived', (data) => {
         console.log(data);
       });
+
+      socket.on('startTurn', (data) => {
+        console.log(data);
+      });
 		});
 
     console.log('player token: ' + user.token);

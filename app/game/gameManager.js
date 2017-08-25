@@ -1,4 +1,5 @@
 const _               = require('lodash');
+const deck            = require('./Deck');
 let pendingGameStack 	= {}; //games waiting for players
 let activeGameStack 	= {}; //games that have started
 let gamesNamespace;
@@ -13,7 +14,7 @@ function getGameNumber(numberOfPlayers){
                       connectedPlayers : 0,
                       players          : [],
                       socketIds        : [],
-                      tokenToSocket    : {}
+                      socketToToken    : {}
 								   };
 		gamesNamespace.emit('pendingGamesUpdate', {pendingGameStack : pendingGameStack});
 		return gameNumber;
@@ -43,31 +44,35 @@ function addPlayer(gameNumber, token, socketId){
 	game.connectedPlayers++;
   game.players.push(token);
   game.socketIds.push(socketId);
-  game.tokenToSocket[token] = socketId;
+  game.socketToToken[socketId] = token;
 	gamesNamespace.emit('pendingGamesUpdate', {pendingGameStack : pendingGameStack});
 }
 
 function removePlayer(gameNumber){
 	let game = getPendingGame(gameNumber);
-	game.connectedPlayers--;
-	gamesNamespace.emit('pendingGamesUpdate', {pendingGameStack : pendingGameStack});
+  if(game){
+    game.connectedPlayers--;
+    gamesNamespace.emit('pendingGamesUpdate', {pendingGameStack : pendingGameStack});
+  }
 }
 
 function allPlayersConnected(gameNumber){
 	let gameCopy = _.cloneDeep(pendingGameStack[gameNumber]);
 	delete pendingGameStack[gameNumber];
   activeGameStack[gameNumber] = gameCopy;
-  activeGameStack['currentTurn'] = 0;
+  activeGameStack[gameNumber].currentTurn = 0;
+  activeGameStack[gameNumber].deck =
   gamesNamespace.emit('pendingGamesUpdate', {pendingGameStack : pendingGameStack});
 }
 
 //Functionality for started games ============
-function startGame(){
-  //TODO need players at this point
+function getPlayerHands(){
+
 }
 
-function handleTurn(){
-
+function handleTurn(game, data){
+  game.currentTurn = ++game.currentTurn % game.connectedPlayers;
+  //TODO, update game score based on move
 }
 
 module.exports = {
@@ -77,7 +82,7 @@ module.exports = {
 	getPendingGame 		    	: getPendingGame,
 	addPlayer 			      	: addPlayer,
 	removePlayer 			      : removePlayer,
-	activeGameStack 		    : activeGameStack,
   allPlayersConnected     : allPlayersConnected,
-  getActiveGame           : getActiveGame
+  getActiveGame           : getActiveGame,
+  handleTurn              : handleTurn
 };
