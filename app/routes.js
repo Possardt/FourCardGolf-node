@@ -19,9 +19,6 @@ module.exports = function(app, passport, mongoDb, io) {
         email   : req.user._json.email,
         token   : req.user._json.id
       };
-    console.log(req);
-    console.log('=======');
-    console.log(dataToReturn);
 
     res.send(dataToReturn);
   });
