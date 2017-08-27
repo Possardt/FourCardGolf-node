@@ -74,6 +74,7 @@ function dealPlayerHands(game){
     return;
   }
   activeGame.deck = deck.getDeck();
+  activeGame.discardPile = [];
 
   for(var i = 0; i < 4; i++){
     activeGame.players.forEach((player) => {

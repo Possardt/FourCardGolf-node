@@ -1,25 +1,22 @@
 // server.js
 
 // modules =================================================
-const express         = require('express');
-const app             = express();
-const bodyParser 	    = require('body-parser');
-const methodOverride  = require('method-override');
-const passport       	= require('passport');
-const session         = require('express-session');
-const GitHubStrategy	= require('passport-github2').Strategy;
-const MongoClient 		= require('mongodb').MongoClient;
-const assert		    	= require('assert');
-const secrets			    = require('./secrets');
-const gameManager 		= require('./app/game/gameManager')
-const server 		    	= require('http').createServer(app);
-const io 				      = require('socket.io')(server);
-
+const express          = require('express');
+const app              = express();
+const bodyParser 	     = require('body-parser');
+const methodOverride   = require('method-override');
+const passport       	 = require('passport');
+const session          = require('express-session');
+const MongoClient 		 = require('mongodb').MongoClient;
+const assert		    	 = require('assert');
+const secrets			     = require('./secrets');
+const gameManager 	 	 = require('./app/game/gameManager')
+const server 		    	 = require('http').createServer(app);
+const io 				       = require('socket.io')(server);
+const strategies       = require('./app/strategies.js');
 
 // configuration ===========================================
-const GITHUB_CLIENT_ID = secrets.GITHUB_CLIENT_ID;
-const GITHUB_CLIENT_SECRET = secrets.GITHUB_CLIENT_SECRET;
-const MongoURI = secrets.mongoURI;
+const MongoURI                = secrets.mongoURI;
 let mongoDb;
 
 MongoClient.connect(MongoURI, function(err, db) {
@@ -43,23 +40,9 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 
-passport.use(new GitHubStrategy({
-		clientID : GITHUB_CLIENT_ID,
-		clientSecret: GITHUB_CLIENT_SECRET,
-		callbackURL : "http://localhost:3000/auth/github/callback"
-	}, function(accessToken, refreshToken, profile, done){
-		process.nextTick(function (){
-			MongoClient.connect(MongoURI, function(err,db){
-				let collection = db.collection('user');
-				collection.update({authId : profile._json.id, name : profile._json.name, email : profile._json.email},
-								{authId : profile._json.id, name : profile._json.name, email : profile._json.email, lastLoginTs : new Date()}, {upsert:true})
-							.catch(err => {console.log(err);});
-				db.close();
-			});
-			return done(null, profile);
-		});
-	}
-));
+passport.use(strategies.githubStrategy);
+
+passport.use(strategies.facebookStrategy);
 
 passport.serializeUser(function(user,done){
 	done(null, user);

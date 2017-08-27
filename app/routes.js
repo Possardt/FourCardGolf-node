@@ -19,6 +19,10 @@ module.exports = function(app, passport, mongoDb, io) {
         email   : req.user._json.email,
         token   : req.user._json.id
       };
+    console.log(req);
+    console.log('=======');
+    console.log(dataToReturn);
+
     res.send(dataToReturn);
   });
 
@@ -28,6 +32,16 @@ module.exports = function(app, passport, mongoDb, io) {
 	app.get('/auth/github/callback',
     passport.authenticate('github', { failureRedirect: '/' }),
     function(req, res) {
+      res.redirect('/#/lobby');
+    }
+  );
+
+  app.get('/auth/facebook',
+          passport.authenticate('facebook'));
+
+  app.get('/auth/facebook/callback',
+    passport.authenticate('facebook', { failureRedirect : '/'}),
+    function(req,res){
       res.redirect('/#/lobby');
     }
   );
@@ -57,6 +71,7 @@ module.exports = function(app, passport, mongoDb, io) {
           gameManager.allPlayersConnected(gameId);
           game = gameManager.getActiveGame(gameId);
           socket.emit('gameMessage', {message : 'game is starting'});
+          socket.emit('hands', game.tokenToHands);
         }
       });
 

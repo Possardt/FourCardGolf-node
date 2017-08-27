@@ -1,3 +1,9 @@
 <md-content class="game-content" flex layout-padding ng-controller="GameController as gameCtrl">
+  <div class="cards-container" layout="row" layout-align="center center">
+    <div ng-show="!!gameCtrl.cards" ng-repeat="card in gameCtrl.cards"
+         md-whiteframe="3" flex="25">
+      <span>{{::card.card}}{{::card.suit}}</span>
+    </div>
+  </div>
 	<md-button class="md-raised md-primary" ng-click="gameCtrl.sendTurn()">Send turn</md-button>
 </md-content>
