@@ -67,8 +67,8 @@ module.exports = function(app, passport, mongoDb, io) {
         if(game.connectedPlayers === Number(game.numberOfPlayers)){
           gameManager.allPlayersConnected(gameId);
           game = gameManager.getActiveGame(gameId);
-          socket.emit('gameMessage', {message : 'game is starting'});
-          socket.emit('hands', game.tokenToHands);
+          nsp.emit('gameMessage', {message : 'game is starting'});
+          nsp.emit('hands', game.tokenToHands);
         }
       });
 

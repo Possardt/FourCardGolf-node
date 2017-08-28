@@ -32,8 +32,8 @@ angular.module('FourCardGolf').controller('GameController', function($scope, Gam
       });
 
       socket.on('hands', (tokenToHands) => {
+        console.log('token : ' + user.token);
         self.cards = tokenToHands[user.token];
-        console.log(self.cards);
       });
 		});
 	}
