@@ -74,14 +74,15 @@ function dealPlayerHands(game){
     return;
   }
   activeGame.deck = deck.getDeck();
-  activeGame.discardPile = [];
 
   for(var i = 0; i < 4; i++){
     activeGame.players.forEach((player) => {
       if(!activeGame.tokenToHands[player]) {
-        activeGame.tokenToHands[player] = [drawCard(activeGame.deck)];
+        activeGame.tokenToHands[player] = [];
+        activeGame.tokenToHands[player].push(drawCard(activeGame.deck));
       }
       else {
+        console.log('Hand found for player: ' + player);
         activeGame.tokenToHands[player].push(drawCard(activeGame.deck));
       }
     });
@@ -90,6 +91,7 @@ function dealPlayerHands(game){
 
 function drawCard(deck){
   let card = deck.shift();
+  console.log('card: ' + card);
   return card;
 }
 

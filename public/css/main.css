@@ -38,11 +38,12 @@ md-card md-card-actions:not(.layout-column) .md-button:not(.md-icon-button):firs
     margin-left: 1em;
 }
 
-.game-content .layout-row .card{
+.game-content .layout-row .card,
+.game-content .layout-row .discard-pile {
   padding: 2em;
   margin: 1em;
   text-align:center;
   height: 20em;
   border-radius: 1em;
-  max-width: 18%;
+  width: 14em;
 }

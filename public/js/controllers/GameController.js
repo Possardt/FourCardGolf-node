@@ -31,6 +31,7 @@ angular.module('FourCardGolf').controller('GameController', function($scope, Gam
 
       socket.on('startTurn', (data) => {
         console.log(data);
+        self.turnEnabled = data.token === user.token ? true : false;
       });
 
       socket.on('hands', (tokenToHands) => {

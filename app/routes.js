@@ -69,6 +69,8 @@ module.exports = function(app, passport, mongoDb, io) {
           game = gameManager.getActiveGame(gameId);
           nsp.emit('gameMessage', {message : 'game is starting'});
           nsp.emit('hands', game.tokenToHands);
+          nsp.emit('startTurn', {token : game.socketToToken[game.socketIds[game.currentTurn]]});
+          game.currentTurn++;
         }
       });
 
@@ -83,11 +85,12 @@ module.exports = function(app, passport, mongoDb, io) {
         let currentTurn = game.socketIds[game.currentTurn];
 
         if(socket.conn.id === currentTurn){
+          console.log('in here');
           gameManager.handleTurn(game, data);
         }
 
         currentTurn = game.socketIds[game.currentTurn];
-        socket.emit('startTurn',{token : game.socketToToken[currentTurn]});
+        nsp.emit('startTurn',{token : game.socketToToken[currentTurn]});
       });
 
 
