@@ -60,7 +60,7 @@ module.exports = function(app, passport, mongoDb, io) {
         }
         else{
           playerName = data.player.name;
-          socket.emit('playerConnected', {playerName : data.player.name});
+          nsp.emit('playerConnected', {playerName : data.player.name});
           gameManager.addPlayer(gameId, data.player.token, socket.conn.id);
         }
 
@@ -73,7 +73,7 @@ module.exports = function(app, passport, mongoDb, io) {
       });
 
       socket.on('disconnect', function(){
-        socket.emit('playerLeft', {playerName : playerName});
+        nsp.emit('playerLeft', {playerName : playerName});
         gameManager.removePlayer(gameId);
       });
 

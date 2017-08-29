@@ -12,7 +12,9 @@ angular.module('FourCardGolf').controller('GameController', function($scope, Gam
 			socket.emit('hello', {player : user});
 
       socket.on('playerConnected', (data) => {
-        $mdToast.showSimple(data.playerName + ' has joined the game.');
+        if(data.playerName !== user.name){
+          $mdToast.showSimple(data.playerName + ' has joined the game.');
+        }
       });
 
       socket.on('playerLeft', (data) => {
@@ -32,7 +34,6 @@ angular.module('FourCardGolf').controller('GameController', function($scope, Gam
       });
 
       socket.on('hands', (tokenToHands) => {
-        console.log('token : ' + user.token);
         self.cards = tokenToHands[user.token];
       });
 		});
