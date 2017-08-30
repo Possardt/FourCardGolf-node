@@ -2,8 +2,8 @@
 
 const _               = require('lodash');
 const deck            = require('./Deck');
-let pendingGameStack 	= {}; //games waiting for players
-let activeGameStack 	= {}; //games that have started
+const pendingGameStack 	= {}; //games waiting for players
+const activeGameStack 	= {}; //games that have started
 let gamesNamespace;
 
 function getGameNumber(numberOfPlayers){
@@ -51,7 +51,7 @@ function addPlayer(gameNumber, token, socketId){
 	gamesNamespace.emit('pendingGamesUpdate', {pendingGameStack : pendingGameStack});
 }
 
-function removePlayer(gameNumber){
+function removePlayer(gameNumber, socketId){
 	let game = getPendingGame(gameNumber);
   if(game){
     game.connectedPlayers--;
@@ -76,6 +76,7 @@ function dealPlayerHands(game){
     return;
   }
   activeGame.deck = deck.getDeck();
+  activeGame.discardPile = [];
 
   for(var i = 0; i < 4; i++){
     activeGame.players.forEach((player) => {
@@ -88,6 +89,7 @@ function dealPlayerHands(game){
       }
     });
   }
+  activeGame.discardPile.push(drawCard(activeGame.deck));
 }
 
 function drawCard(deck){

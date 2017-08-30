@@ -1,6 +1,7 @@
 angular.module('FourCardGolf').controller('GameController', function($scope, GameDetails, UserDetails, $mdToast) {
 	var self = this;
 	let socket;
+  const currentTurnMove = {};
 	const user = {
 		name  : UserDetails.getUserName(),
 		token : UserDetails.getUserToken(),
@@ -30,15 +31,17 @@ angular.module('FourCardGolf').controller('GameController', function($scope, Gam
       });
 
       socket.on('startTurn', (data) => {
-        console.log(data.token === user.token);
-        console.log(data);
-        $scope.turnEnabled = data.token === user.token ? 0 : 1;
+        $scope.turnEnabled = data.token !== user.token;
         $scope.$apply();
-        console.log(self.turnEnabled);
       });
 
       socket.on('hands', (tokenToHands) => {
+        console.log(tokenToHands);
         self.cards = tokenToHands[user.token];
+      });
+
+      socket.on('discardPileUpdate', (update) => {
+        $scope.discardPileTop = update.card;
       });
 		});
 	}
@@ -58,5 +61,14 @@ angular.module('FourCardGolf').controller('GameController', function($scope, Gam
 	self.sendTurn = function(){
 		socket.emit('playerTurn', {playerToken : user.token});
 	};
+
+  self.setCardToSwap = function(card){
+    currentTurnMove.cardToSwap = card;
+  };
+
+  self.setSwapWithDiscardOrDeck = function(choice){
+    currentTurnMove.swapWith = choice;
+  };
+
 
 });

@@ -71,13 +71,14 @@ module.exports = function(app, passport, mongoDb, io) {
           game = gameManager.getActiveGame(gameId);
           nsp.emit('gameMessage', {message : 'game is starting'});
           nsp.emit('hands', game.tokenToHands);
+          nsp.emit('discardPileUpdate', { card : game.discardPile[0]});
           nsp.emit('startTurn', {token : game.socketToToken[game.socketIds[game.currentTurn]]});
         }
       });
 
       socket.on('disconnect', function(){
         nsp.emit('playerLeft', {playerName : playerName});
-        gameManager.removePlayer(gameId);
+        gameManager.removePlayer(gameId, socket.conn.id);
       });
 
       socket.on('playerTurn', (data) => {

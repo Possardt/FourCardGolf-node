@@ -1,17 +1,21 @@
 <md-content class="game-content" flex layout-padding ng-controller="GameController as gameCtrl">
 
   <div class="cards-container" layout="row" layout-align="center center">
-    <div class="discard-pile">
-      <span>Discard pile</span>
+    <div ng-if="gameCtrl.discardPileTop" ng-bind="card as gameCtrl.discardPileTop" ng-click="gameCtrl.setSwapWithDiscardOrDeck('discard')" class="discard-pile">
+      <span>{{::discardPileTop.card}}{{::discardPileTop.suit}}</span>
     </div>
-    <div class="card" md-whiteframe="3">
+    <div ng-if="!gameCtrl.discardPileTop" class="discard-pile">
+      <span>Discard pile!</span>
+    </div>
+
+    <div ng-click="gameCtrl.setSwapWithDiscardOrDeck('deck')"class="card" md-whiteframe="3">
       <span>Deck!</span>
     </div>
   </div>
 
   <div class="cards-container" layout="row" layout-align="center center">
     <div ng-show="!!gameCtrl.cards" class="card" ng-repeat="card in gameCtrl.cards"
-         md-whiteframe="3">
+         md-whiteframe="3" ng-click="gameCtrl.setCardToSwap(card)">
       <span>{{::card.card}}{{::card.suit}}</span>
     </div>
   </div>
