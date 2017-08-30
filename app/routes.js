@@ -1,3 +1,5 @@
+'use strict';
+
 const gameManager = require('./game/gameManager');
 
 module.exports = function(app, passport, mongoDb, io) {
@@ -70,7 +72,6 @@ module.exports = function(app, passport, mongoDb, io) {
           nsp.emit('gameMessage', {message : 'game is starting'});
           nsp.emit('hands', game.tokenToHands);
           nsp.emit('startTurn', {token : game.socketToToken[game.socketIds[game.currentTurn]]});
-          game.currentTurn++;
         }
       });
 
@@ -82,15 +83,14 @@ module.exports = function(app, passport, mongoDb, io) {
       socket.on('playerTurn', (data) => {
         //Always get the latest version of the game
         game = gameManager.getActiveGame(gameId);
-        let currentTurn = game.socketIds[game.currentTurn];
+        let currentTurnSocketId = game.socketIds[game.currentTurn];
 
-        if(socket.conn.id === currentTurn){
-          console.log('in here');
+        if(socket.conn.id === currentTurnSocketId){
           gameManager.handleTurn(game, data);
         }
 
-        currentTurn = game.socketIds[game.currentTurn];
-        nsp.emit('startTurn',{token : game.socketToToken[currentTurn]});
+        currentTurnSocketId = game.socketIds[game.currentTurn];
+        nsp.emit('startTurn',{token : game.socketToToken[currentTurnSocketId]});
       });
 
 

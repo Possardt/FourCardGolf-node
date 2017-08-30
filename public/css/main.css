@@ -47,3 +47,7 @@ md-card md-card-actions:not(.layout-column) .md-button:not(.md-icon-button):firs
   border-radius: 1em;
   width: 14em;
 }
+
+.game-content .layout-row .discard-pile {
+  border-style: dashed;
+}

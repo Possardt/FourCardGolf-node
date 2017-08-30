@@ -1,3 +1,5 @@
+'use strict';
+
 const _               = require('lodash');
 const deck            = require('./Deck');
 let pendingGameStack 	= {}; //games waiting for players
@@ -82,7 +84,6 @@ function dealPlayerHands(game){
         activeGame.tokenToHands[player].push(drawCard(activeGame.deck));
       }
       else {
-        console.log('Hand found for player: ' + player);
         activeGame.tokenToHands[player].push(drawCard(activeGame.deck));
       }
     });
@@ -91,7 +92,6 @@ function dealPlayerHands(game){
 
 function drawCard(deck){
   let card = deck.shift();
-  console.log('card: ' + card);
   return card;
 }
 
