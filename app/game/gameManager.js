@@ -99,14 +99,20 @@ function drawCard(deck){
 
 function handleTurn(game, data){
   game.currentTurn = ++game.currentTurn % game.connectedPlayers;
-  console.log(data);
-  console.log(game.tokenToHands[data.playerToken]);
 
   //get either top card of deck or top card of discardPile
   // swap that card with the card the player wants to swap
   // in either case, add the card the player sends to the top of
   //   the discard pile
+  let cardToReturn = data.turn.swapWith === 'discard' ?
+                      game.discardPile.shift() : game.deck.shift();
+  console.log('card to return : ' + cardToReturn);
 
+  let cardToSwapIndex = _.findIndex(game.tokenToHands[data.playerToken],
+                                    {card : data.turn.card.card, suit : data.turn.card.suit});
+  game.tokenToHands[data.playerToken].splice(cardToSwapIndex, 1, cardToReturn);
+  game.discardPile.unshift(data.turn.card);
+  console.log(game.discardPile);
   //TODO, update game score based on move
 }
 

@@ -48,6 +48,20 @@ md-card md-card-actions:not(.layout-column) .md-button:not(.md-icon-button):firs
   width: 14em;
 }
 
+@keyframes cardSelectionAnimation {
+  100% {
+    -webkit-box-shadow: 0px 7px 35px 3px rgba(29,150,11,1);
+    -moz-box-shadow: 0px 7px 35px 3px rgba(29,150,11,1);
+    box-shadow: 0px 7px 35px 3px rgba(29,150,11,1);
+  }
+}
+
+.game-content .layout-row .card .selected,
+.game-content .layout-row .discard-pile .selected {
+  animation-name: cardSelectionAnimation;
+  animation-duration : 1s;
+}
+
 .game-content .layout-row .discard-pile {
   border-style: dashed;
 }

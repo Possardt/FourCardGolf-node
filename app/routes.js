@@ -88,6 +88,8 @@ module.exports = function(app, passport, mongoDb, io) {
 
         if(socket.conn.id === currentTurnSocketId){
           gameManager.handleTurn(game, data);
+          nsp.emit('hands', game.tokenToHands);
+          nsp.emit('discardPileUpdate', { card : game.discardPile[0]});
         }
 
         currentTurnSocketId = game.socketIds[game.currentTurn];
