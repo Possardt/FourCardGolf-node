@@ -99,6 +99,14 @@ function drawCard(deck){
 
 function handleTurn(game, data){
   game.currentTurn = ++game.currentTurn % game.connectedPlayers;
+  console.log(data);
+  console.log(game.tokenToHands[data.playerToken]);
+
+  //get either top card of deck or top card of discardPile
+  // swap that card with the card the player wants to swap
+  // in either case, add the card the player sends to the top of
+  //   the discard pile
+
   //TODO, update game score based on move
 }
 

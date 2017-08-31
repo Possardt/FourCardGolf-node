@@ -1,3 +1,5 @@
+'use strict';
+
 angular.module('FourCardGolf').controller('GameController', function($scope, GameDetails, UserDetails, $mdToast) {
 	var self = this;
 	let socket;
@@ -48,19 +50,29 @@ angular.module('FourCardGolf').controller('GameController', function($scope, Gam
 
 	init();
 
-  function makeTurn(move, hand, token){
+  function makeTurn(move, card, swapWith, token){
     return {
       turn : {
-        move : move,
-        hand : hand
+        move     : move,
+        card     : card,
+        swapWith : swapWith
       },
       playerToken : token
     };
   }
 
-	self.sendTurn = function(){
-		socket.emit('playerTurn', {playerToken : user.token});
+	self.sendTurnSwap = function(){
+
+    if(!currentTurnMove.cardToSwap || !currentTurnMove.swapWith){
+      return;
+    }
+    let turn = makeTurn('swap', currentTurnMove.cardToSwap, currentTurnMove.swapWith, user.token);
+		socket.emit('playerTurn', turn);
 	};
+
+  self.sendTurnKnock = function(){
+
+  };
 
   self.setCardToSwap = function(card){
     currentTurnMove.cardToSwap = card;
