@@ -41,7 +41,7 @@ angular.module('FourCardGolf').controller('GameController', function($scope, Gam
       });
 
       socket.on('discardPileUpdate', (update) => {
-        $scope.discardPileTop = update.card;
+        self.discardPileTop = update.card;
       });
 		});
 	}
