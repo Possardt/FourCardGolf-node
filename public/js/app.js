@@ -1,3 +1,5 @@
+'use strict';
+
 let app = angular.module('FourCardGolf', ['ngRoute', 'ngMaterial', 'ngMessages']);
 
 app.config(['$routeProvider', function($routeProvider) {
@@ -27,20 +29,21 @@ app.config(['$routeProvider', function($routeProvider) {
 let checkLoggedIn = function($q, $timeout, $http, $location, $rootScope, UserDetails){
     let deferred = $q.defer();
     $http.get('/loggedin')
-        .then(function(user){
-            if(user.data !== '0'){
-                $rootScope.loggedIn = true;
-                UserDetails.setUserName(user.data.name);
-                UserDetails.setUserEmail(user.data.email);
-                UserDetails.setUserToken(user.data.token);
+         .then(function(user){
+           if(user.data !== '0'){
+             $rootScope.loggedIn = true;
+             UserDetails.setUserName(user.data.name);
+             UserDetails.setUserEmail(user.data.email);
+             UserDetails.setUserToken(user.data.token);
 
-                deferred.resolve();
-            }else{
-                $location.path('/');
-                deferred.reject();
-            }
-        })
-        .catch(error => {console.log(error);});
+             deferred.resolve();
+           }
+           else{
+             $location.path('/');
+             deferred.reject();
+           }
+         })
+         .catch(error => {console.log(error);});
 
     return deferred.promise;
 };

@@ -106,13 +106,11 @@ function handleTurn(game, data){
   //   the discard pile
   let cardToReturn = data.turn.swapWith === 'discard' ?
                       game.discardPile.shift() : game.deck.shift();
-  console.log('card to return : ' + cardToReturn);
 
   let cardToSwapIndex = _.findIndex(game.tokenToHands[data.playerToken],
                                     {card : data.turn.card.card, suit : data.turn.card.suit});
   game.tokenToHands[data.playerToken].splice(cardToSwapIndex, 1, cardToReturn);
   game.discardPile.unshift(data.turn.card);
-  console.log(game.discardPile);
   //TODO, update game score based on move
 }
 

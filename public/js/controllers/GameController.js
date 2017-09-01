@@ -75,7 +75,10 @@ angular.module('FourCardGolf').controller('GameController', function($scope, Gam
   };
 
   self.setCardToSwap = function(card){
-    angular.element(card).addClass('selected');
+    self.cards.forEach((card) => {
+      card.selected = false;
+    });
+    card.selected = true;
     currentTurnMove.cardToSwap = card;
   };
 
