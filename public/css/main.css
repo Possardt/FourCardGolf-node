@@ -53,50 +53,32 @@ md-card md-card-actions:not(.layout-column) .md-button:not(.md-icon-button):firs
   outline: none;
 }
 
-@keyframes cardSelectionAnimation {
-  10%{
-    box-shadow: 0px 7px 35px 3px rgba(29,150,11,.1);
-  }
-  20%{
-    box-shadow: 0px 7px 35px 3px rgba(29,150,11,.2);
-  }
-  30%{
-    box-shadow: 0px 7px 35px 3px rgba(29,150,11,.3);
-  }
-  40%{
-    box-shadow: 0px 7px 35px 3px rgba(29,150,11,.4);
-  }
-  50%{
-    box-shadow: 0px 7px 35px 3px rgba(29,150,11,.5);
-  }
-  60%{
-    box-shadow: 0px 7px 35px 3px rgba(29,150,11,.6);
-  }
-  70%{
-    box-shadow: 0px 7px 35px 3px rgba(29,150,11,.7);
-  }
-  80%{
-    box-shadow: 0px 7px 35px 3px rgba(29,150,11,.8);
-  }
-  90%{
-    box-shadow: 0px 7px 35px 3px rgba(29,150,11,.9);
-  }
-  100%{
-    box-shadow: 0px 7px 35px 3px rgba(29,150,11,1);
-  }
 
+@-webkit-keyframes cardSelectedAnimation {
+  100%{
+    -webkit-box-shadow: 0px 6px 20px 5px rgba(46,125,40,0.69);
+  }
+}
+
+@keyframes cardSelectedAnimation {
+  100%{
+    -moz-box-shadow: 0px 6px 20px 5px rgba(46,125,40,0.69);
+    box-shadow: 0px 6px 20px 5px rgba(46,125,40,0.69);
+  }
 }
 
 .selected {
-  animation-name: cardSelectionAnimation;
-  animation-duration : 1s;
-  animation-timing-function: linear;
-
-  -webkit-animation-fill-mode:forwards; /*Chrome 16+, Safari 4+*/
-  -moz-animation-fill-mode:forwards; /*FF 5+*/
-  -ms-animation-fill-mode:forwards; /*IE 10+*/
-  animation-fill-mode:forwards; /*when the spec is finished*/
+  animation-name: cardSelectedAnimation;
+  animation-duration: .5s;
+  animation-timing-function: ease-in-out;
+  animation-fill-mode: forward;
+  animation-direction: alternate;
+  -webkit-animation-fill-mode:forwards;
+  -moz-animation-fill-mode:forwards;
+  -ms-animation-fill-mode:forwards;
+  animation-fill-mode:forwards;
 }
+
 
 .game-content .layout-row .discard-pile {
   border-style: dashed;

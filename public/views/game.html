@@ -1,19 +1,33 @@
-<md-content class="game-content" flex layout-padding ng-controller="GameController as gameCtrl">
+<md-content class="game-content"
+            flex layout-padding
+            ng-controller="GameController as gameCtrl">
 
-  <div class="cards-container" layout="row" layout-align="center center">
-    <div ng-if="gameCtrl.discardPileTop" ng-click="gameCtrl.setSwapWithDiscardOrDeck('discard')" class="discard-pile">
-      <span>{{gameCtrl.discardPileTop.card}}{{gameCtrl.discardPileTop.suit}}</span>
+  <div class="cards-container"
+       layout="row"
+       layout-align="center center">
+    <div ng-if="gameCtrl.discardPileTop.card"
+         ng-click="gameCtrl.setSwapWithDiscardOrDeck('discard')"
+         class="discard-pile"
+         ng-class="{selected : gameCtrl.discardPileTop.selected}" >
+      <span>{{gameCtrl.discardPileTop.card.card}}{{gameCtrl.discardPileTop.card.suit}}</span>
     </div>
-    <div ng-if="!gameCtrl.discardPileTop" class="discard-pile">
+    <div ng-if="!gameCtrl.discardPileTop.card"
+         class="discard-pile"
+         ng-class="{selected : gameCtrl.discardPileTop.selected}">
       <span>Discard pile!</span>
     </div>
 
-    <div ng-click="gameCtrl.setSwapWithDiscardOrDeck('deck')"class="card" md-whiteframe="3">
+    <div ng-click="gameCtrl.setSwapWithDiscardOrDeck('deck')"
+         class="card"
+         md-whiteframe="3"
+         ng-class="{selected : gameCtrl.deck.selected}">
       <span>Deck!</span>
     </div>
   </div>
 
-  <div class="cards-container" layout="row" layout-align="center center">
+  <div class="cards-container"
+       layout="row"
+       layout-align="center center">
     <div ng-show="!!gameCtrl.cards" class="card"
          ng-repeat="card in gameCtrl.cards"
          ng-class="{selected : card.selected}"
@@ -22,5 +36,7 @@
     </div>
   </div>
 
-	<md-button ng-disabled="turnEnabled" class="md-raised md-primary" ng-click="gameCtrl.sendTurnSwap()">Send turn</md-button>
+	<md-button ng-disabled="turnEnabled"
+             class="md-raised md-primary"
+             ng-click="gameCtrl.sendTurnSwap()">Send turn</md-button>
 </md-content>
