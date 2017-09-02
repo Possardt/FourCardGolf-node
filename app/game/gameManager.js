@@ -114,6 +114,13 @@ function handleTurn(game, data){
   //TODO, update game score based on move
 }
 
+function handleLastRoundTurn(game, data){
+  game.turnsLeft--;
+  if(data.turn.move === 'knock'){
+    return;
+  }
+}
+
 module.exports = {
 	getGameNumber		       	: getGameNumber,
 	pendingGameStack	    	: pendingGameStack,
@@ -124,5 +131,6 @@ module.exports = {
   allPlayersConnected     : allPlayersConnected,
   getActiveGame           : getActiveGame,
   handleTurn              : handleTurn,
-  dealPlayerHands         : dealPlayerHands
+  dealPlayerHands         : dealPlayerHands,
+  handleLastRoundTurn     : handleLastRoundTurn
 };

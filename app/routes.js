@@ -87,7 +87,18 @@ module.exports = function(app, passport, mongoDb, io) {
         let currentTurnSocketId = game.socketIds[game.currentTurn];
 
         if(socket.conn.id === currentTurnSocketId){
-          gameManager.handleTurn(game, data);
+          if(data.turn.move === 'knock'){
+            game.lastRound = true;
+            game.turnsLeft = game.connectedPlayers;
+          }
+
+          if(!game.lastRound){
+            gameManager.handleTurn(game, data);
+          }
+          else {
+            gameManager.handleLastRoundTurn(game, data);
+          }
+
           nsp.emit('hands', game.tokenToHands);
           nsp.emit('discardPileUpdate', { card : game.discardPile[0]});
         }
