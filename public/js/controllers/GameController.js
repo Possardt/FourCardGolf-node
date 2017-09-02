@@ -10,9 +10,6 @@ angular.module('FourCardGolf').controller('GameController', function($scope, Gam
 		email : UserDetails.getUserEmail()
 	};
 	function init(){
-    self.deck = {selected : false};
-    self.discardPileTop = {selected : false};
-
 		socket = io('http://localhost:3000/gameSession/' + GameDetails.getGameId());
 		socket.on('connect', function(data){
 			socket.emit('hello', {player : user});
@@ -41,28 +38,17 @@ angular.module('FourCardGolf').controller('GameController', function($scope, Gam
       });
 
       socket.on('hands', (tokenToHands) => {
-        if(self.cards === undefined || !equalHands(tokenToHands[user.token], self.cards)){
-          self.cards = tokenToHands[user.token];
-        }
+        console.log(tokenToHands);
+        self.cards = tokenToHands[user.token];
       });
 
       socket.on('discardPileUpdate', (update) => {
-        self.discardPileTop.card = update.card;
+        self.discardPileTop = update.card;
       });
 		});
 	}
 
 	init();
-
-  function equalHands(hand1, hand2){
-    for(let i = 0; i < hand1.length; i++){
-      if(hand1[i].card !== hand2[i].card ||
-         hand1[i].suit !== hand2[i].suit){
-        return false;
-      }
-    }
-    return true;
-  }
 
   function makeTurn(move, card, swapWith, token){
     return {
@@ -75,27 +61,13 @@ angular.module('FourCardGolf').controller('GameController', function($scope, Gam
     };
   }
 
-  function clearSelectedCards(){
-    self.cards.forEach((card) => {
-      card.selected = false;
-    });
-  }
-
 	self.sendTurnSwap = function(){
 
     if(!currentTurnMove.cardToSwap || !currentTurnMove.swapWith){
       return;
     }
-
-    clearSelectedCards();
-
     let turn = makeTurn('swap', currentTurnMove.cardToSwap, currentTurnMove.swapWith, user.token);
 		socket.emit('playerTurn', turn);
-
-    self.discardPileTop.selected = false;
-    self.deck.selected = false;
-    currentTurnMove.cardToSwap = null;
-    currentTurnMove.swapWith = '';
 	};
 
   self.sendTurnKnock = function(){
@@ -103,20 +75,14 @@ angular.module('FourCardGolf').controller('GameController', function($scope, Gam
   };
 
   self.setCardToSwap = function(card){
-    clearSelectedCards();
+    self.cards.forEach((card) => {
+      card.selected = false;
+    });
     card.selected = true;
     currentTurnMove.cardToSwap = card;
   };
 
   self.setSwapWithDiscardOrDeck = function(choice){
-    if(choice === 'deck'){
-      self.discardPileTop.selected = false;
-      self.deck.selected = true;
-    }
-    else {
-      self.discardPileTop.selected = true;
-      self.deck.selected = false;
-    }
     currentTurnMove.swapWith = choice;
   };
 
