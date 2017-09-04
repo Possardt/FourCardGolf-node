@@ -31,10 +31,6 @@ angular.module('FourCardGolf').controller('GameController', function($scope, Gam
         $mdToast.showSimple(data.message);
       });
 
-      socket.on('turnReceived', (data) => {
-        console.log(data);
-      });
-
       socket.on('startTurn', (data) => {
         $scope.turnEnabled = data.token !== user.token;
         $scope.$apply();
