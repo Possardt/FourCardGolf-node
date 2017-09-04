@@ -99,7 +99,8 @@ angular.module('FourCardGolf').controller('GameController', function($scope, Gam
 	};
 
   self.sendTurnKnock = function(){
-
+    let turn = makeTurn('knock', null, null);
+    socket.emit('playerTurn', turn);
   };
 
   self.setCardToSwap = function(card){

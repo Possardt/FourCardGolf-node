@@ -89,7 +89,7 @@ module.exports = function(app, passport, mongoDb, io) {
         if(socket.conn.id === currentTurnSocketId){
           if(data.turn.move === 'knock'){
             game.lastRound = true;
-            game.turnsLeft = game.connectedPlayers;
+            game.turnsLeft = game.connectedPlayers - 1;
           }
 
           if(!game.lastRound){

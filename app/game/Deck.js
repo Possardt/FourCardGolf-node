@@ -60,5 +60,6 @@ function shuffle(deck) {
 }
 
 module.exports = {
-	getDeck : getDeck
+	getDeck : getDeck,
+  shuffle : shuffle
 };

@@ -17,7 +17,8 @@ function getGameNumber(numberOfPlayers){
                       players          : [],
                       socketIds        : [],
                       socketToToken    : {},
-                      tokenToHands     : {}
+                      tokenToHands     : {},
+                      holes            : []
 								   };
 		gamesNamespace.emit('pendingGamesUpdate', {pendingGameStack : pendingGameStack});
 		return gameNumber;
@@ -116,9 +117,24 @@ function handleTurn(game, data){
 
 function handleLastRoundTurn(game, data){
   game.turnsLeft--;
+  game.currentTurn = ++game.currentTurn % game.connectedPlayers;
   if(data.turn.move === 'knock'){
     return;
   }
+  let cardToReturn = data.turn.swapWith === 'discard' ?
+                      game.discardPile.shift() : game.deck.shift();
+
+  let cardToSwapIndex = _.findIndex(game.tokenToHands[data.playerToken],
+                                    {card : data.turn.card.card, suit : data.turn.card.suit});
+  game.tokenToHands[data.playerToken].splice(cardToSwapIndex, 1, cardToReturn);
+  game.discardPile.unshift(data.turn.card);
+  if(game.turnsLeft === 0){
+    endHole(game);
+  }
+}
+
+function endHole(game){
+  console.log(Object.values(tokenToHands));
 }
 
 module.exports = {
