@@ -65,6 +65,8 @@ function allPlayersConnected(gameNumber){
 	delete pendingGameStack[gameNumber];
   activeGameStack[gameNumber] = gameCopy;
   activeGameStack[gameNumber].currentTurn = 0;
+  activeGameStack[gameNumber].deck = deck.getDeck();
+  activeGameStack[gameNumber].discardPile = [];
   dealPlayerHands(gameNumber);
   gamesNamespace.emit('pendingGamesUpdate', {pendingGameStack : pendingGameStack});
 }
@@ -76,8 +78,10 @@ function dealPlayerHands(game){
     console.log('no active game found for game: ' + game);
     return;
   }
-  activeGame.deck = deck.getDeck();
-  activeGame.discardPile = [];
+
+  activeGame.deck = deck.shuffle(deck);
+  activeGame.deck = deck.shuffle(deck);
+  activeGame.deck = deck.shuffle(deck);
 
   for(var i = 0; i < 4; i++){
     activeGame.players.forEach((player) => {
