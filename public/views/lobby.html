@@ -1,9 +1,13 @@
-<md-tabs md-dynamic-height md-border-bottom>
+<md-tabs md-dynamic-height
+         md-border-bottom>
     <md-tab label="lobby">
-        <md-content class="lobby-content" flex layout-padding ng-controller="LobbyController as lobbyCtrl">
+        <md-content class="lobby-content"
+                    flex layout-padding
+                    ng-controller="LobbyController as lobbyCtrl">
             <h1 class="md-display-4">Welcome {{::lobbyCtrl.name}}!</h1>
             <div layout="row">
-                <div layout="column" flex="65" class="left">
+                <div layout="column"
+                     flex="65" class="left">
                     <md-card>
                         <md-card-title>
                             <span class="md-headline">Play vs People</span>
@@ -12,7 +16,9 @@
                         <md-card-actions layout="row" layout-align="end center">
                             <md-input-container ng-required="showHumanPlayersWarning" flex="30">
                                 <label>Number of Players</label>
-                                <md-select required name="type" ng-model="lobbyCtrl.humanPlayers" ng-change="lobbyCtrl.humanPlayersSelectChange()">
+                                <md-select required name="type"
+                                           ng-model="lobbyCtrl.humanPlayers"
+                                           ng-change="lobbyCtrl.humanPlayersSelectChange()">
                                     <md-option value="2">2</md-option>
                                     <md-option value="3">3</md-option>
                                     <md-option value="4">4</md-option>
@@ -20,7 +26,8 @@
                                     <md-option value="6">6</md-option>
                                 </md-select>
                             </md-input-container>
-                            <md-button class="start-game-button md-raised md-primary" ng-click="lobbyCtrl.startHumanGame()">Start Game!</md-button>
+                            <md-button class="start-game-button md-raised md-primary"
+                                       ng-click="lobbyCtrl.startHumanGame()">Start Game!</md-button>
                         </md-card-actions>
                     </md-card>
                     <md-card>
@@ -36,21 +43,29 @@
                                     <md-option value="4">4</md-option>
                                 </md-select>
                             </md-input-container>
-                            <md-button class="start-game-button md-raised md-primary" ng-click="lobbyCtrl.startGame()">Start Game!</md-button>
+                            <md-button class="start-game-button md-raised md-primary"
+                                       ng-click="lobbyCtrl.startGame()">Start Game!</md-button>
                         </md-card-actions>
                     </md-card>
                 </div>
                 <div layout="column" flex="35" class="left">
                     <md-card>
                         <md-card-title>
-                            <span class="md-headline">Join a Game</span>                
+                            <span class="md-headline">Join a Game</span>
                         </md-card-title>
                         <md-list>
-                            <md-subheader ng-show="!!pendingGameStack.length" class="md-no-sticky">Games waiting for players:</md-subheader>
-                            <md-list-item layout="row" ng-repeat="game in pendingGameStack" class="primary-button-padding">
-                                <h2 class="left" flex="50">{{game.gameNumber}}</h2>
-                                <span class="left" flex="30">Players: {{game.connectedPlayers}}/{{game.numberOfPlayers}}</span>
-                                <md-button class="md-primary left" flex="20" ng-click="lobbyCtrl.joinGame(game.gameNumber)">Join Game</md-button>
+                            <md-subheader ng-show="!!pendingGameStack.length"
+                                          class="md-no-sticky">Games waiting for players:</md-subheader>
+                            <md-list-item layout="row"
+                                          ng-repeat="game in pendingGameStack"
+                                          class="primary-button-padding">
+                                <h2 class="left"
+                                    flex="50">{{game.gameNumber}}</h2>
+                                <span class="left"
+                                      flex="30">Players: {{game.connectedPlayers}}/{{game.numberOfPlayers}}</span>
+                                <md-button class="md-primary left"
+                                           flex="20"
+                                           ng-click="lobbyCtrl.joinGame(game.gameNumber)">Join Game</md-button>
                             </md-list-item>
                         </md-list>
                     </md-card>
@@ -59,7 +74,8 @@
         </md-content>
     </md-tab>
     <md-tab label="stats">
-        <md-content class="stats-content" flex layout-padding>
+        <md-content class="stats-content"
+                    flex layout-padding>
             <h1 class="md-display-4">Stats</h1>
         </md-content>
     </md-tab>

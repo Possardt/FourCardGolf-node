@@ -46,6 +46,10 @@ angular.module('FourCardGolf').controller('GameController', function($scope, Gam
         }
       });
 
+      socket.on('holes', holes => {
+        self.holes = holes;
+      });
+
       socket.on('discardPileUpdate', (update) => {
         self.discardPileTop.card = update.card;
       });
@@ -55,6 +59,9 @@ angular.module('FourCardGolf').controller('GameController', function($scope, Gam
 	init();
 
   function equalHands(hand1, hand2){
+    if(hand1.length !== hand2.length){
+      return false;
+    }
     for(let i = 0; i < hand1.length; i++){
       if(hand1[i].card !== hand2[i].card ||
          hand1[i].suit !== hand2[i].suit){

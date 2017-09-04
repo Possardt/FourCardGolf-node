@@ -101,6 +101,10 @@ function drawCard(deck){
 function handleTurn(game, data){
   game.currentTurn = ++game.currentTurn % game.connectedPlayers;
 
+  if(data.turn.move === 'knock'){
+    return;
+  }
+
   //get either top card of deck or top card of discardPile
   // swap that card with the card the player wants to swap
   // in either case, add the card the player sends to the top of
@@ -112,29 +116,56 @@ function handleTurn(game, data){
                                     {card : data.turn.card.card, suit : data.turn.card.suit});
   game.tokenToHands[data.playerToken].splice(cardToSwapIndex, 1, cardToReturn);
   game.discardPile.unshift(data.turn.card);
-  //TODO, update game score based on move
 }
 
-function handleLastRoundTurn(game, data){
-  game.turnsLeft--;
-  game.currentTurn = ++game.currentTurn % game.connectedPlayers;
-  if(data.turn.move === 'knock'){
-    return;
-  }
-  let cardToReturn = data.turn.swapWith === 'discard' ?
-                      game.discardPile.shift() : game.deck.shift();
-
-  let cardToSwapIndex = _.findIndex(game.tokenToHands[data.playerToken],
-                                    {card : data.turn.card.card, suit : data.turn.card.suit});
-  game.tokenToHands[data.playerToken].splice(cardToSwapIndex, 1, cardToReturn);
-  game.discardPile.unshift(data.turn.card);
+function checkForEndOfRound(game){
   if(game.turnsLeft === 0){
     endHole(game);
   }
+  game.turnsLeft--;
 }
 
 function endHole(game){
-  console.log(Object.values(tokenToHands));
+  console.log(game.tokenToHands);
+
+  let tokenToScores = {},
+      hole          = {};
+
+  //Calculate scores for each player hand
+  Object.keys(game.tokenToHands).forEach((token) =>{
+    let score = game.tokenToHands[token].reduce( (x, y) => {
+      //the first time, the accumulator is an object
+      // after it turns into a number so the ternary
+      // is necessary
+      x = typeof x === 'object' ? x.value : x;
+      return x + y.value;
+    });
+    tokenToScores[token] = score;
+  });
+
+  hole['tokenToScores'] = tokenToScores;
+  game.holes.push(hole);
+
+  //next, collect all of the player's hands.
+  // also, collect the cards from the discard pile
+  let collectedHands = Object.keys(game.tokenToHands)
+                             .map( key => { return game.tokenToHands[key]; })
+                             .reduce((a,b) => { return a.concat(b); })
+                             .concat(game.discardPile);
+
+  //let the JS garbage collector clean up, set player hands
+  // and discard pile to empty arrays
+  game.discardPile = [];
+  Object.keys(game.tokenToHands)
+        .forEach(token => {
+          game.tokenToHands[token] = [];
+        });
+  game.deck = game.deck.concat(collectedHands);
+  game.lastRound = false;
+
+  //redeal the player hands to start the round
+  dealPlayerHands(game.gameNumber);
+
 }
 
 module.exports = {
@@ -148,5 +179,5 @@ module.exports = {
   getActiveGame           : getActiveGame,
   handleTurn              : handleTurn,
   dealPlayerHands         : dealPlayerHands,
-  handleLastRoundTurn     : handleLastRoundTurn
+  checkForEndOfRound      : checkForEndOfRound
 };

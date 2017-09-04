@@ -96,7 +96,11 @@ module.exports = function(app, passport, mongoDb, io) {
             gameManager.handleTurn(game, data);
           }
           else {
-            gameManager.handleLastRoundTurn(game, data);
+            gameManager.handleTurn(game, data);
+            nsp.emit('hands', game.tokenToHands);
+            nsp.emit('discardPileUpdate', { card : game.discardPile[0]});
+            gameManager.checkForEndOfRound(game);
+            nsp.emit('holes', game.holes);
           }
 
           nsp.emit('hands', game.tokenToHands);
