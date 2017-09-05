@@ -35,10 +35,11 @@ function getDeck(){
 			deck.push({suit : suit, card : card, value : cardToValue[card]});
 		});
 	});
-  deck = shuffle(deck);
-  deck = shuffle(deck);
-  deck = shuffle(deck);
-  deck = shuffle(deck);
+
+  shuffle(deck);
+  shuffle(deck);
+  shuffle(deck);
+  shuffle(deck);
 
   return deck;
 }
@@ -56,7 +57,6 @@ function shuffle(deck) {
     deck[currentIndex] = deck[randomIndex];
     deck[randomIndex] = temporaryValue;
   }
-  return deck;
 }
 
 module.exports = {

@@ -37,6 +37,7 @@ angular.module('FourCardGolf').controller('GameController', function($scope, Gam
       });
 
       socket.on('hands', (tokenToHands) => {
+        console.log(tokenToHands);
         if(self.cards === undefined || !equalHands(tokenToHands[user.token], self.cards)){
           self.cards = tokenToHands[user.token];
         }

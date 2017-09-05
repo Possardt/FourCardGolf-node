@@ -1,10 +1,24 @@
 'use strict';
 
-const _               = require('lodash');
-const deck            = require('./Deck');
+const _                 = require('lodash');
+const deck              = require('./Deck');
 const pendingGameStack 	= {}; //games waiting for players
 const activeGameStack 	= {}; //games that have started
 let gamesNamespace;
+
+function shuffle(deck) {
+  let currentIndex = deck.length, temporaryValue, randomIndex;
+
+  while (0 !== currentIndex) {
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex -= 1;
+
+    //swap
+    temporaryValue = deck[currentIndex];
+    deck[currentIndex] = deck[randomIndex];
+    deck[randomIndex] = temporaryValue;
+  }
+}
 
 function getGameNumber(numberOfPlayers){
 	let gameNumber = Math.floor(Math.random() * 10000);
@@ -67,6 +81,7 @@ function allPlayersConnected(gameNumber){
   activeGameStack[gameNumber].currentTurn = 0;
   activeGameStack[gameNumber].deck = deck.getDeck();
   activeGameStack[gameNumber].discardPile = [];
+  activeGameStack[gameNumber].hiddenCards = {};
   dealPlayerHands(gameNumber);
   gamesNamespace.emit('pendingGamesUpdate', {pendingGameStack : pendingGameStack});
 }
@@ -79,21 +94,33 @@ function dealPlayerHands(game){
     return;
   }
 
-  activeGame.deck = deck.shuffle(deck);
-  activeGame.deck = deck.shuffle(deck);
-  activeGame.deck = deck.shuffle(deck);
+  shuffle(activeGame.deck);
+  shuffle(activeGame.deck);
+  shuffle(activeGame.deck);
 
   for(var i = 0; i < 4; i++){
     activeGame.players.forEach((player) => {
       if(!activeGame.tokenToHands[player]) {
-        activeGame.tokenToHands[player] = [];
-        activeGame.tokenToHands[player].push(drawCard(activeGame.deck));
+        activeGame.tokenToHands[player] = [drawCard(activeGame.deck)];
       }
       else {
-        activeGame.tokenToHands[player].push(drawCard(activeGame.deck));
+        if(i >= 2){
+          let key = Date.now() + Math.floor(Math.random() * 1000);
+          activeGame.tokenToHands[player].push({suit : '?',
+                                                card : '?',
+                                                value : 0,
+                                                hidden : true,
+                                                key : key});
+          activeGame.hiddenCards[key] = drawCard(activeGame.deck);
+        }
+        else{
+          activeGame.tokenToHands[player].push(drawCard(activeGame.deck));
+        }
       }
     });
+
   }
+
   activeGame.discardPile.push(drawCard(activeGame.deck));
 }
 
@@ -130,7 +157,6 @@ function checkForEndOfRound(game){
 }
 
 function endHole(game){
-  console.log(game.tokenToHands);
 
   let tokenToScores = {},
       hole          = {};
