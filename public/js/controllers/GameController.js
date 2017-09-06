@@ -12,6 +12,11 @@ angular.module('FourCardGolf').controller('GameController', function($scope, Gam
 	function init(){
     self.deck = {selected : false};
     self.discardPileTop = {selected : false};
+    self.holesArray = [];
+    for(let i = 1; i < 10; i++){
+      self.holesArray[i] = i;
+    }
+
 
 		socket = io('http://localhost:3000/gameSession/' + GameDetails.getGameId());
 		socket.on('connect', function(data){
@@ -37,7 +42,6 @@ angular.module('FourCardGolf').controller('GameController', function($scope, Gam
       });
 
       socket.on('hands', (tokenToHands) => {
-        console.log(tokenToHands);
         if(self.cards === undefined || !equalHands(tokenToHands[user.token], self.cards)){
           self.cards = tokenToHands[user.token];
           self.score = getScoreFromHand(tokenToHands[user.token]);

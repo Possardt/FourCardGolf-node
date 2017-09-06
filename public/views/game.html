@@ -4,10 +4,19 @@
 
   <div class="scorecard"
        layout="row"
-       layout-align="center center">
-    <h2 class="md-display-3 scorecard-title">
+       layout-align="start center">
+    <h2 class="md-display-4 scorecard-title">
       Scorecard
     </h2>
+    <table layout-align="start start">
+      <tr>
+        <th>Player</th>
+        <th ng-repeat="holeNumber in gameCtrl.holesArray">{{::holeNumber}}</th>
+      </tr>
+      <tr>
+        <td></td>
+      </tr>
+    </table>
   </div>
   <div class="cards-container"
        layout="row"
