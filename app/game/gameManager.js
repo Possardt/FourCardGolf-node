@@ -98,6 +98,9 @@ function dealPlayerHands(game){
   shuffle(activeGame.deck);
   shuffle(activeGame.deck);
 
+  console.log(activeGame.deck.length);
+  console.log(activeGame.deck);
+
   for(var i = 0; i < 4; i++){
     activeGame.players.forEach((player) => {
       if(!activeGame.tokenToHands[player]) {

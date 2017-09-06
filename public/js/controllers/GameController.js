@@ -40,6 +40,7 @@ angular.module('FourCardGolf').controller('GameController', function($scope, Gam
         console.log(tokenToHands);
         if(self.cards === undefined || !equalHands(tokenToHands[user.token], self.cards)){
           self.cards = tokenToHands[user.token];
+          self.score = getScoreFromHand(tokenToHands[user.token]);
         }
       });
 
@@ -54,6 +55,19 @@ angular.module('FourCardGolf').controller('GameController', function($scope, Gam
 	}
 
 	init();
+
+  function getScoreFromHand(hand){
+    let score = hand.map( card => { return card.value })
+                    .reduce( (x, y) => { return x + y; });
+    let containsHiddenCard;
+    for(let i = 0; i < hand.length; i++){
+      if(hand[i].hidden){
+        containsHiddenCard = true;
+      }
+    }
+
+    return containsHiddenCard ? score + '*' : score;
+  }
 
   function equalHands(hand1, hand2){
     if(hand1.length !== hand2.length){
