@@ -13,6 +13,7 @@ angular.module('FourCardGolf').controller('GameController', function($scope, Gam
     self.deck = {selected : false};
     self.discardPileTop = {selected : false};
     self.holesArray = [];
+    self.playerNames = [];
     for(let i = 1; i < 10; i++){
       self.holesArray[i] = i;
     }
@@ -54,6 +55,13 @@ angular.module('FourCardGolf').controller('GameController', function($scope, Gam
 
       socket.on('discardPileUpdate', (update) => {
         self.discardPileTop.card = update.card;
+      });
+
+      socket.on('playerNames', tokenToName => {
+        console.log(tokenToName);
+        self.tokenToNames = tokenToName;
+        self.playerNames = Object.keys(tokenToName)
+                                 .map(token => { return tokenToName[token] + Math.random(); });
       });
 		});
 	}

@@ -32,7 +32,8 @@ function getGameNumber(numberOfPlayers){
                       socketIds        : [],
                       socketToToken    : {},
                       tokenToHands     : {},
-                      holes            : []
+                      holes            : [],
+                      tokenToName      : {}
 								   };
 		gamesNamespace.emit('pendingGamesUpdate', {pendingGameStack : pendingGameStack});
 		return gameNumber;
@@ -57,18 +58,20 @@ function getActiveGame(game){
   return activeGameStack[game];
 }
 
-function addPlayer(gameNumber, token, socketId){
+function addPlayer(gameNumber, token, socketId, name){
 	let game = getPendingGame(gameNumber);
 	game.connectedPlayers++;
   game.players.push(token);
   game.socketIds.push(socketId);
   game.socketToToken[socketId] = token;
+  game.tokenToName[token] = name;
 	gamesNamespace.emit('pendingGamesUpdate', {pendingGameStack : pendingGameStack});
 }
 
 function removePlayer(gameNumber, socketId){
 	let game = getPendingGame(gameNumber);
   if(game){
+    //TODO, delete all of the player specific stuff
     game.connectedPlayers--;
     gamesNamespace.emit('pendingGamesUpdate', {pendingGameStack : pendingGameStack});
   }

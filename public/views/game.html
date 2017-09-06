@@ -3,18 +3,22 @@
             ng-controller="GameController as gameCtrl">
 
   <div class="scorecard"
-       layout="row"
-       layout-align="start center">
-    <h2 class="md-display-4 scorecard-title">
+       layout="row">
+    <h2 layout="column"
+        layout-align="start center"
+        flex="50"
+        class="md-display-4 scorecard-title">
       Scorecard
     </h2>
-    <table layout-align="start start">
+    <table layout="column"
+           flex="50"
+           layout-align="start start">
       <tr>
         <th>Player</th>
         <th ng-repeat="holeNumber in gameCtrl.holesArray">{{::holeNumber}}</th>
       </tr>
-      <tr>
-        <td></td>
+      <tr ng-repeat="name in gameCtrl.playerNames">
+        <td>{{name}}</td>
       </tr>
     </table>
   </div>

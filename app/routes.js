@@ -61,14 +61,14 @@ module.exports = function(app, passport, mongoDb, io) {
           console.log('game not found on stack, gameId : ' + gameId);
         }
         else{
-          playerName = data.player.name;
           nsp.emit('playerConnected', {playerName : data.player.name});
-          gameManager.addPlayer(gameId, data.player.token, socket.conn.id);
+          gameManager.addPlayer(gameId, data.player.token, socket.conn.id, data.player.name);
         }
 
         if(game.connectedPlayers === Number(game.numberOfPlayers)){
           gameManager.allPlayersConnected(gameId);
           game = gameManager.getActiveGame(gameId);
+          nsp.emit('playerNames', game.tokenToName);
           nsp.emit('gameMessage', {message : 'game is starting'});
           nsp.emit('hands', game.tokenToHands);
           nsp.emit('discardPileUpdate', { card : game.discardPile[0]});
