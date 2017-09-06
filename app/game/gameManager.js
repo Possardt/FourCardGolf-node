@@ -135,7 +135,15 @@ function handleTurn(game, data){
   if(data.turn.move === 'knock'){
     return;
   }
+  if(data.turn.card.hidden){
+    let cardToSwapIndex = _.findIndex(game.tokenToHands[data.playerToken], {key : data.turn.card.key});
+    data.turn.card = game.hiddenCards[data.turn.card.key];
+    game.tokenToHands[data.playerToken][cardToSwapIndex] = data.turn.card;
 
+    delete game.hiddenCards[data.turn.card.key];
+    console.log(data.turn.card);
+
+  }
   //get either top card of deck or top card of discardPile
   // swap that card with the card the player wants to swap
   // in either case, add the card the player sends to the top of
@@ -144,7 +152,9 @@ function handleTurn(game, data){
                       game.discardPile.shift() : game.deck.shift();
 
   let cardToSwapIndex = _.findIndex(game.tokenToHands[data.playerToken],
-                                    {card : data.turn.card.card, suit : data.turn.card.suit});
+                                      {card : data.turn.card.card,
+                                       suit : data.turn.card.suit});
+
   game.tokenToHands[data.playerToken].splice(cardToSwapIndex, 1, cardToReturn);
   game.discardPile.unshift(data.turn.card);
 }
@@ -163,13 +173,9 @@ function endHole(game){
 
   //Calculate scores for each player hand
   Object.keys(game.tokenToHands).forEach((token) =>{
-    let score = game.tokenToHands[token].reduce( (x, y) => {
-      //the first time, the accumulator is an object
-      // after it turns into a number so the ternary
-      // is necessary
-      x = typeof x === 'object' ? x.value : x;
-      return x + y.value;
-    });
+    let score = game.tokenToHands[token]
+                    .map(card => { return card.value; })
+                    .reduce( (x, y) => { return x + y; });
     tokenToScores[token] = score;
   });
 
