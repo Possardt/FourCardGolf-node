@@ -47,9 +47,10 @@ md-card md-card-actions:not(.layout-column) .md-button:not(.md-icon-button):firs
   padding: 2em;
   margin: 1em;
   text-align:center;
-  height: 20em;
+  height: 10em;
   border-radius: 1em;
-  width: 14em;
+  width: 8em;
+  min-width: 8em;
   outline: none;
 }
 
