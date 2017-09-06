@@ -98,9 +98,6 @@ function dealPlayerHands(game){
   shuffle(activeGame.deck);
   shuffle(activeGame.deck);
 
-  console.log(activeGame.deck.length);
-  console.log(activeGame.deck);
-
   for(var i = 0; i < 4; i++){
     activeGame.players.forEach((player) => {
       if(!activeGame.tokenToHands[player]) {
@@ -144,8 +141,6 @@ function handleTurn(game, data){
     game.tokenToHands[data.playerToken][cardToSwapIndex] = data.turn.card;
 
     delete game.hiddenCards[data.turn.card.key];
-    console.log(data.turn.card);
-
   }
   //get either top card of deck or top card of discardPile
   // swap that card with the card the player wants to swap
@@ -199,7 +194,16 @@ function endHole(game){
         .forEach(token => {
           game.tokenToHands[token] = [];
         });
+
   game.deck = game.deck.concat(collectedHands);
+  game.deck = game.deck.map(card => {
+    if(card.hidden){
+      return game.hiddenCards[card.key];
+    }
+    return card;
+  });
+
+  game.hiddenCards = {};
   game.lastRound = false;
 
   //redeal the player hands to start the round
