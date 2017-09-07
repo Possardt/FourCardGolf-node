@@ -58,10 +58,7 @@ angular.module('FourCardGolf').controller('GameController', function($scope, Gam
       });
 
       socket.on('playerNames', tokenToName => {
-        console.log(tokenToName);
         self.tokenToNames = tokenToName;
-        self.playerNames = Object.keys(tokenToName)
-                                 .map(token => { return tokenToName[token] + Math.random(); });
       });
 		});
 	}

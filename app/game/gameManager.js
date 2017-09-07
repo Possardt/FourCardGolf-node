@@ -181,7 +181,7 @@ function endHole(game){
   });
 
   hole['tokenToScores'] = tokenToScores;
-  game.holes.push(hole);
+  game.holes.unshift(hole);
 
   //next, collect all of the player's hands.
   // also, collect the cards from the discard pile
