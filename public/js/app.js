@@ -4,26 +4,25 @@ let app = angular.module('FourCardGolf', ['ngRoute', 'ngMaterial', 'ngMessages']
 
 app.config(['$routeProvider', function($routeProvider) {
 
-    $routeProvider
-        // home page
-        .when('/', {
-            templateUrl		: 'views/login.html'
-        })
-        //game lobby
-        .when('/lobby', {
-        	templateUrl		: 'views/lobby.html',
-            resolve         : {
-                logincheck : checkLoggedIn
-            }
-        })
-        //game page
-        .when('/game/:gameId', {
-            templateUrl     : 'views/game.html',
-            resolve         : {
-                logincheck  : checkLoggedIn
-            }
-        });
-
+  $routeProvider
+  // home page
+  .when('/', {
+    templateUrl		: 'views/login.html'
+  })
+  //game lobby
+  .when('/lobby', {
+    templateUrl		: 'views/lobby.html',
+    resolve         : {
+      logincheck : checkLoggedIn
+    }
+  })
+  //game page
+  .when('/game/:gameId', {
+    templateUrl     : 'views/game.html',
+    resolve         : {
+      logincheck  : checkLoggedIn
+    }
+  });
 }]);
 
 let checkLoggedIn = function($q, $timeout, $http, $location, $rootScope, UserDetails){
@@ -35,7 +34,7 @@ let checkLoggedIn = function($q, $timeout, $http, $location, $rootScope, UserDet
              console.log(user);
              UserDetails.setUserName(user.data.name);
              UserDetails.setUserEmail(user.data.email);
-             UserDetails.setUserToken(user.data.token);
+             UserDetails.setUserId(user.data.userId);
 
              deferred.resolve();
            }

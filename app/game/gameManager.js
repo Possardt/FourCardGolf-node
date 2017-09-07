@@ -30,10 +30,10 @@ function getGameNumber(numberOfPlayers){
                       connectedPlayers : 0,
                       players          : [],
                       socketIds        : [],
-                      socketToToken    : {},
-                      tokenToHands     : {},
+                      socketToUserId   : {},
+                      userIdToHand    : {},
                       holes            : [],
-                      tokenToName      : {}
+                      userIdToName     : {}
 								   };
 		gamesNamespace.emit('pendingGamesUpdate', {pendingGameStack : pendingGameStack});
 		return gameNumber;
@@ -58,13 +58,13 @@ function getActiveGame(game){
   return activeGameStack[game];
 }
 
-function addPlayer(gameNumber, token, socketId, name){
+function addPlayer(gameNumber, userId, socketId, name){
 	let game = getPendingGame(gameNumber);
 	game.connectedPlayers++;
-  game.players.push(token);
+  game.players.push(userId);
   game.socketIds.push(socketId);
-  game.socketToToken[socketId] = token;
-  game.tokenToName[token] = name;
+  game.socketToUserId[socketId] = userId;
+  game.userIdToName[userId] = name;
 	gamesNamespace.emit('pendingGamesUpdate', {pendingGameStack : pendingGameStack});
 }
 
@@ -103,13 +103,13 @@ function dealPlayerHands(game){
 
   for(var i = 0; i < 4; i++){
     activeGame.players.forEach((player) => {
-      if(!activeGame.tokenToHands[player]) {
-        activeGame.tokenToHands[player] = [drawCard(activeGame.deck)];
+      if(!activeGame.userIdToHand[player]) {
+        activeGame.userIdToHand[player] = [drawCard(activeGame.deck)];
       }
       else {
         if(i >= 2){
           let key = Date.now() + Math.floor(Math.random() * 1000);
-          activeGame.tokenToHands[player].push({suit : '?',
+          activeGame.userIdToHand[player].push({suit : '?',
                                                 card : '?',
                                                 value : 0,
                                                 hidden : true,
@@ -117,7 +117,7 @@ function dealPlayerHands(game){
           activeGame.hiddenCards[key] = drawCard(activeGame.deck);
         }
         else{
-          activeGame.tokenToHands[player].push(drawCard(activeGame.deck));
+          activeGame.userIdToHand[player].push(drawCard(activeGame.deck));
         }
       }
     });
@@ -139,9 +139,9 @@ function handleTurn(game, data){
     return;
   }
   if(data.turn.card.hidden){
-    let cardToSwapIndex = _.findIndex(game.tokenToHands[data.playerToken], {key : data.turn.card.key});
+    let cardToSwapIndex = _.findIndex(game.userIdToHand[data.userId], {key : data.turn.card.key});
     data.turn.card = game.hiddenCards[data.turn.card.key];
-    game.tokenToHands[data.playerToken][cardToSwapIndex] = data.turn.card;
+    game.userIdToHand[data.userId][cardToSwapIndex] = data.turn.card;
 
     delete game.hiddenCards[data.turn.card.key];
   }
@@ -152,11 +152,11 @@ function handleTurn(game, data){
   let cardToReturn = data.turn.swapWith === 'discard' ?
                       game.discardPile.shift() : game.deck.shift();
 
-  let cardToSwapIndex = _.findIndex(game.tokenToHands[data.playerToken],
+  let cardToSwapIndex = _.findIndex(game.userIdToHand[data.userId],
                                       {card : data.turn.card.card,
                                        suit : data.turn.card.suit});
 
-  game.tokenToHands[data.playerToken].splice(cardToSwapIndex, 1, cardToReturn);
+  game.userIdToHand[data.userId].splice(cardToSwapIndex, 1, cardToReturn);
   game.discardPile.unshift(data.turn.card);
 }
 
@@ -169,33 +169,32 @@ function checkForEndOfRound(game){
 
 function endHole(game){
 
-  let tokenToScores = {},
-      hole          = {};
+  let userIdToScore = {};
 
   //Calculate scores for each player hand
-  Object.keys(game.tokenToHands).forEach((token) =>{
-    let score = game.tokenToHands[token]
+  Object.keys(game.userIdToHand).forEach((id) =>{
+    let score = game.userIdToHand[id]
                     .map(card => { return card.value; })
                     .reduce( (x, y) => { return x + y; });
-    tokenToScores[token] = score;
+    userIdToScore[id] = score;
   });
 
-  hole['tokenToScores'] = tokenToScores;
-  game.holes.unshift(hole);
+
+  game.holes.unshift(userIdToScore);
 
   //next, collect all of the player's hands.
   // also, collect the cards from the discard pile
-  let collectedHands = Object.keys(game.tokenToHands)
-                             .map( key => { return game.tokenToHands[key]; })
-                             .reduce((a,b) => { return a.concat(b); })
+  let collectedHands = Object.keys(game.userIdToHand)
+                             .map( key => { return game.userIdToHand[key]; })
+                             .reduce( (a,b) => { return a.concat(b); })
                              .concat(game.discardPile);
 
   //let the JS garbage collector clean up, set player hands
   // and discard pile to empty arrays
   game.discardPile = [];
-  Object.keys(game.tokenToHands)
-        .forEach(token => {
-          game.tokenToHands[token] = [];
+  Object.keys(game.userIdToHand)
+        .forEach(id => {
+          game.userIdToHand[id] = [];
         });
 
   game.deck = game.deck.concat(collectedHands);

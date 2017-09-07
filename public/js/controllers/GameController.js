@@ -5,9 +5,9 @@ angular.module('FourCardGolf').controller('GameController', function($scope, Gam
 	let socket;
   const currentTurnMove = {};
 	const user = {
-		name  : UserDetails.getUserName(),
-		id    : UserDetails.getUserId(),
-		email : UserDetails.getUserEmail()
+		name    : UserDetails.getUserName(),
+		userId  : UserDetails.getUserId(),
+		email   : UserDetails.getUserEmail()
 	};
 	function init(){
     self.deck = {selected : false};
@@ -38,14 +38,14 @@ angular.module('FourCardGolf').controller('GameController', function($scope, Gam
       });
 
       socket.on('startTurn', (data) => {
-        $scope.turnEnabled = data.token !== user.token;
+        $scope.turnEnabled = data.userId !== user.userId;
         $scope.$apply();
       });
 
-      socket.on('hands', (tokenToHands) => {
-        if(self.cards === undefined || !equalHands(tokenToHands[user.token], self.cards)){
-          self.cards = tokenToHands[user.token];
-          self.score = getScoreFromHand(tokenToHands[user.token]);
+      socket.on('hands', (userIdToHand) => {
+        if(self.cards === undefined || !equalHands(userIdToHand[user.userId], self.cards)){
+          self.cards = userIdToHand[user.userId];
+          self.score = getScoreFromHand(userIdToHand[user.userId]);
         }
       });
 
@@ -57,8 +57,8 @@ angular.module('FourCardGolf').controller('GameController', function($scope, Gam
         self.discardPileTop.card = update.card;
       });
 
-      socket.on('playerNames', tokenToName => {
-        self.tokenToNames = tokenToName;
+      socket.on('playerNames', userIdToName => {
+        self.userIdToName = userIdToName;
       });
 		});
 	}
@@ -91,14 +91,14 @@ angular.module('FourCardGolf').controller('GameController', function($scope, Gam
     return true;
   }
 
-  function makeTurn(move, card, swapWith, token){
+  function makeTurn(move, card, swapWith, userId){
     return {
       turn : {
         move     : move,
         card     : card,
         swapWith : swapWith
       },
-      playerToken : token
+      userId : userId
     };
   }
 
@@ -116,7 +116,7 @@ angular.module('FourCardGolf').controller('GameController', function($scope, Gam
 
     clearSelectedCards();
 
-    let turn = makeTurn('swap', currentTurnMove.cardToSwap, currentTurnMove.swapWith, user.token);
+    let turn = makeTurn('swap', currentTurnMove.cardToSwap, currentTurnMove.swapWith, user.userId);
 		socket.emit('playerTurn', turn);
 
     self.discardPileTop.selected = false;

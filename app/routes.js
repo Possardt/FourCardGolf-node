@@ -1,8 +1,15 @@
 'use strict';
 
 const gameManager = require('./game/gameManager');
+const MongoURI    = require('../secrets.js').mongoURI;
+const MongoClient = require('mongodb').MongoClient;
 
-module.exports = function(app, passport, mongoDb, io) {
+module.exports = function(app, passport, io) {
+  let mongoDb;
+
+  MongoClient.connect(MongoURI, function(err, db) {
+    mongoDb = db;
+  });
 
   app.get('/', function(req, res) {
     res.sendfile('./public/views/index.html');
@@ -15,16 +22,28 @@ module.exports = function(app, passport, mongoDb, io) {
 
   //endpoint to verify user is authenticated
   app.get('/loggedin',function(req, res) {
-    console.log('logged in');
-    console.log(req);
-    let dataToReturn = !req.isAuthenticated() ? '0' :
-      {
-        name    : req.user._json.name,
-        email   : req.user._json.email,
-        id      : req.user._json.id
-      };
-
-    res.send(dataToReturn);
+    let dataToReturn;
+    if(!req.isAuthenticated()){
+      res.send('0');
+    }
+    else{
+      mongoDb.collection('user').findOne({ 'authId' : req.user._json.id}, { _id : 0 })
+             .then(result => {
+                if(!result){
+                  res.send('0');
+                }
+                else{
+                  return {
+                    name   : result.name,
+                    userId : result.userId,
+                    email  : result.email
+                  };
+                }
+              })
+              .then(dataToReturn => {
+                      res.send(dataToReturn);
+              });
+    }
   });
 
   app.get('/auth/github',
@@ -64,17 +83,17 @@ module.exports = function(app, passport, mongoDb, io) {
         }
         else{
           nsp.emit('playerConnected', {playerName : data.player.name});
-          gameManager.addPlayer(gameId, data.player.token, socket.conn.id, data.player.name);
+          gameManager.addPlayer(gameId, data.player.userId, socket.conn.id, data.player.name);
         }
 
         if(game.connectedPlayers === Number(game.numberOfPlayers)){
           gameManager.allPlayersConnected(gameId);
           game = gameManager.getActiveGame(gameId);
-          nsp.emit('playerNames', game.tokenToName);
+          nsp.emit('playerNames', game.userIdToName);
           nsp.emit('gameMessage', {message : 'game is starting'});
-          nsp.emit('hands', game.tokenToHands);
+          nsp.emit('hands', game.userIdToHand);
           nsp.emit('discardPileUpdate', { card : game.discardPile[0]});
-          nsp.emit('startTurn', {token : game.socketToToken[game.socketIds[game.currentTurn]]});
+          nsp.emit('startTurn', {userId : game.socketToUserId[game.socketIds[game.currentTurn]]});
         }
       });
 
@@ -99,18 +118,18 @@ module.exports = function(app, passport, mongoDb, io) {
           }
           else {
             gameManager.handleTurn(game, data);
-            nsp.emit('hands', game.tokenToHands);
+            nsp.emit('hands', game.userIdToHand);
             nsp.emit('discardPileUpdate', { card : game.discardPile[0]});
             gameManager.checkForEndOfRound(game);
             nsp.emit('holes', game.holes);
           }
 
-          nsp.emit('hands', game.tokenToHands);
+          nsp.emit('hands', game.userIdToHand);
           nsp.emit('discardPileUpdate', { card : game.discardPile[0]});
         }
 
         currentTurnSocketId = game.socketIds[game.currentTurn];
-        nsp.emit('startTurn',{token : game.socketToToken[currentTurnSocketId]});
+        nsp.emit('startTurn',{userId : game.socketToUserId[currentTurnSocketId]});
       });
 
 

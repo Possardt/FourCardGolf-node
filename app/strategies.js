@@ -11,9 +11,9 @@ const FACEBOOK_CLIENT_ID      = secrets.FACEBOOK_CLIENT_ID;
 const FACEBOOK_CLIENT_SECRET  = secrets.FACEBOOK_CLIENT_SECRET;
 const MongoURI                = secrets.mongoURI;
 
-MongoClient.connect(MongoURI, function(err, db) {
+/* MongoClient.connect(MongoURI, function(err, db) {
   assert.equal(null, err);
-});
+}); */
 
 let githubStrategy = new GitHubStrategy({
 		clientID     : GITHUB_CLIENT_ID,
@@ -34,10 +34,8 @@ let githubStrategy = new GitHubStrategy({
                                 userId : userId},
                               { upsert : true})
                              .catch(err => { console.log(err); });
-            profile.userId = userId;
           }
           else{
-            console.log(result);
             collection.update({ authId : profile._json.id, name : profile._json.name,
                                 userId : result.userId},
                               { authId : profile._json.id, name : profile._json.name,
@@ -45,7 +43,6 @@ let githubStrategy = new GitHubStrategy({
                                 userId : result.userId},
                               { upsert : true})
                              .catch(err => { console.log(err); });
-            profile.userId = result.userId;
           }
         })
         .then(() => {
@@ -79,17 +76,14 @@ let facebookStrategy = new FacebookStrategy({
                                 lastLoginTs : new Date(),  userId : userId},
                               { upsert : true})
                              .catch(err => { console.log(err); });
-            profile.userId = userId;
           }
           else{
-            console.log(result);
             collection.update({ authId : profile._json.id, name : profile._json.name,
                                 userId : result.userId},
                               { authId : profile._json.id, name : profile._json.name,
                                 lastLoginTs : new Date(),  userId : result.userId},
                               { upsert : true})
                              .catch(err => { console.log(err); });
-            profile.userId = result.userId;
           }
         })
         .then(() => {
