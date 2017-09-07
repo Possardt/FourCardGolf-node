@@ -15,11 +15,13 @@ module.exports = function(app, passport, mongoDb, io) {
 
   //endpoint to verify user is authenticated
   app.get('/loggedin',function(req, res) {
+    console.log('logged in');
+    console.log(req);
     let dataToReturn = !req.isAuthenticated() ? '0' :
       {
         name    : req.user._json.name,
         email   : req.user._json.email,
-        token   : req.user._json.id
+        id      : req.user._json.id
       };
 
     res.send(dataToReturn);

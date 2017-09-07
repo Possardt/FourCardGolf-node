@@ -6,7 +6,7 @@ angular.module('FourCardGolf').controller('GameController', function($scope, Gam
   const currentTurnMove = {};
 	const user = {
 		name  : UserDetails.getUserName(),
-		token : UserDetails.getUserToken(),
+		id    : UserDetails.getUserId(),
 		email : UserDetails.getUserEmail()
 	};
 	function init(){

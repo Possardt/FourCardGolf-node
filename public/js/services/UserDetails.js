@@ -1,13 +1,13 @@
 angular.module('FourCardGolf').service('UserDetails', function(){
 	let userName,
-		userToken,
+		userId,
 		userEmail;
 	return {
-		getUserName 	: function(){return userName},
-		setUserName 	: function(name){userName = name},
-		getUserToken 	: function(){return userToken},
-		setUserToken 	: function(token){userToken = token},
-		getUserEmail 	: function(){return userEmail},
-		setUserEmail 	: function(email){userEmail = email}
+		getUserName 	: function() {return userName},
+		setUserName 	: function(name) {userName = name},
+		getUserId   	: function() {return userId},
+		setUserId   	: function(id) {userId = id},
+		getUserEmail 	: function() {return userEmail},
+		setUserEmail 	: function(email) {userEmail = email}
 	}
 });

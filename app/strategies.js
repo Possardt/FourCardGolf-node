@@ -3,6 +3,7 @@ const GitHubStrategy   = require('passport-github2').Strategy;
 const FacebookStrategy = require('passport-facebook').Strategy;
 const MongoClient      = require('mongodb').MongoClient;
 const assert		    	 = require('assert');
+const uuid             = require('uuid4');
 
 const GITHUB_CLIENT_ID        = secrets.GITHUB_CLIENT_ID;
 const GITHUB_CLIENT_SECRET    = secrets.GITHUB_CLIENT_SECRET;
@@ -22,23 +23,41 @@ let githubStrategy = new GitHubStrategy({
 		process.nextTick(function (){
 			MongoClient.connect(MongoURI, function(err,db){
 				let collection = db.collection('user');
-				collection.update({
-                        authId : profile._json.id,
-                          name : profile._json.name,
-                         email : profile._json.email
-            }, {
-                        authId : profile._json.id,
-                          name : profile._json.name,
-                         email : profile._json.email,
-                   lastLoginTs : new Date()},
-            {upsert:true})
-			  .catch(err => {
-            console.log(err);
+
+        collection.findOne({ 'authId' : profile._json.id }, { _id : 0 })
+        .then( result => {
+          if(!result.userId){
+            let userId = uuid();
+            collection.update({ authId : profile._json.id, name : profile._json.name },
+                              { authId : profile._json.id, name : profile._json.name,
+                                lastLoginTs : new Date(),  email: profile._json.email,
+                                userId : userId},
+                              { upsert : true})
+                             .catch(err => { console.log(err); });
+            profile.userId = userId;
+          }
+          else{
+            console.log(result);
+            collection.update({ authId : profile._json.id, name : profile._json.name,
+                                userId : result.userId},
+                              { authId : profile._json.id, name : profile._json.name,
+                                lastLoginTs : new Date(),  email: profile._json.email,
+                                userId : result.userId},
+                              { upsert : true})
+                             .catch(err => { console.log(err); });
+            profile.userId = result.userId;
+          }
+        })
+        .then(() => {
+          db.close();
+        })
+        .catch(err => {
+          console.log(err);
         });
-				db.close();
-			});
-			return done(null, profile);
-		});
+      });
+    });
+
+		return done(null, profile);
 	}
 );
 
@@ -50,21 +69,38 @@ let facebookStrategy = new FacebookStrategy({
     process.nextTick(function() {
       MongoClient.connect(MongoURI, function(err, db){
         let collection = db.collection('user');
-        collection.update({
-                        authId : profile._json.id,
-                          name : profile._json.name
-          },{
-                        authId : profile._json.id,
-                          name : profile._json.name,
-                   lastLoginTs : new Date()
-          }, {upsert:true})
 
+        collection.findOne({ 'authId' : profile._json.id }, { _id : 0 })
+        .then( result => {
+          if(!result.userId){
+            let userId = uuid();
+            collection.update({ authId : profile._json.id, name : profile._json.name },
+                              { authId : profile._json.id, name : profile._json.name,
+                                lastLoginTs : new Date(),  userId : userId},
+                              { upsert : true})
+                             .catch(err => { console.log(err); });
+            profile.userId = userId;
+          }
+          else{
+            console.log(result);
+            collection.update({ authId : profile._json.id, name : profile._json.name,
+                                userId : result.userId},
+                              { authId : profile._json.id, name : profile._json.name,
+                                lastLoginTs : new Date(),  userId : result.userId},
+                              { upsert : true})
+                             .catch(err => { console.log(err); });
+            profile.userId = result.userId;
+          }
+        })
+        .then(() => {
+          db.close();
+        })
         .catch(err => {
-            console.log(err);
+          console.log(err);
         });
-        db.close();
       });
     });
+
     return done(null, profile);
   }
 );
