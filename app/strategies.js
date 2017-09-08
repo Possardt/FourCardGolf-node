@@ -2,7 +2,6 @@ const secrets          = require('../secrets.js');
 const GitHubStrategy   = require('passport-github2').Strategy;
 const FacebookStrategy = require('passport-facebook').Strategy;
 const MongoClient      = require('mongodb').MongoClient;
-const assert		    	 = require('assert');
 const uuid             = require('uuid4');
 
 const GITHUB_CLIENT_ID        = secrets.GITHUB_CLIENT_ID;
@@ -10,10 +9,6 @@ const GITHUB_CLIENT_SECRET    = secrets.GITHUB_CLIENT_SECRET;
 const FACEBOOK_CLIENT_ID      = secrets.FACEBOOK_CLIENT_ID;
 const FACEBOOK_CLIENT_SECRET  = secrets.FACEBOOK_CLIENT_SECRET;
 const MongoURI                = secrets.mongoURI;
-
-/* MongoClient.connect(MongoURI, function(err, db) {
-  assert.equal(null, err);
-}); */
 
 let githubStrategy = new GitHubStrategy({
 		clientID     : GITHUB_CLIENT_ID,
