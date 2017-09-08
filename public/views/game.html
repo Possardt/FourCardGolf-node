@@ -17,9 +17,9 @@
         <th>Player</th>
         <th ng-repeat="holeNumber in gameCtrl.holesArray">{{::holeNumber}}</th>
       </tr>
-      <tr ng-repeat="token in gameCtrl.holes">
-        <td>{{gameCtrl.tokenToName[token]}}</td>
-<!--         <td ng-repeat="gameCtrl"></td> -->
+      <tr ng-repeat="(userId,name) in gameCtrl.userIdToName">
+        <td>{{name}}</td>
+        <td ng-repeat="holeScore in gameCtrl.holes">{{holeScore[userId]}}</td>
       </tr>
     </table>
   </div>

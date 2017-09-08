@@ -31,7 +31,7 @@ function getGameNumber(numberOfPlayers){
                       players          : [],
                       socketIds        : [],
                       socketToUserId   : {},
-                      userIdToHand    : {},
+                      userIdToHand     : {},
                       holes            : [],
                       userIdToName     : {}
 								   };

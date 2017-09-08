@@ -31,7 +31,6 @@ let checkLoggedIn = function($q, $timeout, $http, $location, $rootScope, UserDet
          .then(function(user){
            if(user.data !== '0'){
              $rootScope.loggedIn = true;
-             console.log(user);
              UserDetails.setUserName(user.data.name);
              UserDetails.setUserEmail(user.data.email);
              UserDetails.setUserId(user.data.userId);

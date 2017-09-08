@@ -17,6 +17,7 @@ angular.module('FourCardGolf').controller('GameController', function($scope, Gam
     for(let i = 1; i < 10; i++){
       self.holesArray[i] = i;
     }
+    self.userIdToName = {};
 
 
 		socket = io('http://localhost:3000/gameSession/' + GameDetails.getGameId());
@@ -68,12 +69,9 @@ angular.module('FourCardGolf').controller('GameController', function($scope, Gam
   function getScoreFromHand(hand){
     let score = hand.map( card => { return card.value })
                     .reduce( (x, y) => { return x + y; });
-    let containsHiddenCard;
-    for(let i = 0; i < hand.length; i++){
-      if(hand[i].hidden){
-        containsHiddenCard = true;
-      }
-    }
+
+    let containsHiddenCard =
+        hand.filter(card => { return card.hidden; }).length !== 0;
 
     return containsHiddenCard ? score + '*' : score;
   }
