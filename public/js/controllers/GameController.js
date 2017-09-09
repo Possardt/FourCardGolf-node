@@ -14,8 +14,8 @@ angular.module('FourCardGolf').controller('GameController', function($scope, Gam
     self.discardPileTop = {selected : false};
     self.holesArray = [];
     self.playerNames = [];
-    for(let i = 1; i < 10; i++){
-      self.holesArray[i] = i;
+    for(let i = 0; i < 9; i++){
+      self.holesArray[i] = i + 1;
     }
     self.userIdToName = {};
 
