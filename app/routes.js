@@ -27,7 +27,10 @@ module.exports = function(app, passport, io) {
       res.send('0');
     }
     else{
-      mongoDb.collection('user').findOne({ 'authId' : req.user._json.id}, { _id : 0 })
+      mongoDb.collection('user')
+             .findOne(
+                { 'authId' : req.user._json.id},
+                { _id : 0 })
              .then(result => {
                 if(!result){
                   res.send('0');
@@ -41,7 +44,7 @@ module.exports = function(app, passport, io) {
                 }
               })
               .then(dataToReturn => {
-                      res.send(dataToReturn);
+                  res.send(dataToReturn);
               });
     }
   });
