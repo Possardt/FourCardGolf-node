@@ -4,12 +4,28 @@
 
   <div class="scorecard"
        layout="row">
-    <h2 layout="column"
+<!--     <h2 layout="column"
         layout-align="start center"
         flex="50"
         class="md-display-4 scorecard-title">
       Scorecard
-    </h2>
+    </h2> -->
+    <div  flex="25" class="md-display-6 top-row-card">
+      <h3 class="top-row-title">
+        Current Turn:
+      </h3>
+      <span class="top-row-descriptor-turn">
+        {{gameCtrl.userIdToName[currentTurn]}}
+      </span>
+    </div>
+    <div flex="25" class="md-display-6 top-row-card">
+      <h3 class="top-row-title">
+        Your Hand<br/> Score:
+      </h3>
+      <span class="top-row-descriptor-score">
+        {{gameCtrl.score}}
+      </span>
+    </div>
     <table layout="column"
            flex="50"
            layout-align="start start">

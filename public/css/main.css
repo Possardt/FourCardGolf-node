@@ -89,3 +89,20 @@ md-card md-card-actions:not(.layout-column) .md-button:not(.md-icon-button):firs
   margin-top: 0;
   margin-bottom: 0;
 }
+
+.top-row-title {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.top-row-card {
+  text-align: center;
+}
+
+.top-row-descriptor-turn {
+  font-size: 2em;
+}
+
+.top-row-descriptor-score {
+  font-size: 4em;
+}

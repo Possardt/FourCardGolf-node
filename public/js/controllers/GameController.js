@@ -40,6 +40,7 @@ angular.module('FourCardGolf').controller('GameController', function($scope, Gam
 
       socket.on('startTurn', (data) => {
         $scope.turnEnabled = data.userId !== user.userId;
+        $scope.currentTurn = data.userId;
         $scope.$apply();
       });
 
