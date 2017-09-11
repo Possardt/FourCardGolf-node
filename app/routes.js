@@ -28,24 +28,24 @@ module.exports = function(app, passport, io) {
     }
     else{
       mongoDb.collection('user')
-             .findOne(
-                { 'authId' : req.user._json.id},
-                { _id : 0 })
-             .then(result => {
-                if(!result){
-                  res.send('0');
-                }
-                else{
-                  return {
-                    name   : result.name,
-                    userId : result.userId,
-                    email  : result.email
-                  };
-                }
-              })
-              .then(dataToReturn => {
-                  res.send(dataToReturn);
-              });
+        .findOne(
+          { 'authId' : req.user._json.id},
+          { _id : 0 })
+        .then(result => {
+          if(!result){
+            res.send('0');
+          }
+          else{
+            return {
+              name   : result.name,
+              userId : result.userId,
+              email  : result.email
+            };
+          }
+        })
+        .then(dataToReturn => {
+          res.send(dataToReturn);
+        });
     }
   });
 
