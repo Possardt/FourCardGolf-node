@@ -1,7 +1,7 @@
 angular.module('FourCardGolf').service('UserDetails', function(){
 	let userName,
-		userId,
-		userEmail;
+		  userId,
+		  userEmail;
 	return {
 		getUserName 	: function() { return userName; },
 		setUserName 	: function(name) { userName = name; },

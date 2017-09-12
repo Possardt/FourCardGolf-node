@@ -69,7 +69,6 @@ angular.module('FourCardGolf').controller('GameController', function($scope, Gam
 	init();
 
   function showToast(message){
-    console.log(message);
     $mdToast.show(
       $mdToast.simple()
         .textContent(message)
