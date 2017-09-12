@@ -21,7 +21,7 @@
       </span>
     </div>
     <table layout="column"
-           flex="30"
+           flex="40"
            layout-align="start center">
       <tr>
         <th>Player</th>
@@ -60,7 +60,7 @@
        layout="row"
        layout-align="center center">
     <div ng-show="!!gameCtrl.cards" class="card"
-         ng-repeat="card in gameCtrl.cards"
+         ng-repeat="card in gameCtrl.cards | limitTo:4"
          ng-class="{selected : card.selected}"
          md-whiteframe="3" ng-click="gameCtrl.setCardToSwap(card)">
       <span>{{::card.card}}{{::card.suit}}</span>

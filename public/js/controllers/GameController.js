@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('FourCardGolf').controller('GameController', function($scope, GameDetails, UserDetails, $mdToast) {
+angular.module('FourCardGolf').controller('GameController', function($scope, GameDetails, UserDetails, $mdToast, $timeout) {
 	var self = this;
 	let socket;
   const currentTurnMove = {};
@@ -9,6 +9,7 @@ angular.module('FourCardGolf').controller('GameController', function($scope, Gam
 		userId  : UserDetails.getUserId(),
 		email   : UserDetails.getUserEmail()
 	};
+
 	function init(){
     self.deck = {selected : false};
     self.discardPileTop = {selected : false};
@@ -26,16 +27,16 @@ angular.module('FourCardGolf').controller('GameController', function($scope, Gam
 
       socket.on('playerConnected', (data) => {
         if(data.playerName !== user.name){
-          $mdToast.showSimple(data.playerName + ' has joined the game.');
+          showToast(data.playerName + ' has joined the game.');
         }
       });
 
       socket.on('playerLeft', (data) => {
-        $mdToast.showSimple(data.playerName + ' has left the game.');
+        showToast(data.playerName + ' has left the game.');
       });
 
       socket.on('gameMessage', (data) => {
-        $mdToast.showSimple(data.message);
+        showToast(data.message);
       });
 
       socket.on('startTurn', (data) => {
@@ -46,6 +47,7 @@ angular.module('FourCardGolf').controller('GameController', function($scope, Gam
 
       socket.on('hands', (userIdToHand) => {
         if(self.cards === undefined || !equalHands(userIdToHand[user.userId], self.cards)){
+          $timeout(1000);
           self.cards = userIdToHand[user.userId];
           self.score = getScoreFromHand(userIdToHand[user.userId]);
         }
@@ -66,6 +68,16 @@ angular.module('FourCardGolf').controller('GameController', function($scope, Gam
 	}
 
 	init();
+
+  function showToast(message){
+    console.log(message);
+    $mdToast.show(
+      $mdToast.simple()
+        .textContent(message)
+        .position('top right')
+        .hideDelay(3000)
+    );
+  }
 
   function getScoreFromHand(hand){
     let score = hand.map( card => { return card.value })
