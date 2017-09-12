@@ -1,6 +1,6 @@
 'use strict';
 
-let app = angular.module('FourCardGolf', ['ngRoute', 'ngMaterial', 'ngMessages']);
+let app = angular.module('FourCardGolf', ['ngRoute', 'ngMaterial', 'ngMessages', 'ngAnimate']);
 
 app.config(['$routeProvider', function($routeProvider) {
 

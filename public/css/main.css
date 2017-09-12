@@ -42,6 +42,13 @@ md-card md-card-actions:not(.layout-column) .md-button:not(.md-icon-button):firs
   margin-left: 1em;
 }
 
+/*Weird thing angular makes me do*/
+.game-content .layout-row .card.ng-animate,
+.game-content .layout-row .discard-pile.ng-animate {
+  -webkit-transition: none;
+  transition: none;
+}
+
 .game-content .layout-row .card,
 .game-content .layout-row .discard-pile {
   padding: 2em;
@@ -55,7 +62,6 @@ md-card md-card-actions:not(.layout-column) .md-button:not(.md-icon-button):firs
   -webkit-transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
   transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
 }
-
 
 .game-content .layout-row .card::after,
 .game-content .layout-row .discard-pile::after {

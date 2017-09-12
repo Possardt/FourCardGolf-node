@@ -47,7 +47,6 @@ angular.module('FourCardGolf').controller('GameController', function($scope, Gam
 
       socket.on('hands', (userIdToHand) => {
         if(self.cards === undefined || !equalHands(userIdToHand[user.userId], self.cards)){
-          $timeout(1000);
           self.cards = userIdToHand[user.userId];
           self.score = getScoreFromHand(userIdToHand[user.userId]);
         }
