@@ -48,7 +48,13 @@ angular.module('FourCardGolf').controller('GameController', function($scope, Gam
       socket.on('hands', (userIdToHand) => {
         if(self.cards === undefined || !equalHands(userIdToHand[user.userId], self.cards)){
           self.cards = userIdToHand[user.userId];
-          self.score = getScoreFromHand(userIdToHand[user.userId]);
+          let scoreCard = document.getElementsByClassName('top-row-descriptor-score')[0];
+          scoreCard.classList.add('score-animation-hide');
+          $timeout(() => {
+            self.score = getScoreFromHand(userIdToHand[user.userId]);
+            scoreCard.classList.remove('score-animation-hide');
+            scoreCard.classList.add('score-animation-show');
+          }, 500);
         }
       });
 

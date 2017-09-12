@@ -112,4 +112,40 @@ md-card md-card-actions:not(.layout-column) .md-button:not(.md-icon-button):firs
 
 .top-row-descriptor-score {
   font-size: 4em;
+  margin: 0;
+}
+
+@keyframes scoreAnimationShow {
+  from{
+    transform:scaleX(0) scaleY(0)
+  }
+  to{
+    transform:scaleX(100%) scaleY(100%)
+  }
+}
+
+@keyframes scoreAnimationHide {
+  from{
+    transform: scaleX(100%) scaleY(100%)
+  }
+  to{
+    transform: scaleX(0) scaleY(0)
+  }
+}
+
+.score-animation-show{
+  transform-origin: center-center;
+  animation-name: scoreAnimationShow;
+  animation-duration: 0.5s;
+  animation-timing-function: linear;
+  animation-fill-mode: none;
+  animation-direction: alternate;
+}
+.score-animation-hide{
+  transform-origin: center-center;
+  animation-name: scoreAnimationHide;
+  animation-duration: 0.5s;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+  animation-direction: alternate;
 }
