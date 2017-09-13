@@ -112,7 +112,8 @@ md-card md-card-actions:not(.layout-column) .md-button:not(.md-icon-button):firs
 }
 
 .top-row-descriptor-turn {
-  font-size: 2em;
+  font-size: 2.5em;
+  font-weight: 300;
   margin: 0;
 }
 
@@ -140,7 +141,6 @@ md-card md-card-actions:not(.layout-column) .md-button:not(.md-icon-button):firs
 }
 
 .score-animation-show{
-  transform-origin: center-center;
   animation-name: scoreAnimationShow;
   animation-duration: 0.3s;
   animation-timing-function: linear;
@@ -148,9 +148,8 @@ md-card md-card-actions:not(.layout-column) .md-button:not(.md-icon-button):firs
   animation-direction: alternate;
 }
 .score-animation-hide{
-  transform-origin: center-center;
   animation-name: scoreAnimationHide;
-  animation-duration: 0.5s;
+  animation-duration: 0.3s;
   animation-timing-function: linear;
   animation-fill-mode: forwards;
   animation-direction: alternate;
@@ -182,18 +181,16 @@ md-card md-card-actions:not(.layout-column) .md-button:not(.md-icon-button):firs
 }
 
 .name-animation-hide{
-  transform-origin: center-center;
   animation-name: nameAnimationHide;
-  animation-duration: 1.5s;
+  animation-duration: 1s;
   animation-timing-function: linear;
   animation-fill-mode: none;
   animation-direction: alternate;
 }
 
 .name-animation-show{
-  transform-origin: center-center;
   animation-name: nameAnimationShow;
-  animation-duration: 1.5s;
+  animation-duration: 1s;
   animation-timing-function: linear;
   animation-fill-mode: none;
   animation-direction: alternate;

@@ -14,16 +14,6 @@ angular.module('FourCardGolf').controller('GameController', function($scope, Gam
     return document.getElementsByClassName(className)[0];
   }
 
-  function addClassToElement(element, clss){
-    element.classList.add(clss);
-  }
-
-  function replaceClassOnElement(element, oldClass, newClass){
-    element.classList.remove(oldClass);
-    element.classList.add(newClass);
-  }
-
-
 	function init(){
     self.deck = {selected : false};
     self.discardPileTop = {selected : false};
@@ -57,14 +47,16 @@ angular.module('FourCardGolf').controller('GameController', function($scope, Gam
       socket.on('startTurn', (data) => {
         $scope.turnEnabled = data.userId !== user.userId;
         $scope.$apply();
-        let nameCard = getElementByClass('top-row-descriptor-turn');
 
-        addClassToElement(nameCard, 'name-animation-hide');
+        let nameCard = getElementByClass('top-row-descriptor-turn');
+        nameCard.classList.remove('name-animation-show');
+        nameCard.classList.add('name-animation-hide');
 
         $timeout(() => {
           self.currentTurnName = self.userIdToName[data.userId];
-          replaceClassOnElement(nameCard, 'name-animation-hide', 'name-animation-show');
-        }, 1500);
+          nameCard.classList.remove('name-animation-hide');
+          nameCard.classList.add('name-animation-show');
+        }, 1000);
       });
 
       socket.on('hands', (userIdToHand) => {
@@ -73,11 +65,12 @@ angular.module('FourCardGolf').controller('GameController', function($scope, Gam
 
           let scoreCard = getElementByClass('top-row-descriptor-score');
 
-          addClassToElement(scoreCard, 'score-animation-hide');
+          scoreCard.classList.add('score-animation-hide');
 
           $timeout(() => {
             self.score = getScoreFromHand(userIdToHand[user.userId]);
-            replaceClassOnElement(scoreCard, 'score-animation-hide', 'score-animation-show');
+            scoreCard.classList.remove('score-animation-hide');
+            scoreCard.classList.remove('score-animation-show');
           }, 300);
         }
       });
