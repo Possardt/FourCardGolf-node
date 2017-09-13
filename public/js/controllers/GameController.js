@@ -10,6 +10,20 @@ angular.module('FourCardGolf').controller('GameController', function($scope, Gam
 		email   : UserDetails.getUserEmail()
 	};
 
+  function getElementByClass(className){
+    return document.getElementsByClassName(className)[0];
+  }
+
+  function addClassToElement(element, clss){
+    element.classList.add(clss);
+  }
+
+  function replaceClassOnElement(element, oldClass, newClass){
+    element.classList.remove(oldClass);
+    element.classList.add(newClass);
+  }
+
+
 	function init(){
     self.deck = {selected : false};
     self.discardPileTop = {selected : false};
@@ -48,13 +62,15 @@ angular.module('FourCardGolf').controller('GameController', function($scope, Gam
       socket.on('hands', (userIdToHand) => {
         if(self.cards === undefined || !equalHands(userIdToHand[user.userId], self.cards)){
           self.cards = userIdToHand[user.userId];
-          let scoreCard = document.getElementsByClassName('top-row-descriptor-score')[0];
-          scoreCard.classList.add('score-animation-hide');
+
+          let scoreCard = getElementByClass('top-row-descriptor-score');
+
+          addClassToElement(scoreCard, 'score-animation-hide');
+
           $timeout(() => {
             self.score = getScoreFromHand(userIdToHand[user.userId]);
-            scoreCard.classList.remove('score-animation-hide');
-            scoreCard.classList.add('score-animation-show');
-          }, 500);
+            replaceClassOnElement(scoreCard, 'score-animation-hide', 'score-animation-show');
+          }, 300);
         }
       });
 

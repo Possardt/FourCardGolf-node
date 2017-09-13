@@ -28,7 +28,7 @@ a, a:active, a:focus {
 .lobby-content,
 .stats-content,
 .game-content{
-  width: 80vw;
+  width: 90vw;
   margin: 0 auto;
 }
 
@@ -100,6 +100,7 @@ md-card md-card-actions:not(.layout-column) .md-button:not(.md-icon-button):firs
 .top-row-title {
   margin-top: 0;
   margin-bottom: 0;
+  font-weight: 400;
 }
 
 .top-row-card {
@@ -136,7 +137,7 @@ md-card md-card-actions:not(.layout-column) .md-button:not(.md-icon-button):firs
 .score-animation-show{
   transform-origin: center-center;
   animation-name: scoreAnimationShow;
-  animation-duration: 0.5s;
+  animation-duration: 0.3s;
   animation-timing-function: linear;
   animation-fill-mode: none;
   animation-direction: alternate;
