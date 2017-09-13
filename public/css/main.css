@@ -115,11 +115,13 @@ md-card md-card-actions:not(.layout-column) .md-button:not(.md-icon-button):firs
   font-size: 2.5em;
   font-weight: 300;
   margin: 0;
+  will-change: transform, opacity;
 }
 
 .top-row-descriptor-score {
   font-size: 4em;
   margin: 0;
+  will-change: transform;
 }
 
 @keyframes scoreAnimationShow {
@@ -142,16 +144,16 @@ md-card md-card-actions:not(.layout-column) .md-button:not(.md-icon-button):firs
 
 .score-animation-show{
   animation-name: scoreAnimationShow;
-  animation-duration: 0.3s;
+  animation-duration: 0.7s;
   animation-timing-function: linear;
   animation-fill-mode: none;
   animation-direction: alternate;
 }
 .score-animation-hide{
   animation-name: scoreAnimationHide;
-  animation-duration: 0.3s;
+  animation-duration: 0.7s;
   animation-timing-function: linear;
-  animation-fill-mode: forwards;
+  animation-fill-mode: none;
   animation-direction: alternate;
 }
 
@@ -182,7 +184,7 @@ md-card md-card-actions:not(.layout-column) .md-button:not(.md-icon-button):firs
 
 .name-animation-hide{
   animation-name: nameAnimationHide;
-  animation-duration: 1s;
+  animation-duration: 0.7s;
   animation-timing-function: linear;
   animation-fill-mode: none;
   animation-direction: alternate;
@@ -190,7 +192,7 @@ md-card md-card-actions:not(.layout-column) .md-button:not(.md-icon-button):firs
 
 .name-animation-show{
   animation-name: nameAnimationShow;
-  animation-duration: 1s;
+  animation-duration: 0.7s;
   animation-timing-function: linear;
   animation-fill-mode: none;
   animation-direction: alternate;

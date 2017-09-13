@@ -49,6 +49,7 @@ angular.module('FourCardGolf').controller('GameController', function($scope, Gam
         $scope.$apply();
 
         let nameCard = getElementByClass('top-row-descriptor-turn');
+
         nameCard.classList.remove('name-animation-show');
         nameCard.classList.add('name-animation-hide');
 
@@ -56,7 +57,7 @@ angular.module('FourCardGolf').controller('GameController', function($scope, Gam
           self.currentTurnName = self.userIdToName[data.userId];
           nameCard.classList.remove('name-animation-hide');
           nameCard.classList.add('name-animation-show');
-        }, 1000);
+        }, 700);
       });
 
       socket.on('hands', (userIdToHand) => {
@@ -64,14 +65,14 @@ angular.module('FourCardGolf').controller('GameController', function($scope, Gam
           self.cards = userIdToHand[user.userId];
 
           let scoreCard = getElementByClass('top-row-descriptor-score');
-
+          scoreCard.classList.remove('score-animation-show');
           scoreCard.classList.add('score-animation-hide');
 
           $timeout(() => {
             self.score = getScoreFromHand(userIdToHand[user.userId]);
             scoreCard.classList.remove('score-animation-hide');
-            scoreCard.classList.remove('score-animation-show');
-          }, 300);
+            scoreCard.classList.add('score-animation-show');
+          }, 700);
         }
       });
 
