@@ -42,6 +42,10 @@ md-card md-card-actions:not(.layout-column) .md-button:not(.md-icon-button):firs
   margin-left: 1em;
 }
 
+.hole-number-table {
+  width: 1em;
+}
+
 /*Weird thing angular makes me do*/
 .game-content .layout-row .card.ng-animate,
 .game-content .layout-row .discard-pile.ng-animate {
@@ -109,6 +113,7 @@ md-card md-card-actions:not(.layout-column) .md-button:not(.md-icon-button):firs
 
 .top-row-descriptor-turn {
   font-size: 2em;
+  margin: 0;
 }
 
 .top-row-descriptor-score {
@@ -147,6 +152,48 @@ md-card md-card-actions:not(.layout-column) .md-button:not(.md-icon-button):firs
   animation-name: scoreAnimationHide;
   animation-duration: 0.5s;
   animation-timing-function: linear;
+  animation-fill-mode: forwards;
+  animation-direction: alternate;
+}
+
+@keyframes nameAnimationHide {
+  0% {
+    transform: translateY(-5px)
+  }
+  50%{
+    transform: tranlateY(-20px);
+    opacity: 0;
+  }
+  100%{
+    transform:translateY(25px);
+    opacity: 0;
+  }
+
+}
+
+@keyframes nameAnimationShow {
+  0% {
+    transform: translateY(-25px);
+    opacity: 0;
+  }
+  100%{
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.name-animation-hide{
+  transform-origin: center-center;
+  animation-name: nameAnimationHide;
+  animation-duration: 1.5s;
+  animation-fill-mode: forwards;
+  animation-direction: alternate;
+}
+
+.name-animation-show{
+  transform-origin: center-center;
+  animation-name: nameAnimationShow;
+  animation-duration: 1.5s;
   animation-fill-mode: forwards;
   animation-direction: alternate;
 }

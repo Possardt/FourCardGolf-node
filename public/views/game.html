@@ -8,9 +8,9 @@
       <h3 class="top-row-title">
         Current Turn:
       </h3>
-      <span class="top-row-descriptor-turn">
-        {{gameCtrl.userIdToName[currentTurn]}}
-      </span>
+      <figure class="top-row-descriptor-turn">
+        {{gameCtrl.currentTurnName}}
+      </figure>
     </div>
     <div flex="20" class="md-display-6 top-row-card rotate-score-animation">
       <h3 class="top-row-title">
@@ -25,7 +25,7 @@
            layout-align="start center">
       <tr>
         <th>Player</th>
-        <th ng-repeat="holeNumber in gameCtrl.holesArray">{{::holeNumber}}</th>
+        <th ng-repeat="holeNumber in gameCtrl.holesArray" class="hole-number-table">{{::holeNumber}}</th>
       </tr>
       <tr ng-repeat="(userId,name) in gameCtrl.userIdToName">
         <td>{{name}}</td>

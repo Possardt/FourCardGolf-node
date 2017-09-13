@@ -33,6 +33,7 @@ angular.module('FourCardGolf').controller('GameController', function($scope, Gam
       self.holesArray[i] = i + 1;
     }
     self.userIdToName = {};
+    self.currentTurnName = '';
 
 
 		socket = io('http://localhost:3000/gameSession/' + GameDetails.getGameId());
@@ -55,8 +56,15 @@ angular.module('FourCardGolf').controller('GameController', function($scope, Gam
 
       socket.on('startTurn', (data) => {
         $scope.turnEnabled = data.userId !== user.userId;
-        $scope.currentTurn = data.userId;
         $scope.$apply();
+        let nameCard = getElementByClass('top-row-descriptor-turn');
+
+        addClassToElement(nameCard, 'name-animation-hide');
+
+        $timeout(() => {
+          self.currentTurnName = self.userIdToName[data.userId];
+          replaceClassOnElement(nameCard, 'name-animation-hide', 'name-animation-show');
+        }, 1500);
       });
 
       socket.on('hands', (userIdToHand) => {
