@@ -109,9 +109,11 @@ module.exports = function(app, passport, io) {
         //Always get the latest version of the game
         game = gameManager.getActiveGame(gameId);
         let currentTurnSocketId = game.socketIds[game.currentTurn];
+        let playerName = game.userIdToName[game.socketToUserId[currentTurnSocketId]];
 
         if(socket.conn.id === currentTurnSocketId){
           if(data.turn.move === 'knock'){
+            nsp.emit('playerKnocked', playerName + ' has knocked!');
             game.lastRound = true;
             game.turnsLeft = game.connectedPlayers - 1;
           }
@@ -132,7 +134,7 @@ module.exports = function(app, passport, io) {
         }
 
         currentTurnSocketId = game.socketIds[game.currentTurn];
-        nsp.emit('startTurn',{userId : game.socketToUserId[currentTurnSocketId]});
+        nsp.emit('startTurn',{userId : game.socketToUserId[currentTurnSocketId], lastRound : game.lastRound});
       });
 
 

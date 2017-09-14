@@ -24,6 +24,7 @@ angular.module('FourCardGolf').controller('GameController', function($scope, Gam
     }
     self.userIdToName = {};
     self.currentTurnName = '';
+    self.lastRound = false;
 
 
 		socket = io('http://localhost:3000/gameSession/' + GameDetails.getGameId());
@@ -45,6 +46,7 @@ angular.module('FourCardGolf').controller('GameController', function($scope, Gam
       });
 
       socket.on('startTurn', (data) => {
+        self.lastRound = data.lastRound;
         $scope.turnEnabled = data.userId !== user.userId;
         $scope.$apply();
 
@@ -74,6 +76,10 @@ angular.module('FourCardGolf').controller('GameController', function($scope, Gam
             scoreCard.classList.add('score-animation-show');
           }, 700);
         }
+      });
+
+      socket.on('playerKnocked', playerKnockMessage => {
+        showToast(playerKnockMessage);
       });
 
       socket.on('holes', holes => {
