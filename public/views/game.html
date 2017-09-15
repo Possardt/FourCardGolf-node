@@ -20,16 +20,26 @@
         {{gameCtrl.score}}
       </figure>
     </div>
+
     <table layout="column"
            flex="40"
-           layout-align="start center">
+           layout-align="start center"
+           cellspacing="0" cellpadding="0">
       <tr>
-        <th>Player</th>
-        <th ng-repeat="holeNumber in gameCtrl.holesArray" class="hole-number-table">{{::holeNumber}}</th>
+        <th class="underline-header">
+          Player
+        </th>
+        <th class="underline-header hole-number-table"
+            ng-repeat="holeNumber in gameCtrl.holesArray">
+          {{::holeNumber}}
+        </th>
       </tr>
       <tr ng-repeat="(userId,name) in gameCtrl.userIdToName">
         <td>{{name}}</td>
-        <td ng-repeat="holeScore in gameCtrl.holes">{{holeScore[userId]}}</td>
+        <td class="hole-score-column"
+            ng-repeat="holeScore in gameCtrl.holes">
+          {{holeScore[userId]}}
+        </td>
       </tr>
     </table>
   </div>

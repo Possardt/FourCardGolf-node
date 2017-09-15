@@ -46,6 +46,10 @@ md-card md-card-actions:not(.layout-column) .md-button:not(.md-icon-button):firs
   width: 1em;
 }
 
+.hole-score-column {
+  text-align: center;
+}
+
 /*Weird thing angular makes me do*/
 .game-content .layout-row .card.ng-animate,
 .game-content .layout-row .discard-pile.ng-animate {
@@ -122,6 +126,10 @@ md-card md-card-actions:not(.layout-column) .md-button:not(.md-icon-button):firs
   font-size: 4em;
   margin: 0;
   will-change: transform;
+}
+
+.underline-header {
+  border-bottom: 1px solid grey;
 }
 
 @keyframes scoreAnimationShow {
