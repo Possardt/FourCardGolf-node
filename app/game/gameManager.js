@@ -180,7 +180,7 @@ function endHole(game){
   });
 
 
-  game.holes.unshift(userIdToScore);
+  game.holes.push(userIdToScore);
 
   //next, collect all of the player's hands.
   // also, collect the cards from the discard pile

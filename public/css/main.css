@@ -43,7 +43,11 @@ md-card md-card-actions:not(.layout-column) .md-button:not(.md-icon-button):firs
 }
 
 .hole-number-table {
-  width: 1em;
+  width: 1.2em;
+}
+
+.underline-header {
+  border-bottom: 1px solid grey;
 }
 
 .hole-score-column {
@@ -128,10 +132,6 @@ md-card md-card-actions:not(.layout-column) .md-button:not(.md-icon-button):firs
   will-change: transform;
 }
 
-.underline-header {
-  border-bottom: 1px solid grey;
-}
-
 @keyframes scoreAnimationShow {
   from{
     transform:scaleX(0) scaleY(0)
@@ -204,4 +204,20 @@ md-card md-card-actions:not(.layout-column) .md-button:not(.md-icon-button):firs
   animation-timing-function: linear;
   animation-fill-mode: none;
   animation-direction: alternate;
+}
+
+@keyframes holeScoreAnimation {
+  0%{
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.hole-score-show {
+  animation-name: holeScoreAnimation;
+  animation-duration: 0.7s;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
 }
