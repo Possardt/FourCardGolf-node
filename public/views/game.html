@@ -81,10 +81,10 @@
     </div>
   </div>
 
-	<md-button ng-disabled="turnEnabled"
+	<md-button ng-disabled="turnEnabled || !gameCtrl.gameStarted"
              class="md-raised md-primary"
              ng-click="gameCtrl.sendTurnSwap()">Send turn</md-button>
-  <md-button ng-disabled="turnEnabled || gameCtrl.lastRound"
+  <md-button ng-disabled="turnEnabled || gameCtrl.lastRound || !gameCtrl.gameStarted"
              class="md-raised md-primary"
              ng-click="gameCtrl.sendTurnKnock()">Knock Knock</md-button>
 </md-content>

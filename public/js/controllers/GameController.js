@@ -25,6 +25,7 @@ angular.module('FourCardGolf').controller('GameController', function($scope, Gam
     self.userIdToName = {};
     self.currentTurnName = '';
     self.lastRound = false;
+    self.gameStarted = false;
 
 
 		socket = io('http://localhost:3000/gameSession/' + GameDetails.getGameId());
@@ -41,7 +42,8 @@ angular.module('FourCardGolf').controller('GameController', function($scope, Gam
         showToast(data.playerName + ' has left the game.');
       });
 
-      socket.on('gameMessage', (data) => {
+      socket.on('gameStartingMessage', (data) => {
+        self.gameStarted = true;
         showToast(data.message);
       });
 
@@ -83,7 +85,7 @@ angular.module('FourCardGolf').controller('GameController', function($scope, Gam
       });
 
       socket.on('holes', holes => {
-        self.holes = holes;
+        self.holes[holes.length] = holes[holes.length];
       });
 
       socket.on('discardPileUpdate', (update) => {
