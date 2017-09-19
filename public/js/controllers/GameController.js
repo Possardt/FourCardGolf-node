@@ -27,7 +27,7 @@ angular.module('FourCardGolf').controller('GameController', function($scope, Gam
     self.lastRound = false;
     self.gameStarted = false;
     self.holes = [];
-
+    self.otherPlayerHands = [];
 
 		socket = io('http://localhost:3000/gameSession/' + GameDetails.getGameId());
 		socket.on('connect', data => {
@@ -43,9 +43,9 @@ angular.module('FourCardGolf').controller('GameController', function($scope, Gam
         showToast(data.playerName + ' has left the game.');
       });
 
-      socket.on('gameStartingMessage', data => {
+      socket.on('gameStartingMessage', message => {
         self.gameStarted = true;
-        showToast(data.message);
+        showToast(message);
       });
 
       socket.on('startTurn', data => {
@@ -79,6 +79,9 @@ angular.module('FourCardGolf').controller('GameController', function($scope, Gam
             scoreCard.classList.add('score-animation-show');
           }, 700);
         }
+        self.otherPlayerHands = Object.keys(userIdToHand)
+          .filter(userID => { return userID !== user.userId})
+          .map(userID => {return userIdToHand[userID]});
       });
 
       socket.on('playerKnocked', playerKnockMessage => {
