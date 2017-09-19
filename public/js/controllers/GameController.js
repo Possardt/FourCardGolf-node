@@ -26,6 +26,7 @@ angular.module('FourCardGolf').controller('GameController', function($scope, Gam
     self.currentTurnName = '';
     self.lastRound = false;
     self.gameStarted = false;
+    self.holes = [];
 
 
 		socket = io('http://localhost:3000/gameSession/' + GameDetails.getGameId());
@@ -85,7 +86,10 @@ angular.module('FourCardGolf').controller('GameController', function($scope, Gam
       });
 
       socket.on('holes', holes => {
-        self.holes[holes.length] = holes[holes.length];
+        if(!holes.length){
+          return;
+        }
+        self.holes[holes.length - 1] = holes[holes.length - 1];
       });
 
       socket.on('discardPileUpdate', (update) => {
