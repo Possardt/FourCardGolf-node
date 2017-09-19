@@ -43,7 +43,7 @@ angular.module('FourCardGolf').controller('GameController', function($scope, Gam
         showToast(data.playerName + ' has left the game.');
       });
 
-      socket.on('gameStartingMessage', (data) => {
+      socket.on('gameStartingMessage', data => {
         self.gameStarted = true;
         showToast(data.message);
       });
@@ -86,7 +86,7 @@ angular.module('FourCardGolf').controller('GameController', function($scope, Gam
       });
 
       socket.on('holes', holes => {
-        if(!holes.length){
+        if(!holes.length || holes.length === self.holes.length){
           return;
         }
         self.holes[holes.length - 1] = holes[holes.length - 1];
