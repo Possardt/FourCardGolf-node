@@ -25,6 +25,12 @@ a, a:active, a:focus {
   margin-left: 1vw;
 }
 
+.other-player-hands-title {
+  margin: 0;
+  font-weight: 300;
+  font-size: 2.5em;
+}
+
 .lobby-content,
 .stats-content,
 .game-content{

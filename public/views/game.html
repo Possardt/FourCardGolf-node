@@ -72,30 +72,40 @@
 
     </div>
   </div>
-  <div flex="50"
+  <div layout="row">
+    <div flex="50"
          layout="column"
-         layout-align="start center">
-      <h3 class="top-row-title">
-        Scorecard
-      </h3>
-      <table layout-align="start center"
-             cellspacing="0" cellpadding="0">
-        <tr>
-          <th class="underline-header">
-            Player
-          </th>
-          <th class="underline-header hole-number-table"
-              ng-repeat="holeNumber in gameCtrl.holesArray">
-            {{::holeNumber}}
-          </th>
-        </tr>
-        <tr ng-repeat="(userId,name) in gameCtrl.userIdToName">
-          <td>{{name}}</td>
-          <td class="hole-score-column hole-score-show"
-              ng-repeat="holeScore in gameCtrl.holes">
-            {{holeScore[userId]}}
-          </td>
-        </tr>
-      </table>
+         layout-align="start center"
+         class="left">
+        <h3 class="top-row-title">
+          Scorecard
+        </h3>
+        <table layout-align="start center"
+               cellspacing="0" cellpadding="0">
+          <tr>
+            <th class="underline-header">
+              Player
+            </th>
+            <th class="underline-header hole-number-table"
+                ng-repeat="holeNumber in gameCtrl.holesArray">
+              {{::holeNumber}}
+            </th>
+          </tr>
+          <tr ng-repeat="(userId,name) in gameCtrl.userIdToName">
+            <td>{{name}}</td>
+            <td class="hole-score-column hole-score-show"
+                ng-repeat="holeScore in gameCtrl.holes">
+              {{holeScore[userId]}}
+            </td>
+          </tr>
+        </table>
+      </div>
+    <div flex="50"
+         layout="column"
+         class="left">
+      <span class="other-player-hands-title">
+        Other Player Hands
+      </span>
     </div>
+  </div>
 </md-content>

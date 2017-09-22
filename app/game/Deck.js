@@ -19,20 +19,15 @@ const cardToValue = {
   'K'  : 10
 }
 
-function toCardObject(suit, card){
-  return {
-      suit      : suit,
-      card      : card,
-      value     : cardToValue[card]
-  }
-}
-
 function getDeck(){
   let deck = [];
 
 	suits.forEach((suit) => {
 		cards.forEach((card) => {
-			deck.push({suit : suit, card : card, value : cardToValue[card]});
+			deck.push({suit      : suit,
+                 shortSuit : suit.split('')[0],
+                 card      : card,
+                 value     : cardToValue[card]});
 		});
 	});
 
