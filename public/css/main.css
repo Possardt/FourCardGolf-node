@@ -126,7 +126,7 @@ md-card md-card-actions:not(.layout-column) .md-button:not(.md-icon-button):firs
 }
 
 .top-row-descriptor-turn {
-  font-size: 2.5em;
+  font-size: 2em;
   font-weight: 300;
   margin: 0;
   will-change: transform, opacity;
@@ -137,6 +137,7 @@ md-card md-card-actions:not(.layout-column) .md-button:not(.md-icon-button):firs
   margin: 0;
   will-change: transform;
 }
+
 
 @keyframes scoreAnimationShow {
   from{

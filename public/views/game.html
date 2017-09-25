@@ -30,7 +30,6 @@
     <div ng-click="gameCtrl.setSwapWithDiscardOrDeck('deck')"
          class="card"
          md-whiteframe="3"
-
          ng-class="{selected : gameCtrl.deck.selected}">
       <span>Deck!</span>
     </div>
@@ -101,11 +100,23 @@
         </table>
       </div>
     <div flex="50"
-         layout="column"
+         layout="row"
          class="left">
-      <span class="other-player-hands-title">
+      <span flex="100"
+            class="other-player-hands-title">
         Other Player Hands
       </span>
+      <br />
+      <div flex="18" layout="row"
+           class="other-player-hand"
+           ng-repeat="hand in gameCtrl.otherPlayerHands">
+        <div class="other-player-card"
+             ng-repeat="card in hand"
+             md-whiteframe="1"
+             flex="50">
+          {{card.shortSuit || ""}}{{card.card || '?'}}
+        </div>
+      </div>
     </div>
   </div>
 </md-content>
