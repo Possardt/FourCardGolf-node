@@ -196,5 +196,7 @@ angular.module('FourCardGolf').controller('GameController', function($scope, Gam
     currentTurnMove.swapWith = choice;
   };
 
+  self.getScoreFromHand = getScoreFromHand;
+
 
 });

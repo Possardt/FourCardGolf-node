@@ -31,6 +31,17 @@ a, a:active, a:focus {
   font-size: 2.5em;
 }
 
+.other-player-hand-name {
+  font-size:1.75em;
+  font-weight: 300;
+  text-align: center;
+}
+
+.other-player-hand-score {
+  font-size: 2em;
+  text-align: center;
+}
+
 .lobby-content,
 .stats-content,
 .game-content{

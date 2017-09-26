@@ -2,7 +2,6 @@
             flex layout-padding
             ng-controller="GameController as gameCtrl">
 
-
   <div class="cards-container"
        layout="row"
        layout-align="center center">
@@ -71,7 +70,8 @@
           Scorecard
         </h3>
         <table layout-align="start center"
-               cellspacing="0" cellpadding="0">
+               cellspacing="0"
+               cellpadding="0">
           <tr>
             <th class="underline-header">
               Player
@@ -99,10 +99,15 @@
         Other Player Hands
       </span>
       <br />
-      <div flex="18" layout="row"
+      <div flex="25"
+           layout="row"
            layout-wrap
            class="other-player-hand"
-           ng-repeat="(user, hand) in gameCtrl.otherPlayerHands track by value">
+           ng-repeat="(user, hand) in gameCtrl.otherPlayerHands">
+        <div flex="100"
+             class="other-player-hand-name">
+          {{gameCtrl.userIdToName[user]}}
+        </div>
         <div class="other-player-card"
              ng-repeat="card in hand"
              flex="50"
@@ -110,6 +115,10 @@
              layout-padding
              layout="row">
             {{card.shortSuit || ""}}{{card.card || '?'}}
+        </div>
+        <div flex="100"
+             class="other-player-hand-score">
+          {{gameCtrl.getScoreFromHand(hand)}}
         </div>
       </div>
     </div>
