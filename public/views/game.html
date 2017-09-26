@@ -62,15 +62,6 @@
                class="md-raised md-primary"
                ng-click="gameCtrl.sendTurnKnock()">Knock Knock</md-button>
   </div>
-  <div class="scorecard"
-       layout="column"
-       flex="50"
-       layout-align="start center">
-    <div layout="row">
-
-
-    </div>
-  </div>
   <div layout="row">
     <div flex="50"
          layout="column"
@@ -109,15 +100,16 @@
       </span>
       <br />
       <div flex="18" layout="row"
+           layout-wrap
            class="other-player-hand"
-           ng-repeat="(hand, user) in gameCtrl.otherPlayerHands">
-<!--         <span>{{gameCtrl.userIdToName[user]}}</span> -->
+           ng-repeat="(user, hand) in gameCtrl.otherPlayerHands track by value">
         <div class="other-player-card"
              ng-repeat="card in hand"
+             flex="50"
+             layout-align="center center"
              layout-padding
-             layout-wrap
              layout="row">
-          {{card.shortSuit || ""}}{{card.card || '?'}}
+            {{card.shortSuit || ""}}{{card.card || '?'}}
         </div>
       </div>
     </div>
