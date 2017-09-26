@@ -101,7 +101,8 @@
       </div>
     <div flex="50"
          layout="row"
-         class="left">
+         class="left"
+         layout-wrap>
       <span flex="100"
             class="other-player-hands-title">
         Other Player Hands
@@ -109,11 +110,13 @@
       <br />
       <div flex="18" layout="row"
            class="other-player-hand"
-           ng-repeat="hand in gameCtrl.otherPlayerHands">
+           ng-repeat="(hand, user) in gameCtrl.otherPlayerHands">
+<!--         <span>{{gameCtrl.userIdToName[user]}}</span> -->
         <div class="other-player-card"
              ng-repeat="card in hand"
-             md-whiteframe="1"
-             flex="50">
+             layout-padding
+             layout-wrap
+             layout="row">
           {{card.shortSuit || ""}}{{card.card || '?'}}
         </div>
       </div>

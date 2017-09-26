@@ -27,7 +27,7 @@ angular.module('FourCardGolf').controller('GameController', function($scope, Gam
     self.lastRound = false;
     self.gameStarted = false;
     self.holes = [];
-    self.otherPlayerHands = [];
+    self.otherPlayerHands = {};
 
 		socket = io('http://localhost:3000/gameSession/' + GameDetails.getGameId());
 		socket.on('connect', data => {
@@ -79,9 +79,9 @@ angular.module('FourCardGolf').controller('GameController', function($scope, Gam
             scoreCard.classList.add('score-animation-show');
           }, 700);
         }
-        self.otherPlayerHands = Object.keys(userIdToHand)
+        Object.keys(userIdToHand)
           .filter(userID => { return userID !== user.userId})
-          .map(userID => {return userIdToHand[userID]});
+          .forEach(userID => {self.otherPlayerHands[userID] = userIdToHand[userID]});
       });
 
       socket.on('playerKnocked', playerKnockMessage => {
