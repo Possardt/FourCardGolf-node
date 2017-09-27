@@ -161,11 +161,14 @@
     game.discardPile.unshift(data.turn.card);
   }
 
-  function checkForEndOfRound(game){
+  function checkForEndOfRoundOrGame(game){
     if(game.turnsLeft === 0){
       endHole(game);
     }
     game.turnsLeft--;
+    if(game.holes.length === 9){
+      endGame(game);
+    }
   }
 
   function endHole(game){
@@ -212,6 +215,10 @@
     //redeal the player hands to start the round
     dealPlayerHands(game.gameNumber);
 
+  }
+
+  function endGame(game){
+    console.log('in here');
   }
 
   module.exports = {
