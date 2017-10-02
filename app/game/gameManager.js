@@ -167,7 +167,7 @@
     }
     game.turnsLeft--;
     if(game.holes.length === 9){
-      endGame(game);
+      game.endGame = true;
     }
   }
 
@@ -217,21 +217,17 @@
 
   }
 
-  function endGame(game){
-    console.log('in here');
-  }
-
   module.exports = {
-    getGameNumber		       	: getGameNumber,
-    pendingGameStack	    	: pendingGameStack,
-    initializeGameNamespace : initializeGameNamespace,
-    getPendingGame 		    	: getPendingGame,
-    addPlayer 			      	: addPlayer,
-    removePlayer 			      : removePlayer,
-    allPlayersConnected     : allPlayersConnected,
-    getActiveGame           : getActiveGame,
-    handleTurn              : handleTurn,
-    dealPlayerHands         : dealPlayerHands,
-    checkForEndOfRound      : checkForEndOfRound
+    getGameNumber		       	 : getGameNumber,
+    pendingGameStack	    	 : pendingGameStack,
+    initializeGameNamespace  : initializeGameNamespace,
+    getPendingGame 		    	 : getPendingGame,
+    addPlayer 			      	 : addPlayer,
+    removePlayer 			       : removePlayer,
+    allPlayersConnected      : allPlayersConnected,
+    getActiveGame            : getActiveGame,
+    handleTurn               : handleTurn,
+    dealPlayerHands          : dealPlayerHands,
+    checkForEndOfRoundOrGame : checkForEndOfRoundOrGame
   };
 })();

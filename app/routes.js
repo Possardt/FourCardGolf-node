@@ -118,19 +118,16 @@ module.exports = function(app, passport, io) {
             game.turnsLeft = game.connectedPlayers - 1;
           }
 
-          if(!game.lastRound){
-            gameManager.handleTurn(game, data);
-          }
-          else {
-            gameManager.handleTurn(game, data);
-            nsp.emit('hands', game.userIdToHand);
-            nsp.emit('discardPileUpdate', { card : game.discardPile[0]});
-            gameManager.checkForEndOfRound(game);
-            nsp.emit('holes', game.holes);
-          }
+          gameManager.handleTurn(game, data);
+          gameManager.checkForEndOfRoundOrGame(game);
 
+          nsp.emit('holes', game.holes);
           nsp.emit('hands', game.userIdToHand);
           nsp.emit('discardPileUpdate', { card : game.discardPile[0]});
+
+          if(game.endGame){
+            console.log('time to end me');
+          }
         }
 
         currentTurnSocketId = game.socketIds[game.currentTurn];
