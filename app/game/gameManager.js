@@ -165,10 +165,11 @@
     if(game.turnsLeft === 0){
       endHole(game);
     }
-    game.turnsLeft--;
     if(game.holes.length === 9){
       game.endGame = true;
     }
+
+    game.turnsLeft--;
   }
 
   function endHole(game){
@@ -178,11 +179,11 @@
     //Calculate scores for each player hand
     Object.keys(game.userIdToHand).forEach((id) =>{
       let score = game.userIdToHand[id]
+                      .map(card => { return card.hidden ? game.hiddenCards[card.key] : card})
                       .map(card => { return card.value; })
                       .reduce( (x, y) => { return x + y; });
       userIdToScore[id] = score;
     });
-
 
     game.holes.push(userIdToScore);
 

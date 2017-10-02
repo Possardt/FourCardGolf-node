@@ -1,3 +1,7 @@
+body.md-toast-animating {
+  overflow: auto !important;
+}
+
 a, a:active, a:focus {
   outline: none;
 }
