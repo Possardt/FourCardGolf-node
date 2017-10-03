@@ -19,7 +19,6 @@
       self.deck = {selected : false};
       self.discardPileTop = {selected : false};
       self.holesArray = [];
-      self.playerNames = [];
       for(let i = 0; i < 9; i++){
         self.holesArray[i] = i + 1;
       }
@@ -98,10 +97,6 @@
 
         socket.on('discardPileUpdate', update => {
           self.discardPileTop.card = update.card;
-        });
-
-        socket.on('playerNames', userIdToName => {
-          self.userIdToName = userIdToName;
         });
       });
     }
