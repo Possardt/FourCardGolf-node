@@ -94,6 +94,7 @@
             gameManager.allPlayersConnected(gameId);
             game = gameManager.getActiveGame(gameId);
             nsp.emit('gameStartingMessage', 'Game is starting!');
+            nsp.emit('playerNames', game.userIdToName);
             nsp.emit('hands', game.userIdToHand);
             nsp.emit('discardPileUpdate', { card : game.discardPile[0]});
             nsp.emit('startTurn', {userId : game.socketToUserId[game.socketIds[game.currentTurn]]});

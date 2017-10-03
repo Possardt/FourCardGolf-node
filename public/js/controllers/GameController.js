@@ -98,6 +98,10 @@
         socket.on('discardPileUpdate', update => {
           self.discardPileTop.card = update.card;
         });
+
+        socket.on('playerNames', userIdToName => {
+          self.userIdToName = userIdToName;
+        });
       });
     }
 
