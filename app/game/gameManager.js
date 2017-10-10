@@ -177,13 +177,14 @@
     let userIdToScore = {};
 
     //Calculate scores for each player hand
-    Object.keys(game.userIdToHand).forEach((id) =>{
-      let score = game.userIdToHand[id]
-                      .map(card => { return card.hidden ? game.hiddenCards[card.key] : card})
-                      .map(card => { return card.value; })
-                      .reduce( (x, y) => { return x + y; });
-      userIdToScore[id] = score;
-    });
+    Object.keys(game.userIdToHand)
+      .forEach(id => {
+        let score = game.userIdToHand[id]
+                        .map(card => { return card.hidden ? game.hiddenCards[card.key] : card})
+                        .map(card => { return card.value; })
+                        .reduce( (x, y) => { return x + y; });
+        userIdToScore[id] = score;
+      });
 
     game.holes.push(userIdToScore);
 
@@ -209,6 +210,10 @@
       }
       return card;
     });
+
+    deck.shuffle(game.deck);
+    deck.shuffle(game.deck);
+    deck.shuffle(game.deck);
 
     game.hiddenCards = {};
     game.lastRound = false;

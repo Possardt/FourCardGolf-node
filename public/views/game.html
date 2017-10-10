@@ -54,10 +54,10 @@
   </div>
   <div layout="row"
        layout-align="center center">
-    <md-button ng-disabled="turnEnabled || !gameCtrl.gameStarted"
+    <md-button ng-disabled="turnEnabled || !gameCtrl.gameStarted || gameOver"
                class="md-raised md-primary"
                ng-click="gameCtrl.sendTurnSwap()">Send turn</md-button>
-    <md-button ng-disabled="turnEnabled || gameCtrl.lastRound || !gameCtrl.gameStarted"
+    <md-button ng-disabled="turnEnabled || gameCtrl.lastRound || !gameCtrl.gameStarted || gameOver"
                class="md-raised md-primary"
                ng-click="gameCtrl.sendTurnKnock()">Knock Knock</md-button>
   </div>

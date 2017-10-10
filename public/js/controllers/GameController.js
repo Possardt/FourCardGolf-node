@@ -1,7 +1,7 @@
 (function(){
   'use strict';
 
-  angular.module('FourCardGolf').controller('GameController', function($scope, GameDetails, UserDetails, $mdToast, $timeout) {
+  angular.module('FourCardGolf').controller('GameController', function($scope, $location, GameDetails, UserDetails, $mdToast, $timeout) {
     var self = this;
     let socket;
     const currentTurnMove = {};
@@ -101,6 +101,14 @@
 
         socket.on('playerNames', userIdToName => {
           self.userIdToName = userIdToName;
+        });
+
+        socket.on('gameOver', message => {
+          showToast('Game over, redirecting to main menu in 10 seconds.');
+          $scope.gameOver = true;
+          $timeout(() => {
+            $location.path('/lobby');
+          }, 10000);
         });
       });
     }

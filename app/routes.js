@@ -2,6 +2,7 @@
   'use strict';
 
   const gameManager = require('./game/gameManager');
+  const uuid        = require('uuid4');
   const MongoURI    = require('../secrets.js').mongoURI;
   const MongoClient = require('mongodb').MongoClient;
 
@@ -128,7 +129,9 @@
 
             if(game.endGame){
               console.log('time to end me');
-              nsp.emit('gameOver', {});
+              mongoDb.collection('gameHistory')
+                     .insert({gameId : uuid(), gameSummary : game, players : Object.keys(game.userIdToName)});
+              nsp.emit('gameOver', 'Game has ended');
             }
           }
 
