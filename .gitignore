@@ -8,3 +8,6 @@
 
 #Secrets file
 secrets.js
+
+#IDK
+*.DS_Store
